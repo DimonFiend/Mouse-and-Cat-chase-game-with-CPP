@@ -2,13 +2,13 @@
 #include "MainMenu.h"
 //#include "HelpMenu.h"
 //#include "GameLevel.h"
-
+#include <iostream>
 
 
 Controller::Controller(int w, int h, std::string title) {
     // Constructor implementation
-    window.create(sf::VideoMode(w, h), title);
-    currentState = std::make_unique<MainMenu>();
+    m_window.create(sf::VideoMode(w, h), title);
+    m_currentState = std::make_unique<MainMenu>(this);
     run();
 }
 
@@ -18,29 +18,51 @@ Controller::~Controller() {
 
 void Controller::run() 
 {
-    while (window.isOpen()) {
+    while (m_window.isOpen()) 
+    {
+        render();
         processEvents();
         update();
-        render();
     }
 }
 
 void Controller::update() {
-    currentState->update();
+    m_currentState->update();
 }
 
 void Controller::render() {
-    window.clear();
-    currentState->render(window);
-    window.display();
+    m_window.clear();
+    m_currentState->render(m_window);
+    m_window.display();
 }
 
-void Controller::processEvents() {
-    sf::Event event;
-    while (window.pollEvent(event)) {
-        if (event.type == sf::Event::Closed) {
-            window.close();
+void Controller::processEvents() 
+{
+    for (auto event = sf::Event{};m_window.pollEvent(event);)
+    {
+        if (event.type == sf::Event::Closed)
+        {
+            m_window.close();
         }
-        currentState->handleEvent(event);
+        m_currentState->handleEvent(event, m_window);
     }
+}
+
+void Controller::switchState(const std::string& buttonText)
+{
+	if (buttonText == "Start")
+    {
+		std::cout << "Start State" << std::endl;
+		//m_currentState = std::make_unique<GameLevel>();
+	}
+    else if (buttonText == "Help")
+    {
+		std::cout << "Help State" << std::endl;
+		//m_currentState = std::make_unique<HelpMenu>();
+	}
+    else if (buttonText == "Exit")
+    {
+		std::cout << "Exit State" << std::endl;
+		m_window.close();
+	}
 }

@@ -3,8 +3,9 @@
 #include <SFML/Audio.hpp>
 #include <string>
 #include "GameState.h"
+#include "Observer.h"
 
-class Controller{
+class Controller : public Observer{
 
 public:
 	Controller(int w, int h, std::string title);
@@ -15,8 +16,9 @@ public:
 	void render();
 	void processEvents();
 
+	virtual void switchState(const std::string& buttonText) override;
 
 private:
-	sf::RenderWindow window;
-	std::unique_ptr<GameState> currentState;
+	sf::RenderWindow m_window;
+	std::unique_ptr<GameState> m_currentState;
 };

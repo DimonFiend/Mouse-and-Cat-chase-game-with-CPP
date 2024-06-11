@@ -1,7 +1,9 @@
 #include "MainMenu.h"
-#include <iostream>
+#include "Observer.h"
 
-MainMenu::MainMenu()
+
+MainMenu::MainMenu(Observer* observer)
+	: m_observer(observer)
 {
 	m_buttons.push_back(Button("Start", sf::Vector2f(400, 100)));
 	m_buttons.push_back(Button("Help", sf::Vector2f(400, 300)));
@@ -21,13 +23,22 @@ void MainMenu::render(sf::RenderWindow& window)
 	}
 }
 
-void MainMenu::handleEvent(const sf::Event& event)
+void MainMenu::handleEvent(const sf::Event& event, sf::RenderWindow& window)
 {
-	if (event.type == sf::Event::KeyPressed)
+	switch (event.type)
 	{
-		if (event.key.code == sf::Keyboard::A)
+	case sf::Event::MouseButtonReleased:
+	{
+		if (event.mouseButton.button == sf::Mouse::Left)
 		{
-			
+			for (auto& button : m_buttons)
+			{
+				if (button.isMouseOver(window))
+				{
+					m_observer->switchState(button.getText());
+				}
+			}
 		}
+	}
 	}
 }
