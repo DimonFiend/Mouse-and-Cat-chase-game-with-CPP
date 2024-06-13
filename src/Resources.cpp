@@ -8,6 +8,6 @@ Resources& Resources::Instance()
 
 Resources::Resources()
 {
-	font.loadFromFile("ComicFont.ttf");
-	buttonTexture.loadFromFile("Button.png");
+	m_font.loadFromFile("ComicFont.ttf");
+	m_buttonTexture.loadFromFile("Button.png");
 }
