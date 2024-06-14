@@ -4,16 +4,18 @@
 #include <memory>
 
 class Observer;
+/*
 class MovingObject;
 class CollidableObject;
 class StaticObject;
-
+*/
 class GameLevel : public GameState{
 
 private:
-	std::vector<std::unique_ptr<MovingObject>> m_movingObjects;
-	std::vector<std::unique_ptr<CollidableObject>> m_collidableObjects;
-	std::vector<std::unique_ptr<StaticObject>> m_staticObjects;
+	Observer* m_observer;
+	//std::vector<std::unique_ptr<MovingObject>> m_movingObjects;
+	//std::vector<std::unique_ptr<CollidableObject>> m_collidableObjects;
+	//std::vector<std::unique_ptr<StaticObject>> m_staticObjects;
 
 public:
 	GameLevel(Observer* observer);

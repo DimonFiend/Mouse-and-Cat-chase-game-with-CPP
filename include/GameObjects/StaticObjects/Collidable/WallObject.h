@@ -5,6 +5,6 @@
 class WallObject : public CollidableObject {
 
 public:
+	WallObject(sf::Vector2f pos);
 	virtual bool doubleDispatch(GameObject* other) override;
-	virtual void draw(sf::RenderWindow& window) override;
 };

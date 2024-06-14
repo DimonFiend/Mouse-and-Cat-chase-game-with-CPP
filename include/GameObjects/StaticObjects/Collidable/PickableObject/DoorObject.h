@@ -2,10 +2,10 @@
 
 #include "PickableObject.h"
 
-class PresentObject : public PickableObject {
+class DoorObject : public PickableObject {
 private:
 
 public:
-	PresentObject(sf::Vector2f pos);
+	DoorObject(sf::Vector2f pos);
 	virtual bool doubleDispatch(GameObject* other) override;
 };

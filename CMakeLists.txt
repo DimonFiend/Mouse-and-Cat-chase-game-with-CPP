@@ -20,6 +20,8 @@ add_subdirectory (include/GameObjects/StaticObjects)
 add_subdirectory (include/GameObjects/StaticObjects/Collidable)
 add_subdirectory (include/GameObjects/StaticObjects/Collidable/PickableObject)
 add_subdirectory (resources)
+add_subdirectory (resources/Levels)
+add_subdirectory (resources/Sprites)
 
 include (cmake/Zip.cmake)
 
