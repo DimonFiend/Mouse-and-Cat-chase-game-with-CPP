@@ -1,2 +1,2 @@
 ﻿file (GLOB_RECURSE MY_SOURCE_FILES CONFIGURE_DEPENDS LIST_DIRECTORIES false RELATIVE ${CMAKE_CURRENT_LIST_DIR} *.cpp)
-target_sources (${CMAKE_PROJECT_NAME} PRIVATE ${MY_SOURCE_FILES})
+target_sources (${CMAKE_PROJECT_NAME} PRIVATE ${MY_SOURCE_FILES} "../include/GameObjects/StaticObjects/Collidable/CollidableObject.h" "../include/GameObjects/MovingObjects/MousePlayer.h" "../include/GameObjects/MovingObjects/SmartCatEnemy.h"  "../include/GameObjects/StaticObjects/Collidable/PickableObject.h" "../include/GameObjects/StaticObjects/Collidable/WallObject.h" "../include/GameObjects/FloorObject.h" "../include/GameObjects/StaticObjects/Collidable/PickableObject/KeyObject.h")

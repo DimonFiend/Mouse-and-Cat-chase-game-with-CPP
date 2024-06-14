@@ -1,5 +1,8 @@
 #pragma once
-
+/*==================================================
+* Button.h - Button class definition
+* sets buttons for the game
+==================================================*/
 #include <SFML/Graphics.hpp>
 
 class Button {
