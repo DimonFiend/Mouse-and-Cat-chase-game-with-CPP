@@ -5,6 +5,6 @@ class CollidableObject : public GameObject{
 private:
 
 public:
-	CollidableObject(sf::Texture* texture,sf::Vector2f pos);
-	virtual bool doubleDispatch(GameObject* other) = 0;
+	CollidableObject(sf::Texture& texture,sf::Vector2f pos);
+	virtual bool doubleDispatch(CollidableObject* other) = 0;
 };

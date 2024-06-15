@@ -6,11 +6,11 @@
 
 GameLevel::GameLevel(Observer* observer) : m_observer(observer)
 {
-	m_collidableObjects.push_back(std::make_unique<WallObject>(Resources::Instance().getWallTexture(), sf::Vector2f(0, 0)));
-	m_collidableObjects.push_back(std::make_unique<WallObject>(Resources::Instance().getWallTexture(), sf::Vector2f(64, 0)));
-	m_collidableObjects.push_back(std::make_unique<WallObject>(Resources::Instance().getWallTexture(), sf::Vector2f(0, 64)));
+	m_collidableObjects.push_back(std::make_unique<WallObject>(sf::Vector2f(0, 0)));
+	m_collidableObjects.push_back(std::make_unique<WallObject>(sf::Vector2f(64, 0)));
+	m_collidableObjects.push_back(std::make_unique<WallObject>(sf::Vector2f(0, 64)));
 
-	m_staticObjects.push_back(std::make_unique<FloorObject>(Resources::Instance().getFloorTexture(),sf::Vector2f(64, 64)));
+	m_staticObjects.push_back(std::make_unique<FloorObject>(sf::Vector2f(64, 64)));
 
 }
 

@@ -3,13 +3,10 @@
 #include <vector>
 #include <memory>
 #include "CollidableObject.h"
+#include "GameObject.h"
 
 class Observer;
-/*
-class MovingObject;
-class CollidableObject;
-class StaticObject;
-*/
+
 class GameLevel : public GameState{
 
 private:

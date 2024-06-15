@@ -6,6 +6,6 @@ class FloorObject : public GameObject {
 private:
 
 public:
-	FloorObject(sf::Texture* textures, sf::Vector2f pos);
+	FloorObject(sf::Vector2f pos);
 
 };
