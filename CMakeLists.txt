@@ -11,14 +11,16 @@ target_compile_options(${CMAKE_PROJECT_NAME} PRIVATE $<$<CONFIG:DEBUG>:-fsanitiz
 target_link_options(${CMAKE_PROJECT_NAME} PRIVATE $<$<CONFIG:DEBUG>:-fsanitize=address>)
 
 add_subdirectory (include)
-add_subdirectory (src)
-add_subdirectory (src/GameObjects)
-add_subdirectory (src/GameObjects/StaticObjects)
 add_subdirectory (include/GameObjects)
 add_subdirectory (include/GameObjects/MovingObjects)
-add_subdirectory (include/GameObjects/StaticObjects)
-add_subdirectory (include/GameObjects/StaticObjects/Collidable)
-add_subdirectory (include/GameObjects/StaticObjects/Collidable/PickableObject)
+add_subdirectory (include/GameObjects/Collidable)
+add_subdirectory (include/GameObjects/Collidable/PickableObject)
+
+add_subdirectory (src)
+add_subdirectory (src/GameObjects)
+add_subdirectory (src/GameObjects/Collidable)
+add_subdirectory (src/GameObjects/Collidable/PickableObject)
+
 add_subdirectory (resources)
 add_subdirectory (resources/Levels)
 add_subdirectory (resources/Sprites)

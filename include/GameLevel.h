@@ -2,6 +2,7 @@
 #include "GameState.h"
 #include <vector>
 #include <memory>
+#include "CollidableObject.h"
 
 class Observer;
 /*
@@ -14,8 +15,8 @@ class GameLevel : public GameState{
 private:
 	Observer* m_observer;
 	//std::vector<std::unique_ptr<MovingObject>> m_movingObjects;
-	//std::vector<std::unique_ptr<CollidableObject>> m_collidableObjects;
-	//std::vector<std::unique_ptr<StaticObject>> m_staticObjects;
+	std::vector<std::unique_ptr<CollidableObject>> m_collidableObjects;
+	std::vector<std::unique_ptr<GameObject>> m_staticObjects;
 
 public:
 	GameLevel(Observer* observer);

@@ -1,5 +1,6 @@
 #include "Controller.h"
 #include "MainMenu.h"
+#include "GameLevel.h"
 //#include "HelpMenu.h"
 //#include "GameLevel.h"
 #include <iostream>
@@ -8,6 +9,7 @@
 Controller::Controller(int w, int h, std::string title) {
     // Constructor implementation
     m_window.create(sf::VideoMode(w, h), title);
+	m_window.setFramerateLimit(60);
     m_currentState = std::make_unique<MainMenu>(this);
     run();
 }
@@ -52,8 +54,7 @@ void Controller::switchState(const std::string& buttonText)
 {
 	if (buttonText == "Start")
     {
-		std::cout << "Start State" << std::endl;
-		//m_currentState = std::make_unique<GameLevel>();
+		m_currentState = std::make_unique<GameLevel>(this);
 	}
     else if (buttonText == "Help")
     {
@@ -62,7 +63,6 @@ void Controller::switchState(const std::string& buttonText)
 	}
     else if (buttonText == "Exit")
     {
-		std::cout << "Exit State" << std::endl;
 		m_window.close();
 	}
 }

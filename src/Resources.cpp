@@ -10,4 +10,6 @@ Resources::Resources()
 {
 	m_font.loadFromFile("ComicFont.ttf");
 	m_buttonTexture.loadFromFile("Button.png");
+	m_cat.loadFromFile("cat_sheet.png");
+	m_mouse.loadFromFile("mouse_sheet.png");
 }
