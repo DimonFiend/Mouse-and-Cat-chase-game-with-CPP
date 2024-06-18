@@ -5,8 +5,10 @@
 class MousePlayer : public MovingObject {
 
 private:
-
+	sf::Vector2f getDirection() const;
 
 public:
-	virtual void move() override;
+	MousePlayer(sf::Vector2f pos);
+
+	virtual void move(sf::Time deltaTime) override;
 };

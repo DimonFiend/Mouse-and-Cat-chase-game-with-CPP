@@ -12,13 +12,14 @@ public:
 	~Controller();
 
 	void run();
-	void update();
+	void update(sf::Time deltaTime);
 	void render();
 	void processEvents();
 
 	virtual void switchState(const std::string& buttonText) override;
 
 private:
+	sf::Clock m_clock;
 	sf::RenderWindow m_window;
 	std::unique_ptr<GameState> m_currentState;
 };

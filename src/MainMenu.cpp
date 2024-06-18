@@ -10,7 +10,7 @@ MainMenu::MainMenu(Observer* observer)
 	m_buttons.push_back(Button("Exit", sf::Vector2f(400, 500)));
 }
 
-void MainMenu::update()
+void MainMenu::update(sf::Time deltaTime)
 {
 
 }

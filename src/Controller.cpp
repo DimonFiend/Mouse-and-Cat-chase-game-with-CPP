@@ -20,16 +20,18 @@ Controller::~Controller() {
 
 void Controller::run() 
 {
+
     while (m_window.isOpen()) 
     {
+		auto deltaTime = m_clock.restart();
         render();
         processEvents();
-        update();
+        update(deltaTime);
     }
 }
 
-void Controller::update() {
-    m_currentState->update();
+void Controller::update(sf::Time deltaTime) {
+    m_currentState->update(deltaTime);
 }
 
 void Controller::render() {
