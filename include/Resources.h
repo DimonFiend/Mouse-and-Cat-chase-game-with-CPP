@@ -8,7 +8,7 @@
 class Resources{
 public:
 	~Resources() = default;
-	static Resources& Instance();
+	static Resources& instance();
 	sf::Font& getFont() { return m_font;};
 	sf::Texture& getButtonTexture() { return m_buttonTexture;};
 	sf::Texture& getCatTexture() { return m_cat;};

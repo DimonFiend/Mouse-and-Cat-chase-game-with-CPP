@@ -1,6 +1,6 @@
 #include "Resources.h"
 
-Resources& Resources::Instance()
+Resources& Resources::instance()
 {
 	static Resources instance;
 	return instance;

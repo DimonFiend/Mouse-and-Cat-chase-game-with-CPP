@@ -10,7 +10,7 @@ Button::Button(std::string text, sf::Vector2f pos)
 
 void Button::setSprite(sf::Vector2f pos)
 {
-	m_sprite.setTexture(Resources::Instance().getButtonTexture());
+	m_sprite.setTexture(Resources::instance().getButtonTexture());
 
 	//sets the origin of the sprite to the center and scales it
 	sf::Vector2f buttonSize = m_sprite.getLocalBounds().getSize();
@@ -21,7 +21,7 @@ void Button::setSprite(sf::Vector2f pos)
 
 void Button::setText(std::string text)
 {
-	m_text.setFont(Resources::Instance().getFont());
+	m_text.setFont(Resources::instance().getFont());
 	m_text.setString(text);
 	m_text.setCharacterSize(48);
 	m_text.setFillColor(sf::Color::White);
