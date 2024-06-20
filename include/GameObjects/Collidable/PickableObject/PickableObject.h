@@ -2,13 +2,13 @@
 
 #include "CollidableObject.h"
 
+class MovingObject;
+
 class PickableObject : public CollidableObject
 {
 private:
-	bool m_toDelete;
 
 public:
-	PickableObject(sf::Vector2f pos);
-	bool getToDelete() const { return m_toDelete; };
-	void setToDelete() { m_toDelete = !m_toDelete; };
+	PickableObject(sf::Texture& texture, sf::Vector2f pos);
+
 };
