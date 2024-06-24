@@ -5,8 +5,9 @@
 class CatEnemy : public EnemyObject {
 
 private:
-
+	sf::Vector2f getDirection();
 
 public:
-	virtual void move() override;
+	CatEnemy(sf::Vector2f pos);
+	virtual void move(sf::Time deltaTime) override;
 };

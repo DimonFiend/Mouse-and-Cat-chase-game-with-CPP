@@ -5,10 +5,10 @@ class GameObject {
 
 public:
 	virtual ~GameObject() = default;
-	GameObject(const sf::Texture& texture, sf::Vector2f pos);
+	GameObject() = default;
 	virtual void draw(sf::RenderWindow& window) const;
-	sf::Sprite& getSprite();
-	void setTextureRect(sf::IntRect rect);
-private:
+	sf::FloatRect getBounds() const;
+protected:
 	sf::Sprite m_sprite;
+private:
 };

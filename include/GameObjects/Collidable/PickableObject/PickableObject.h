@@ -9,6 +9,5 @@ class PickableObject : public CollidableObject
 private:
 
 public:
-	PickableObject(sf::Texture& texture, sf::Vector2f pos);
-
+	PickableObject() = default;
 };

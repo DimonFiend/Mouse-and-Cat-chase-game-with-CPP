@@ -1,0 +1,8 @@
+#include "TimePresent.h"
+#include "FreezePresent.h"
+#include "DestroyPresent.h"
+#include "MovingObject.h"
+#include "KeyObject.h"
+#include "CheeseObject.h"
+#include "WallObject.h"
+#include "DoorObject.h"

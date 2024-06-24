@@ -1,20 +1,28 @@
 #include "MousePlayer.h"
 #include "Resources.h"
-#include "CheeseObject.h"
+#include "ObjectsInclude.h"
+
 #include <iostream>
+unsigned int MousePlayer::m_lives = 3;
+unsigned int MousePlayer::m_score = 0;
+
 MousePlayer::MousePlayer(sf::Vector2f pos)
-	: MovingObject(Resources::instance().getMouseTexture(), pos)
-	, m_lives(3)
-	, m_score(0)
-	, m_moving(true)
+	:MovingObject(80)
+	, m_keys(0)
 {
-	GameObject::setTextureRect(sf::IntRect(0, 0, 32, 32));
+	m_sprite.setTexture(Resources::instance().getGameTexture());
+	auto rect = Resources::instance().getTextureRect(Objects::Mouse);
+	m_sprite.setTextureRect(rect);
+	auto posOrigin = sf::Vector2f(pos.x + 32, pos.y + 32);
+	auto textureSize = m_sprite.getLocalBounds().getSize();
+	m_sprite.setOrigin(textureSize.x / 2.f, textureSize.y / 2.f);
+	m_sprite.setPosition(posOrigin);
 }
 
 void MousePlayer::move(sf::Time deltaTime)
 {
 	sf::Vector2f movement = getDirection();
-	GameObject::getSprite().move(movement * MovingObject::getSpeed() * deltaTime.asSeconds());
+	m_sprite.move(movement * MovingObject::getSpeed() * deltaTime.asSeconds());
 }
 
 sf::Vector2f MousePlayer::getDirection() const
@@ -40,6 +48,44 @@ sf::Vector2f MousePlayer::getDirection() const
 	return movement;
 }
 
+
+bool MousePlayer::checkCollision(CollidableObject& other)
+{
+	return m_sprite.getGlobalBounds().intersects(other.getBounds());
+}
+
+//=============================================================================
+/*                            Collision handlers                             */
+
+void MousePlayer::handleCollision(DestroyPresent& other)
+{
+	other.setToDelete();
+	//GameLevel deletes random cat
+}
+
+void MousePlayer::handleCollision(TimePresent& other)
+{
+	other.setToDelete();
+	//GameLevel deletes random cat
+}
+
+void MousePlayer::handleCollision(FreezePresent& other)
+{
+	other.setToDelete();
+	//GameLevel deletes random cat
+}
+
+void MousePlayer::handleCollision(DoorObject& other)
+{
+	if (m_keys > 0)
+	{
+		m_keys--;
+		other.setToDelete();
+		//play door sound
+	}
+	//don't let pass through
+}
+
 void MousePlayer::handleCollision(CheeseObject& other)
 {
 	m_score += 10;
@@ -47,16 +93,28 @@ void MousePlayer::handleCollision(CheeseObject& other)
 	std::cout << "Score: " << m_score << std::endl;
 	//play eat sound
 }
+void MousePlayer::handleCollision(KeyObject& other)
+{
+	m_keys++;
+	other.setToDelete();
+	//play key pickup
+}
 
-void MousePlayer::handleCollision(MovingObject& other)
+void MousePlayer::handleCollision(EnemyObject& other)
 {
 	m_lives--;
 	//other.handleCollision(*this);
 	//respawn
 	//play hit sound
+
 }
 
-bool MousePlayer::checkCollision(MovingObject& other)
+void MousePlayer::handleCollision(WallObject& other)
 {
-	return getSprite().getGlobalBounds().intersects(other.getSprite().getGlobalBounds());
+	//don't let mouse move through
+}
+
+void MousePlayer::handleCollision(MousePlayer& other)
+{
+	//no use for now
 }

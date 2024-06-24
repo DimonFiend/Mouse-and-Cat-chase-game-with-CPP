@@ -6,12 +6,13 @@
 #include "EnemyObject.h"
 #include "MousePlayer.h"
 
-
+class LevelLoader;
 class Observer;
 class GameLevel : public GameState{
 
 private:
 	Observer* m_observer;
+	LevelLoader* m_level;
 	std::unique_ptr<MousePlayer> m_player;
 	//std::vector<std::unique_ptr<EnemyObject>> m_enemys;
 	std::vector<std::unique_ptr<CollidableObject>> m_collidableObjects;
