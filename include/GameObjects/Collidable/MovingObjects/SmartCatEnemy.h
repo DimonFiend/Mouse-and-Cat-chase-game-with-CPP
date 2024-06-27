@@ -10,4 +10,6 @@ private:
 public:
 	SmartCatEnemy(sf::Vector2f pos);
 	virtual void move(sf::Time deltaTime) override;
+	virtual void handleCollision(WallObject& other) override;
+	using EnemyObject::handleCollision;
 };

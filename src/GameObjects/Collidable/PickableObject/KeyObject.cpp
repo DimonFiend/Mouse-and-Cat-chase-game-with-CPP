@@ -22,8 +22,3 @@ void KeyObject::handleCollision(MousePlayer& other)
 	other.handleCollision(*this);
 }
 
-void KeyObject::handleCollision(EnemyObject& other)
-{
-	other.handleCollision(*this);
-}
-

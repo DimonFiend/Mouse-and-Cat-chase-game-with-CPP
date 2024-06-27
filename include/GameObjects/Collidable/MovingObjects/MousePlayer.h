@@ -9,13 +9,15 @@ private:
 	static unsigned int m_lives;
 	static unsigned int m_score;
 
+	void enemyHithandler();
 public:
 	MousePlayer(sf::Vector2f pos);
 
 	static const unsigned int getLives() {return m_lives;};
 	static const unsigned int getScore() {return m_score;};
 
-	virtual void handleCollision(EnemyObject& other) override;
+	virtual void handleCollision(CatEnemy& other) override;
+	virtual void handleCollision(SmartCatEnemy& other) override;
 	virtual void handleCollision(WallObject& other) override;
 	virtual void handleCollision(DoorObject& other) override;
 	virtual void handleCollision(CheeseObject& other) override;

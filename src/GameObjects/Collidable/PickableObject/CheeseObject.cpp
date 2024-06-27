@@ -18,7 +18,6 @@ CheeseObject::CheeseObject(sf::Vector2f pos)
 
 void CheeseObject::handleCollision(CollidableObject& other)
 {
-	std::cout << "CheeseObject::handleCollision" << std::endl;
 	other.handleCollision(*this);
 }
 

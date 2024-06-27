@@ -2,7 +2,7 @@
 #include "Resources.h"
 
 CatEnemy::CatEnemy(sf::Vector2f pos)
-	:EnemyObject(70)
+	:EnemyObject(70), m_direction(static_cast<Direction>(rand() %  4))
 {
 	m_sprite.setTexture(Resources::instance().getGameTexture());
 	auto rect = Resources::instance().getTextureRect(Objects::Cat);
@@ -18,33 +18,42 @@ CatEnemy::CatEnemy(sf::Vector2f pos)
 void CatEnemy::move(sf::Time deltaTime)
 {
 	sf::Vector2f movement = getDirection();
+	MovingObject::setLastPos(m_sprite.getPosition());
 	m_sprite.move(movement * EnemyObject::getSpeed() * deltaTime.asSeconds());
 }
 
+void CatEnemy::handleCollision(WallObject& other)
+{
+	m_sprite.setPosition(MovingObject::getLastPos());
+	m_direction = static_cast<Direction>(rand() % 4);
+}
+#include <iostream>
 sf::Vector2f CatEnemy::getDirection()
 {
-	sf::Vector2f movement(0, 0);
-	if (rand() % 2 == 0)
-	{
-		if (rand() % 2 == 0)
-		{
-			movement.x = 1;
-		}
-		else
-		{
-			movement.x = -1;
-		}
-	}
-	else
-	{
-		if (rand() % 2 == 0)
-		{
-			movement.y = 1;
-		}
-		else
-		{
-			movement.y = -1;
-		}
-	}
-	return movement;
+    int timer_stop = rand() % 5 + 6;
+
+    if (m_time.asSeconds() >= timer_stop)
+    {
+		std::cout << "Timer stop" << std::endl;
+        m_direction = static_cast<Direction>(rand() % 4);
+        m_time.Zero;
+    }
+
+    sf::Vector2f movement(0, 0);
+    switch(m_direction)
+    {
+        case UP:
+            movement.y = -1;
+            break;
+        case Down:
+            movement.y = 1;
+            break;
+        case Left:
+            movement.x = -1;
+            break;
+        case Right:
+            movement.x = 1;
+            break;
+    }
+    return movement;
 }

@@ -103,13 +103,21 @@ void MousePlayer::handleCollision(KeyObject& other)
 	//play key pickup
 }
 
-void MousePlayer::handleCollision(EnemyObject& other)
+void MousePlayer::handleCollision(CatEnemy& other)
+{
+	enemyHithandler();
+}
+
+void MousePlayer::handleCollision(SmartCatEnemy& other)
+{
+	enemyHithandler();
+}
+
+void MousePlayer::enemyHithandler()
 {
 	m_lives--;
-	//other.handleCollision(*this);
 	//respawn
 	//play hit sound
-
 }
 
 void MousePlayer::handleCollision(WallObject& other)

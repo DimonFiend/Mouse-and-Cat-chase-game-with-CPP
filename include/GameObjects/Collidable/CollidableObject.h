@@ -1,8 +1,13 @@
 #pragma once
 #include "GameObject.h"
 
+class SmartCatEnemy;
+class CatEnemy;
+class DoorObject;
+class WallObject;
+class KeyObject;
+class CheeseObject;
 class MousePlayer;
-class EnemyObject;
 class CollidableObject : public GameObject{
 private:
 	bool m_toDelete;
@@ -15,6 +20,12 @@ public:
 	virtual bool checkCollision(CollidableObject& other);
 	virtual void handleCollision(CollidableObject& other) = 0;
 	virtual void handleCollision(MousePlayer& other) = 0;
-	virtual void handleCollision(EnemyObject& other) = 0;
+	virtual void handleCollision(CatEnemy& other) = 0;
+	virtual void handleCollision(CheeseObject& other) = 0;
+	virtual void handleCollision(KeyObject& other) = 0;
+	virtual void handleCollision(DoorObject& other) = 0;
+	virtual void handleCollision(WallObject& other) = 0;
+	virtual void handleCollision(SmartCatEnemy& other) = 0;
+
 	//presents collision
 };

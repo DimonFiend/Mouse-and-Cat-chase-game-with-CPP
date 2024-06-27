@@ -16,8 +16,8 @@ GameLevel::GameLevel(Observer* observer) :
 
 void GameLevel::update(sf::Time deltaTime)
 {
-	m_player->move(deltaTime);
-
+	
+	move(deltaTime);
 	checkCollision();
 	removePickable();
 	//game over
@@ -58,6 +58,15 @@ void GameLevel::handleEvent(const sf::Event& event, sf::RenderWindow& window)
 	}
 }
 
+void GameLevel::move(sf::Time deltaTime)
+{
+	m_player->move(deltaTime);
+	for (auto& enemy : m_enemys)
+	{
+		enemy->move(deltaTime);
+	}
+}
+
 void GameLevel::checkCollision()
 {
 	for (auto& collidableObject : m_collidableObjects)
@@ -65,6 +74,22 @@ void GameLevel::checkCollision()
 		if (collidableObject->checkCollision(*m_player))
 		{
 			collidableObject->handleCollision(*m_player);
+		}
+
+		for (auto& enemy : m_enemys)
+		{
+			if (collidableObject->checkCollision(*enemy))
+			{
+				collidableObject->handleCollision(*enemy);
+			}
+		}
+	}
+
+	for (auto& enemy : m_enemys)
+	{
+		if (enemy->checkCollision(*m_player))
+		{
+			enemy->handleCollision(*m_player);
 		}
 	}
 }

@@ -19,3 +19,8 @@ void SmartCatEnemy::move(sf::Time deltaTime)
 	//sf::Vector2f movement = getDirection();
 	//m_sprite.move(EnemyObject::getSpeed());
 }
+
+void SmartCatEnemy::handleCollision(WallObject& other)
+{
+	m_sprite.setPosition(MovingObject::getLastPos());
+}

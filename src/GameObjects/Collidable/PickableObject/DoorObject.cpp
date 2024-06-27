@@ -1,6 +1,7 @@
 #include "DoorObject.h"
 #include "Resources.h"
 #include "MovingObject.h"
+#include "EnemyObject.h"
 
 DoorObject::DoorObject(sf::Vector2f pos)
 {
@@ -22,7 +23,12 @@ void DoorObject::handleCollision(MousePlayer& other)
 	other.handleCollision(*this);
 }
 
-void DoorObject::handleCollision(EnemyObject& other)
+void DoorObject::handleCollision(SmartCatEnemy& other)
+{
+	other.handleCollision(*this);
+}
+
+void DoorObject::handleCollision(CatEnemy& other)
 {
 	other.handleCollision(*this);
 }

@@ -2,7 +2,7 @@
 
 #include "CollidableObject.h"
 #include "MousePlayer.h"
-#include "EnemyObject.h"
+#include "CatEnemy.h"
 
 class MovingObject;
 

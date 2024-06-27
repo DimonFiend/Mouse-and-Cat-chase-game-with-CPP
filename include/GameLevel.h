@@ -25,7 +25,7 @@ private:
 	void checkCollision();
 	void removePickable();
 	void setView();
-
+	void move(sf::Time deltaTime);
 public:
 	GameLevel(Observer* observer);
 	void setMapSize(const sf::Vector2f mapSize);

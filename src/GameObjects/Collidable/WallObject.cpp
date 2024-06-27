@@ -1,6 +1,8 @@
 #include "WallObject.h"
 #include "Resources.h"
 #include "MovingObject.h"
+#include "CatEnemy.h"
+#include "SmartCatEnemy.h"
 
 WallObject::WallObject(sf::Vector2f pos)
 {
@@ -23,7 +25,12 @@ void WallObject::handleCollision(MousePlayer& other)
 	other.handleCollision(*this);
 }
 
-void WallObject::handleCollision(EnemyObject& other)
+void WallObject::handleCollision(CatEnemy& other)
+{
+	other.handleCollision(*this);
+}
+
+void WallObject::handleCollision(SmartCatEnemy& other)
 {
 	other.handleCollision(*this);
 }

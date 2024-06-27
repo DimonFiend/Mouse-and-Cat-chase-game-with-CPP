@@ -10,23 +10,13 @@ EnemyObject::EnemyObject(float speed)
 
 void EnemyObject::handleCollision(CollidableObject& other)
 {
-	other.handleCollision(*this);
+	//other.handleCollision(*this);
 }
 
 void EnemyObject::handleCollision(DoorObject& other)
 {
-	other.handleCollision(*this);
+	m_sprite.setPosition(MovingObject::getLastPos());
 }
-void EnemyObject::handleCollision(EnemyObject& other)
-{
-
-}
-
-void EnemyObject::handleCollision(WallObject& other)
-{
-	other.handleCollision(*this);
-}
-
 /*
 void EnemyObject::handleCollision(TimePresent& other)
 {
@@ -45,12 +35,10 @@ void EnemyObject::handleCollision(DestroyPresent& other)
 */
 void EnemyObject::handleCollision(CheeseObject& other)
 {
-	other.handleCollision(*this);
 }
 
 void EnemyObject::handleCollision(KeyObject& other)
 {
-	other.handleCollision(*this);
 }
 
 void EnemyObject::handleCollision(MousePlayer& other)
