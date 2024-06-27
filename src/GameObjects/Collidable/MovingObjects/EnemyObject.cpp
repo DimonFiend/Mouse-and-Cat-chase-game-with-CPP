@@ -8,7 +8,7 @@ EnemyObject::EnemyObject(float speed)
 
 }
 
-void EnemyObject::handleCollision(MovingObject& other)
+void EnemyObject::handleCollision(CollidableObject& other)
 {
 	other.handleCollision(*this);
 }
@@ -17,12 +17,17 @@ void EnemyObject::handleCollision(DoorObject& other)
 {
 	other.handleCollision(*this);
 }
+void EnemyObject::handleCollision(EnemyObject& other)
+{
+
+}
 
 void EnemyObject::handleCollision(WallObject& other)
 {
 	other.handleCollision(*this);
 }
 
+/*
 void EnemyObject::handleCollision(TimePresent& other)
 {
 	other.handleCollision(*this);
@@ -37,7 +42,7 @@ void EnemyObject::handleCollision(DestroyPresent& other)
 {
 	other.handleCollision(*this);
 }
-
+*/
 void EnemyObject::handleCollision(CheeseObject& other)
 {
 	other.handleCollision(*this);
@@ -51,9 +56,4 @@ void EnemyObject::handleCollision(KeyObject& other)
 void EnemyObject::handleCollision(MousePlayer& other)
 {
 	other.handleCollision(*this);
-}
-
-bool EnemyObject::checkCollision(CollidableObject& other)
-{
-	return m_sprite.getGlobalBounds().intersects(other.getBounds());
 }

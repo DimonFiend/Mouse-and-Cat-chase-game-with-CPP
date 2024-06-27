@@ -14,12 +14,12 @@ PresentObject::PresentObject(sf::Vector2f pos, std::unique_ptr<Presents> obj)
 	m_sprite.setPosition(posOrigin);
 }
 
-bool PresentObject::checkCollision(MovingObject& other)
+bool PresentObject::checkCollision(CollidableObject& other)
 {
 	return m_sprite.getGlobalBounds().intersects(other.getBounds());
 }
 
-void PresentObject::handleCollision(MovingObject& other)
+void PresentObject::handleCollision(CollidableObject& other)
 {
 	m_present->handleCollision(other);
 

@@ -3,6 +3,6 @@
 
 int main()
 {
-	Controller controller(800, 600, "SFML Window");
+	Controller controller(1280, 960, "SFML Window");
 	exit(EXIT_SUCCESS);
 }

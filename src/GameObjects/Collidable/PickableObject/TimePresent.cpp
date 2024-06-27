@@ -1,9 +1,9 @@
 #include "TimePresent.h"
-#include "MovingObject.h"
+#include "CollidableObject.h"
 
-void TimePresent::handleCollision(MovingObject& other)
+void TimePresent::handleCollision(CollidableObject& other)
 {
-	other.handleCollision(*this);
+	//other.handleCollision(*this);
 }
 
 Objects TimePresent::PresentId()

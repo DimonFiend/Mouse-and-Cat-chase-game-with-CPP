@@ -10,13 +10,16 @@ Button::Button(std::string text, sf::Vector2f pos)
 
 void Button::setSprite(sf::Vector2f pos)
 {
+
 	m_sprite.setTexture(Resources::instance().getButtonTexture());
 
+	
 	//sets the origin of the sprite to the center and scales it
 	sf::Vector2f buttonSize = m_sprite.getLocalBounds().getSize();
 	m_sprite.setOrigin(buttonSize.x / 2.f, buttonSize.y / 2.f);
 	m_sprite.setPosition(pos);
 	setScale(5.f, 1.5f);
+
 }
 
 void Button::setText(std::string text)

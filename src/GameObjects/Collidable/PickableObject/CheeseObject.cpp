@@ -14,14 +14,16 @@ CheeseObject::CheeseObject(sf::Vector2f pos)
 	m_sprite.setOrigin(textureSize.x / 2.f, textureSize.y / 2.f);
 	m_sprite.setPosition(posOrigin);
 }
+#include <iostream>
 
-void CheeseObject::handleCollision(MovingObject& other)
+void CheeseObject::handleCollision(CollidableObject& other)
 {
+	std::cout << "CheeseObject::handleCollision" << std::endl;
 	other.handleCollision(*this);
 }
 
 
-bool CheeseObject::checkCollision(MovingObject& other)
+bool CheeseObject::checkCollision(CollidableObject& other)
 {
 	return m_sprite.getGlobalBounds().intersects(other.getBounds());
 }

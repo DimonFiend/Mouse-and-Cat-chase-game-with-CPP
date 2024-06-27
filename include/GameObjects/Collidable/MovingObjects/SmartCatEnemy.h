@@ -8,5 +8,6 @@ private:
 
 
 public:
-	virtual void move() override;
+	SmartCatEnemy(sf::Vector2f pos);
+	virtual void move(sf::Time deltaTime) override;
 };

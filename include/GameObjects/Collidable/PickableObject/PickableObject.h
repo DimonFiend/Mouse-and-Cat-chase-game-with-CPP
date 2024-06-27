@@ -1,6 +1,8 @@
 #pragma once 
 
 #include "CollidableObject.h"
+#include "MousePlayer.h"
+#include "EnemyObject.h"
 
 class MovingObject;
 

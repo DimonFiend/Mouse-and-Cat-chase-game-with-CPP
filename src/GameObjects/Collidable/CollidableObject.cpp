@@ -5,7 +5,7 @@ CollidableObject::CollidableObject()
 	:m_toDelete(false)
 {}
 
-bool CollidableObject::checkCollision(MovingObject& other)
+bool CollidableObject::checkCollision(CollidableObject& other)
 {
 	return m_sprite.getGlobalBounds().intersects(other.getBounds());
 }

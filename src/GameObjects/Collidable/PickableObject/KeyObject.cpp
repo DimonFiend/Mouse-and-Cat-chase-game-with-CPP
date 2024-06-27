@@ -12,13 +12,18 @@ KeyObject::KeyObject(sf::Vector2f pos)
 	m_sprite.setPosition(posOrigin);
 }
 
-void KeyObject::handleCollision(MovingObject& other)
+void KeyObject::handleCollision(CollidableObject& other)
 {
 	other.handleCollision(*this);
 }
 
-
-bool KeyObject::checkCollision(MovingObject& other)
+void KeyObject::handleCollision(MousePlayer& other)
 {
-	return m_sprite.getGlobalBounds().intersects(other.getBounds());
+	other.handleCollision(*this);
 }
+
+void KeyObject::handleCollision(EnemyObject& other)
+{
+	other.handleCollision(*this);
+}
+

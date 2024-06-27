@@ -11,6 +11,8 @@ CatEnemy::CatEnemy(sf::Vector2f pos)
 	auto textureSize = m_sprite.getLocalBounds().getSize();
 	m_sprite.setOrigin(textureSize.x / 2.f, textureSize.y / 2.f);
 	m_sprite.setPosition(posOrigin);
+	MovingObject::setSpawn(posOrigin);
+	MovingObject::setLastPos(posOrigin);
 }
 
 void CatEnemy::move(sf::Time deltaTime)

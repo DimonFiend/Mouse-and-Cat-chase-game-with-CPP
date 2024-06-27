@@ -1,3 +1,6 @@
+#pragma once
+
+#include "PresentObject.h"
 #include "TimePresent.h"
 #include "FreezePresent.h"
 #include "DestroyPresent.h"
@@ -6,3 +9,4 @@
 #include "CheeseObject.h"
 #include "WallObject.h"
 #include "DoorObject.h"
+#include "FloorObject.h"

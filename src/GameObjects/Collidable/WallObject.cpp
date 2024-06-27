@@ -12,12 +12,18 @@ WallObject::WallObject(sf::Vector2f pos)
 	m_sprite.setPosition(posOrigin);
 }
 
-bool WallObject::checkCollision(MovingObject& other)
+
+void WallObject::handleCollision(CollidableObject& other)
 {
-	return m_sprite.getGlobalBounds().intersects(other.getBounds());
+	other.handleCollision(*this);
 }
 
-void WallObject::handleCollision(MovingObject& other)
+void WallObject::handleCollision(MousePlayer& other)
 {
-	//handle collision with moving object, set to last position
+	other.handleCollision(*this);
+}
+
+void WallObject::handleCollision(EnemyObject& other)
+{
+	other.handleCollision(*this);
 }

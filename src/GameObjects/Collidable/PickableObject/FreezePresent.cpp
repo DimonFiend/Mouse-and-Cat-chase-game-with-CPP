@@ -1,9 +1,9 @@
 #include "FreezePresent.h"
-#include "MovingObject.h"
+#include "CollidableObject.h"
 
-void FreezePresent::handleCollision(MovingObject& other)
+void FreezePresent::handleCollision(CollidableObject& other)
 {
-	other.handleCollision(*this);
+	//other.handleCollision(*this);
 }
 
 Objects FreezePresent::PresentId()

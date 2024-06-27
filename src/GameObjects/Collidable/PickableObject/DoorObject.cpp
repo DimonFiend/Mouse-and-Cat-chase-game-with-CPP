@@ -12,13 +12,17 @@ DoorObject::DoorObject(sf::Vector2f pos)
 	m_sprite.setPosition(posOrigin);
 }
 
-void DoorObject::handleCollision(MovingObject& other)
+void DoorObject::handleCollision(CollidableObject& other)
 {
 	other.handleCollision(*this);
 }
 
-
-bool DoorObject::checkCollision(MovingObject& other)
+void DoorObject::handleCollision(MousePlayer& other)
 {
-	return m_sprite.getGlobalBounds().intersects(other.getBounds());
+	other.handleCollision(*this);
+}
+
+void DoorObject::handleCollision(EnemyObject& other)
+{
+	other.handleCollision(*this);
 }

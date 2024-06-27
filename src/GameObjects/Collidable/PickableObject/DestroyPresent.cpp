@@ -1,9 +1,9 @@
 #include "DestroyPresent.h"
-#include "MovingObject.h"
+#include "CollidableObject.h"
 
-void DestroyPresent::handleCollision(MovingObject& other)
+void DestroyPresent::handleCollision(CollidableObject& other)
 {
-	other.handleCollision(*this);
+	//other.handleCollision(*this);
 }
 
 Objects DestroyPresent::PresentId()

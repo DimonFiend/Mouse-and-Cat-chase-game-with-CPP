@@ -1,7 +1,7 @@
 #include "MainMenu.h"
 #include "Observer.h"
-
-
+#include "Button.h"
+#include <iostream>
 MainMenu::MainMenu(Observer* observer)
 	: m_observer(observer)
 {
@@ -31,6 +31,7 @@ void MainMenu::handleEvent(const sf::Event& event, sf::RenderWindow& window)
 	{
 		if (event.mouseButton.button == sf::Mouse::Left)
 		{
+			
 			for (auto& button : m_buttons)
 			{
 				if (button.isMouseOver(window))
@@ -38,6 +39,7 @@ void MainMenu::handleEvent(const sf::Event& event, sf::RenderWindow& window)
 					m_observer->switchState(button.getText());
 				}
 			}
+			
 		}
 	}
 	}
