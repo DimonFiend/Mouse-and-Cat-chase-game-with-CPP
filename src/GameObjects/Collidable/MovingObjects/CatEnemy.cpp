@@ -24,19 +24,29 @@ void CatEnemy::move(sf::Time deltaTime)
 
 void CatEnemy::handleCollision(WallObject& other)
 {
-	m_sprite.setPosition(MovingObject::getLastPos());
-	m_direction = static_cast<Direction>(rand() % 4);
+    handleObstruct();
 }
-#include <iostream>
+
+void CatEnemy::handleCollision(DoorObject& other)
+{
+    handleObstruct();
+}
+
+void CatEnemy::handleObstruct()
+{
+    m_sprite.setPosition(MovingObject::getLastPos());
+    m_direction = static_cast<Direction>(rand() % 4);
+}
+
 sf::Vector2f CatEnemy::getDirection()
 {
-    int timer_stop = rand() % 5 + 6;
+	//will change that to a better way to change direction
+    int timer_stop = rand() % 7 + 7;
 
-    if (m_time.asSeconds() >= timer_stop)
+    if (m_time.getElapsedTime().asSeconds() >= timer_stop)
     {
-		std::cout << "Timer stop" << std::endl;
-        m_direction = static_cast<Direction>(rand() % 4);
-        m_time.Zero;
+        m_direction = static_cast<Direction>((static_cast<int>(m_direction) + 1) % 4);
+        m_time.restart();
     }
 
     sf::Vector2f movement(0, 0);

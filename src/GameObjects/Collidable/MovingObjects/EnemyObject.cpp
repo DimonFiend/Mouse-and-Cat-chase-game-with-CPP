@@ -12,11 +12,6 @@ void EnemyObject::handleCollision(CollidableObject& other)
 {
 	//other.handleCollision(*this);
 }
-
-void EnemyObject::handleCollision(DoorObject& other)
-{
-	m_sprite.setPosition(MovingObject::getLastPos());
-}
 /*
 void EnemyObject::handleCollision(TimePresent& other)
 {

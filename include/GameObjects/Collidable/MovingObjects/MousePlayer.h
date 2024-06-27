@@ -1,6 +1,7 @@
 #pragma once
 #include "MovingObject.h"
 
+class EnemyObject;
 class MousePlayer : public MovingObject {
 
 private:
@@ -8,8 +9,6 @@ private:
 	unsigned int m_keys;
 	static unsigned int m_lives;
 	static unsigned int m_score;
-
-	void enemyHithandler();
 public:
 	MousePlayer(sf::Vector2f pos);
 
@@ -24,6 +23,6 @@ public:
 	virtual void handleCollision(CollidableObject& other) override;
 	virtual void handleCollision(KeyObject& other) override;
 	virtual void handleCollision(MousePlayer& other) override;
-
+	void handleCollision(EnemyObject& other);
 	virtual void move(sf::Time deltaTime) override;
 };

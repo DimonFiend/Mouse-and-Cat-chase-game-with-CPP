@@ -10,7 +10,6 @@ public:
 	EnemyObject(float speed = 80);
 
 	 void handleCollision(CollidableObject& other) override;
-	 void handleCollision(DoorObject& other) override;
 	 void handleCollision(CheeseObject& other) override;
 	 void handleCollision(KeyObject& other) override;
 	 void handleCollision(MousePlayer& other) override;

@@ -1,7 +1,7 @@
 #include "MousePlayer.h"
 #include "Resources.h"
 #include "ObjectsInclude.h"
-
+#include "EnemyObject.h"
 #include <iostream>
 unsigned int MousePlayer::m_lives = 3;
 unsigned int MousePlayer::m_score = 0;
@@ -105,19 +105,12 @@ void MousePlayer::handleCollision(KeyObject& other)
 
 void MousePlayer::handleCollision(CatEnemy& other)
 {
-	enemyHithandler();
+
 }
 
 void MousePlayer::handleCollision(SmartCatEnemy& other)
 {
-	enemyHithandler();
-}
 
-void MousePlayer::enemyHithandler()
-{
-	m_lives--;
-	//respawn
-	//play hit sound
 }
 
 void MousePlayer::handleCollision(WallObject& other)
@@ -128,4 +121,11 @@ void MousePlayer::handleCollision(WallObject& other)
 void MousePlayer::handleCollision(MousePlayer& other)
 {
 	//no use for now
+}
+
+void MousePlayer::handleCollision(EnemyObject& other)
+{
+	m_lives--;
+	//respawn
+	//play hit sound
 }
