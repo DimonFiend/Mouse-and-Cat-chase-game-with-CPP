@@ -1,8 +1,9 @@
 #include "CatEnemy.h"
 #include "Resources.h"
+#include "Configs.h"
 
 CatEnemy::CatEnemy(sf::Vector2f pos)
-	:EnemyObject(70), m_direction(static_cast<Direction>(rand() %  4))
+	:EnemyObject(CAT_SPEED), m_direction(static_cast<Direction>(rand() %  4))
 {
 	m_sprite.setTexture(Resources::instance().getGameTexture());
 	auto rect = Resources::instance().getTextureRect(Objects::Cat);

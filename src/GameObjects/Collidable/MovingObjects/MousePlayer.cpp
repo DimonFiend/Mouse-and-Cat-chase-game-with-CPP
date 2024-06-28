@@ -2,12 +2,13 @@
 #include "Resources.h"
 #include "ObjectsInclude.h"
 #include "EnemyObject.h"
-#include <iostream>
+#include "Configs.h"
+
 unsigned int MousePlayer::m_lives = 3;
 unsigned int MousePlayer::m_score = 0;
 
 MousePlayer::MousePlayer(sf::Vector2f pos)
-	:MovingObject(80)
+	:MovingObject(MOUSE_SPEED)
 	, m_keys(0)
 {
 	m_sprite.setTexture(Resources::instance().getGameTexture());
@@ -26,6 +27,11 @@ void MousePlayer::move(sf::Time deltaTime)
 	sf::Vector2f movement = getDirection();
 	MovingObject::setLastPos(m_sprite.getPosition());
 	m_sprite.move(movement * MovingObject::getSpeed() * deltaTime.asSeconds());
+}
+
+void MousePlayer::respawn()
+{
+	m_sprite.setPosition(MovingObject::getSpawn());
 }
 
 sf::Vector2f MousePlayer::getDirection() const

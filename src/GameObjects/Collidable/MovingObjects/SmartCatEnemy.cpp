@@ -1,8 +1,9 @@
 #include "SmartCatEnemy.h"
 #include "Resources.h"
+#include "Configs.h"
 
 SmartCatEnemy::SmartCatEnemy(sf::Vector2f pos)
-	:EnemyObject(60)
+	:EnemyObject(SMART_CAT_SPEED)
 {
 	m_sprite.setTexture(Resources::instance().getGameTexture());
 	auto rect = Resources::instance().getTextureRect(Objects::Cat);
