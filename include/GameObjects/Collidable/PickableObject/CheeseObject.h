@@ -8,6 +8,7 @@ private:
 	static unsigned int m_cheeseCount;
 public:
 	CheeseObject(sf::Vector2f pos);
+	static unsigned int getCheeseCount() { return m_cheeseCount; };
 	virtual ~CheeseObject() { m_cheeseCount--; };
 	virtual bool checkCollision(CollidableObject& other) override;
 	virtual void handleCollision(CollidableObject& other) override;

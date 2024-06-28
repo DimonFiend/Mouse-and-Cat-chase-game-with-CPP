@@ -1,10 +1,12 @@
 #pragma once
 #include "MovingObject.h"
 
+class GameLevel;
 class EnemyObject;
 class MousePlayer : public MovingObject {
 
 private:
+	GameLevel* m_manager;
 	sf::Vector2f getDirection() const;
 	unsigned int m_keys;
 	static unsigned int m_lives;
@@ -15,6 +17,7 @@ public:
 	static const unsigned int getLives() {return m_lives;};
 	static const unsigned int getScore() {return m_score;};
 	const unsigned int getKeys() const{ return m_keys; };
+	void setManager(GameLevel* manager) { m_manager = manager; };
 
 	void respawn();
 	virtual void handleCollision(CatEnemy& other) override;

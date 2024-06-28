@@ -22,6 +22,8 @@ private:
 	std::vector<std::unique_ptr<CollidableObject>> m_collidableObjects;
 	std::vector<std::unique_ptr<GameObject>> m_staticObjects;
 
+	void LoadNextLevel();
+	void checkConditions();
 	void checkCollision();
 	void removePickable();
 	void setView();
@@ -34,6 +36,7 @@ public:
 	virtual void render(sf::RenderWindow& window) override;
 	virtual void handleEvent(const sf::Event& event, sf::RenderWindow& window) override;
 
+	void respawn();
 	void setPlayer(std::unique_ptr<MousePlayer> player);
 	void setEnemy(std::unique_ptr<EnemyObject> enemy);
 	void setCollidable(std::unique_ptr<CollidableObject> collidable);

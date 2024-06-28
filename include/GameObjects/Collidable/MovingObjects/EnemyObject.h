@@ -15,4 +15,6 @@ public:
 	 void handleCollision(MousePlayer& other) override;
 	 void handleCollision(SmartCatEnemy& other) override {};
 	 void handleCollision(CatEnemy& other) override {};
+
+	 void respawn();
 };

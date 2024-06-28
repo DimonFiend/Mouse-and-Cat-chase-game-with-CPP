@@ -42,13 +42,6 @@ void CatEnemy::handleObstruct()
 sf::Vector2f CatEnemy::getDirection()
 {
 	//will change that to a better way to change direction
-    int timer_stop = rand() % 7 + 7;
-
-    if (m_time.getElapsedTime().asSeconds() >= timer_stop)
-    {
-        m_direction = static_cast<Direction>((static_cast<int>(m_direction) + 1) % 4);
-        m_time.restart();
-    }
 
     sf::Vector2f movement(0, 0);
     switch(m_direction)

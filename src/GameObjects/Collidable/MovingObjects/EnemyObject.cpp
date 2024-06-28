@@ -40,3 +40,8 @@ void EnemyObject::handleCollision(MousePlayer& other)
 {
 	other.handleCollision(*this);
 }
+
+void EnemyObject::respawn()
+{
+	m_sprite.setPosition(MovingObject::getSpawn());
+}

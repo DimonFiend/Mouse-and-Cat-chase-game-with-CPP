@@ -3,6 +3,7 @@
 #include "ObjectsInclude.h"
 #include "EnemyObject.h"
 #include "Configs.h"
+#include "GameLevel.h"
 
 unsigned int MousePlayer::m_lives = 3;
 unsigned int MousePlayer::m_score = 0;
@@ -10,6 +11,7 @@ unsigned int MousePlayer::m_score = 0;
 MousePlayer::MousePlayer(sf::Vector2f pos)
 	:MovingObject(MOUSE_SPEED)
 	, m_keys(0)
+	, m_manager(nullptr)
 {
 	m_sprite.setTexture(Resources::instance().getGameTexture());
 	auto rect = Resources::instance().getTextureRect(Objects::Mouse);
@@ -132,6 +134,6 @@ void MousePlayer::handleCollision(MousePlayer& other)
 void MousePlayer::handleCollision(EnemyObject& other)
 {
 	m_lives--;
-	//respawn
+	m_manager->respawn();
 	//play hit sound
 }

@@ -16,7 +16,8 @@ GameLevel::GameLevel(Observer* observer) :
 
 void GameLevel::update(sf::Time deltaTime)
 {
-	
+	checkConditions();
+
 	move(deltaTime);
 	checkCollision();
 	removePickable();
@@ -55,6 +56,39 @@ void GameLevel::handleEvent(const sf::Event& event, sf::RenderWindow& window)
 	if (event.Closed)
 	{
 		window.close();
+	}
+}
+
+void GameLevel::checkConditions()
+{
+	if (m_player->getLives() == 0)
+	{
+		//m_observer->switchState("GameOver");
+	}
+	if (CheeseObject::getCheeseCount() == 0)
+	{
+		this->LoadNextLevel();
+	}
+	//if time has passed GameOver
+}
+
+void GameLevel::LoadNextLevel()
+{
+	m_levelNumber++;
+	m_collidableObjects.clear();
+	m_staticObjects.clear();
+	m_enemys.clear();
+	m_level = std::make_unique<LevelLoader>(this, m_levelNumber);
+	m_level->loadLevel();
+}
+
+void GameLevel::respawn()
+{
+	m_player->respawn();
+
+	for (auto& enemy : m_enemys)
+	{
+		enemy->respawn();
 	}
 }
 
@@ -109,6 +143,7 @@ void GameLevel::setView()
 void GameLevel::setPlayer(std::unique_ptr<MousePlayer> player)
 {
 	m_player = std::move(player);
+	m_player->setManager(this);
 }
 void GameLevel::setEnemy(std::unique_ptr<EnemyObject> enemy)
 {
