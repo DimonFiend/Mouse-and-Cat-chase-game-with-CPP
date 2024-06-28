@@ -41,6 +41,7 @@ public:
 	void setEnemy(std::unique_ptr<EnemyObject> enemy);
 	void setCollidable(std::unique_ptr<CollidableObject> collidable);
 	void setStatic(std::unique_ptr<GameObject> object);
+	sf::Vector2f getMapSize() const { return m_mapSize; };
 	size_t getEnemyCount() const;
 
 };

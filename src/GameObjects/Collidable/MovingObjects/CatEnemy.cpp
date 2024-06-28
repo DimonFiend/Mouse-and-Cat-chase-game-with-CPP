@@ -1,7 +1,7 @@
 #include "CatEnemy.h"
 #include "Resources.h"
 #include "Configs.h"
-
+#include "GameLevel.h"
 CatEnemy::CatEnemy(sf::Vector2f pos)
 	:EnemyObject(CAT_SPEED), m_direction(static_cast<Direction>(rand() %  4))
 {
@@ -16,7 +16,7 @@ CatEnemy::CatEnemy(sf::Vector2f pos)
 	MovingObject::setLastPos(posOrigin);
 }
 
-void CatEnemy::move(sf::Time deltaTime)
+void CatEnemy::move(sf::Time deltaTime, GameLevel* manager)
 {
 	sf::Vector2f movement = getDirection();
 	MovingObject::setLastPos(m_sprite.getPosition());

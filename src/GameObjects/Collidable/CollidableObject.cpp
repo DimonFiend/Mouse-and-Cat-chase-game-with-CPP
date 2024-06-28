@@ -7,5 +7,18 @@ CollidableObject::CollidableObject()
 
 bool CollidableObject::checkCollision(CollidableObject& other)
 {
-	return m_sprite.getGlobalBounds().intersects(other.getBounds());
+	sf::FloatRect intersection;
+	if (m_sprite.getGlobalBounds().intersects(other.getBounds(), intersection))
+	{
+		// Calculate the margin by subtracting 5 pixels from the intersection bounds
+		sf::FloatRect marginBounds = intersection;
+		marginBounds.top +=5;
+		marginBounds.left += 5;
+		marginBounds.width -= 5;
+		marginBounds.height -= 5;
+
+
+		return marginBounds.intersects(other.getBounds());
+	}
+	return false;
 }

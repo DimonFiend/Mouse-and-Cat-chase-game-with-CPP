@@ -11,6 +11,8 @@ private:
 	unsigned int m_keys;
 	static unsigned int m_lives;
 	static unsigned int m_score;
+
+	void checkMapBounds();
 public:
 	MousePlayer(sf::Vector2f pos);
 

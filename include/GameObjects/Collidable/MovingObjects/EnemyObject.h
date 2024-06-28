@@ -15,6 +15,7 @@ public:
 	 void handleCollision(MousePlayer& other) override;
 	 void handleCollision(SmartCatEnemy& other) override {};
 	 void handleCollision(CatEnemy& other) override {};
-
-	 void respawn();
+	 void move(sf::Time deltaTime) override {};
+	 virtual void move(sf::Time deltaTime, GameLevel* manager) = 0;
+	 virtual void respawn();
 };

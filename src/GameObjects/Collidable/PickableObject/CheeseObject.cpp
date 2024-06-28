@@ -20,9 +20,3 @@ void CheeseObject::handleCollision(CollidableObject& other)
 {
 	other.handleCollision(*this);
 }
-
-
-bool CheeseObject::checkCollision(CollidableObject& other)
-{
-	return m_sprite.getGlobalBounds().intersects(other.getBounds());
-}

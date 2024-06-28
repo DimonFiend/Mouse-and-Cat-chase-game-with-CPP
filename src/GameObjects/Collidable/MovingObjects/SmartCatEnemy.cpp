@@ -1,6 +1,7 @@
 #include "SmartCatEnemy.h"
 #include "Resources.h"
 #include "Configs.h"
+#include "GameLevel.h"
 
 SmartCatEnemy::SmartCatEnemy(sf::Vector2f pos)
 	:EnemyObject(SMART_CAT_SPEED)
@@ -15,7 +16,7 @@ SmartCatEnemy::SmartCatEnemy(sf::Vector2f pos)
 	m_sprite.setPosition(posOrigin);
 }
 
-void SmartCatEnemy::move(sf::Time deltaTime)
+void SmartCatEnemy::move(sf::Time deltaTime, GameLevel* manager)
 {
 	//sf::Vector2f movement = getDirection();
 	//m_sprite.move(EnemyObject::getSpeed());

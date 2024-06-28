@@ -1,6 +1,7 @@
 #pragma once
 #include "CollidableObject.h"
 
+class GameLevel;
 class MovingObject : public CollidableObject {
 
 private:

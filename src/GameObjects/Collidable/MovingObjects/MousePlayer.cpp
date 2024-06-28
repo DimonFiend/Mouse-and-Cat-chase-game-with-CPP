@@ -29,6 +29,21 @@ void MousePlayer::move(sf::Time deltaTime)
 	sf::Vector2f movement = getDirection();
 	MovingObject::setLastPos(m_sprite.getPosition());
 	m_sprite.move(movement * MovingObject::getSpeed() * deltaTime.asSeconds());
+
+	this->checkMapBounds();
+}
+
+//ensures the player stays in the map bounds
+void MousePlayer::checkMapBounds()
+{
+	auto pos = m_sprite.getPosition();
+	auto map_size = m_manager->getMapSize();
+	auto limit = m_sprite.getLocalBounds().getSize();
+	if (pos.x < (limit.x / 2) || pos.x > map_size.x - (limit.x / 2)
+		|| pos.y < limit.y / 2 || pos.y > map_size.y - (limit.y /2))
+	{
+		m_sprite.setPosition(MovingObject::getLastPos());
+	}
 }
 
 void MousePlayer::respawn()

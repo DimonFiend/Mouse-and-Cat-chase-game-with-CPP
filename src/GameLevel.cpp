@@ -97,7 +97,7 @@ void GameLevel::move(sf::Time deltaTime)
 	m_player->move(deltaTime);
 	for (auto& enemy : m_enemys)
 	{
-		enemy->move(deltaTime);
+		enemy->move(deltaTime, this);
 	}
 }
 
