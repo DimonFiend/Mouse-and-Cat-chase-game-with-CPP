@@ -14,6 +14,7 @@ public:
 
 	static const unsigned int getLives() {return m_lives;};
 	static const unsigned int getScore() {return m_score;};
+	const unsigned int getKeys() const{ return m_keys; };
 
 	void respawn();
 	virtual void handleCollision(CatEnemy& other) override;
