@@ -13,13 +13,12 @@ private:
 	static unsigned int m_score;
 
 	void checkMapBounds();
+	void handleEnemy();
 public:
 	MousePlayer(sf::Vector2f pos, GameLevel* manager);
 
 	static const unsigned int getLives() {return m_lives;};
 	static const unsigned int getScore() {return m_score;};
-	const unsigned int getKeys() const{ return m_keys; };
-	void setManager(GameLevel* manager) { m_manager = manager; };
 
 	void respawn();
 	virtual void handleCollision(CatEnemy& other) override;
@@ -30,6 +29,5 @@ public:
 	virtual void handleCollision(CollidableObject& other) override;
 	virtual void handleCollision(KeyObject& other) override;
 	virtual void handleCollision(MousePlayer& other) override;
-	void handleCollision(EnemyObject& other);
 	virtual void move(sf::Time deltaTime) override;
 };

@@ -12,10 +12,10 @@ public:
 	virtual ~CheeseObject() { m_cheeseCount--; };
 	virtual void handleCollision(CollidableObject& other) override;
 	virtual void handleCollision(MousePlayer& other) override;
-	virtual void handleCollision(CatEnemy& other) override {};
-	virtual void handleCollision(SmartCatEnemy& other) override {};
-	virtual void handleCollision(CheeseObject& other) {};
-	virtual void handleCollision(KeyObject& other) {};
-	virtual void handleCollision(DoorObject& other) {};
-	virtual void handleCollision(WallObject& other) {};
+	virtual void handleCollision(CatEnemy& other) override { (void)other; };
+	virtual void handleCollision(SmartCatEnemy& other) override { (void)other; };
+	virtual void handleCollision(CheeseObject& other) { (void)other; };
+	virtual void handleCollision(KeyObject& other) { (void)other; };
+	virtual void handleCollision(DoorObject& other) { (void)other; };
+	virtual void handleCollision(WallObject& other) { (void)other; };
 };

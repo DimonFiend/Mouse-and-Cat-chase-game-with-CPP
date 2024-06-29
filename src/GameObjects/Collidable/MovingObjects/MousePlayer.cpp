@@ -104,7 +104,7 @@ void MousePlayer::handleCollision(DoorObject& other)
 	if (m_keys > 0)
 	{
 		m_keys--;
-		other.handlePlayer();
+		other.handlePlayer(m_manager);
 		//play door sound
 	}
 	else
@@ -116,34 +116,41 @@ void MousePlayer::handleCollision(DoorObject& other)
 void MousePlayer::handleCollision(CheeseObject& other)
 {
 	m_score += 10;
+	other.handleCollision(*this);
 	//play eat sound
 }
 void MousePlayer::handleCollision(KeyObject& other)
 {
 	m_keys++;
+	other.handleCollision(*this);
 	//play key pickup
-}
-
-void MousePlayer::handleCollision(CatEnemy& other)
-{
-
-}
-
-void MousePlayer::handleCollision(SmartCatEnemy& other)
-{
 }
 
 void MousePlayer::handleCollision(WallObject& other)
 {
+	(void)other;
 	m_sprite.setPosition(MovingObject::getLastPos());
 }
 
 void MousePlayer::handleCollision(MousePlayer& other)
 {
+	(void)other;
 	//no use for now
 }
 
-void MousePlayer::handleCollision(EnemyObject& other)
+void MousePlayer::handleCollision(CatEnemy& other)
+{
+	(void)other;
+	this->handleEnemy();
+}
+
+void MousePlayer::handleCollision(SmartCatEnemy& other)
+{
+	(void)other;
+	this->handleEnemy();
+}
+
+void MousePlayer::handleEnemy()
 {
 	m_lives--;
 	m_manager->respawn();

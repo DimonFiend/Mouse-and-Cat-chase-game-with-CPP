@@ -10,7 +10,7 @@ public:
 	MainMenu(Observer* observer);
 	virtual void update(sf::Time deltaTime) override;
 	virtual void render(sf::RenderWindow& window) override;
-	virtual void handleEvent(const sf::Event& event, sf::RenderWindow& window) override;
+	virtual void handleEvent(sf::Event& event, sf::RenderWindow& window) override;
 
 private:
 	std::vector<Button> m_buttons;

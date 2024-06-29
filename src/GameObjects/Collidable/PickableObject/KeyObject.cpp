@@ -19,7 +19,6 @@ void KeyObject::handleCollision(CollidableObject& other)
 
 void KeyObject::handleCollision(MousePlayer& other)
 {
-	other.handleCollision(*this);
 	setToDelete();
 }
 

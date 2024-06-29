@@ -8,39 +8,6 @@ EnemyObject::EnemyObject(float speed)
 
 }
 
-void EnemyObject::handleCollision(CollidableObject& other)
-{
-	other.handleCollision(*this);
-}
-/*
-void EnemyObject::handleCollision(TimePresent& other)
-{
-	other.handleCollision(*this);
-}
-
-void EnemyObject::handleCollision(FreezePresent& other)
-{
-	other.handleCollision(*this);
-}
-
-void EnemyObject::handleCollision(DestroyPresent& other)
-{
-	other.handleCollision(*this);
-}
-*/
-void EnemyObject::handleCollision(CheeseObject& other)
-{
-}
-
-void EnemyObject::handleCollision(KeyObject& other)
-{
-}
-
-void EnemyObject::handleCollision(MousePlayer& other)
-{
-	other.handleCollision(*this);
-}
-
 void EnemyObject::respawn()
 {
 	m_sprite.setPosition(MovingObject::getSpawn());

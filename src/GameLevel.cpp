@@ -8,8 +8,9 @@
 
 GameLevel::GameLevel(Observer* observer) :
 	m_observer(observer),
-	m_levelNumber(2),
-	m_level(std::make_unique<LevelLoader>(this, m_levelNumber))
+	m_levelNumber(1),
+	m_level(std::make_unique<LevelLoader>(this, m_levelNumber)),
+	m_isPaused(false)
 {
 	m_level->loadLevel();
 }
@@ -17,11 +18,12 @@ GameLevel::GameLevel(Observer* observer) :
 void GameLevel::update(sf::Time deltaTime)
 {
 	checkConditions();
-
-	move(deltaTime);
-	checkCollision();
-	removePickable();
-	//game over
+	if (!m_isPaused)
+	{
+		move(deltaTime);
+		checkCollision();
+		removePickable();
+	}
 }
 void GameLevel::removePickable()
 {
@@ -51,11 +53,15 @@ void GameLevel::render(sf::RenderWindow& window)
 
 }
 
-void GameLevel::handleEvent(const sf::Event& event, sf::RenderWindow& window)
+void GameLevel::handleEvent(sf::Event& event, sf::RenderWindow& window)
 {
 	if (event.Closed)
 	{
 		window.close();
+	}
+	else if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape)
+	{
+		m_isPaused = !m_isPaused; // Toggle the pause state
 	}
 }
 
@@ -103,32 +109,61 @@ void GameLevel::move(sf::Time deltaTime)
 
 void GameLevel::checkCollision()
 {
-	for (auto& collidableObject : m_collidableObjects)
-	{
-		if (collidableObject->checkCollision(*m_player))
-		{
-			collidableObject->handleCollision(*m_player);
-		}
 
-		for (auto& enemy : m_enemys)
-		{
-			if (collidableObject->checkCollision(*enemy))
-			{
-				collidableObject->handleCollision(*enemy);
-			}
-		}
-	}
+	this->checkObjectsCollision(m_player.get());
 
 	for (auto& enemy : m_enemys)
 	{
-		if (enemy->checkCollision(*m_player))
+		this->checkObjectsCollision(enemy.get());
+		this->checkMovingCollision(enemy.get());	
+	}
+
+	this->checkMovingCollision(m_player.get());
+}
+
+void GameLevel::checkMovingCollision(CollidableObject* obj)
+{
+	for (auto& enemys : m_enemys)
+	{
+		if (enemys->checkCollision(*obj))
 		{
-			enemy->handleCollision(*m_player);
+			enemys->handleCollision(*obj);
+		}
+	}
+}
+
+void GameLevel::checkObjectsCollision(CollidableObject* obj)
+{
+	for (auto& collidableObject : m_collidableObjects)
+	{
+		if (collidableObject->checkCollision(*obj))
+		{
+			collidableObject->handleCollision(*obj);
 		}
 	}
 }
 
 
+MovablePath GameLevel::getPath(sf::Vector2f pos)
+{
+	float pos_x = std::floor(pos.x / 64);
+	float pos_y = std::floor(pos.y / 64);
+    MovablePath path;
+
+    for (auto& floor : m_staticObjects)
+    {
+        sf::Vector2f floorPos = floor->getPosition();
+		float x_index = std::floor(floorPos.x / 64) - pos_x;
+		float y_index = std::floor(floorPos.y / 64) - pos_y;
+
+        if ((std::abs(x_index) == 1 && std::abs(y_index) == 0)
+			|| std::abs(y_index) == 1 && std::abs(x_index) == 0)
+        {
+			path.push_back(sf::Vector2f{x_index, y_index});
+        }
+    }
+    return path;
+}
 
 void GameLevel::setMapSize(const sf::Vector2f mapSize)
 {
@@ -145,7 +180,6 @@ void GameLevel::setView()
 void GameLevel::setPlayer(std::unique_ptr<MousePlayer> player)
 {
 	m_player = std::move(player);
-	m_player->setManager(this);
 }
 void GameLevel::setEnemy(std::unique_ptr<EnemyObject> enemy)
 {

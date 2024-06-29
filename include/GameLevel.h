@@ -7,6 +7,8 @@
 #include "MousePlayer.h"
 #include "LevelLoader.h"
 
+typedef std::vector<sf::Vector2f> MovablePath;
+
 class Observer;
 class GameLevel : public GameState{
 
@@ -16,7 +18,7 @@ private:
 	std::unique_ptr<LevelLoader> m_level;
 	sf::Vector2f m_mapSize;
 	sf::View m_view;
-
+	bool m_isPaused;
 	std::unique_ptr<MousePlayer> m_player;
 	std::vector<std::unique_ptr<EnemyObject>> m_enemys;
 	std::vector<std::unique_ptr<CollidableObject>> m_collidableObjects;
@@ -25,6 +27,8 @@ private:
 	void LoadNextLevel();
 	void checkConditions();
 	void checkCollision();
+	void checkObjectsCollision(CollidableObject* obj);
+	void checkMovingCollision(CollidableObject* obj);
 	void removePickable();
 	void setView();
 	void move(sf::Time deltaTime);
@@ -34,7 +38,7 @@ public:
 	virtual ~GameLevel() = default;
 	virtual void update(sf::Time deltaTime) override;
 	virtual void render(sf::RenderWindow& window) override;
-	virtual void handleEvent(const sf::Event& event, sf::RenderWindow& window) override;
+	virtual void handleEvent(sf::Event& event, sf::RenderWindow& window) override;
 
 	void respawn();
 	void setPlayer(std::unique_ptr<MousePlayer> player);
@@ -43,5 +47,6 @@ public:
 	void setStatic(std::unique_ptr<GameObject> object);
 	sf::Vector2f getMapSize() const { return m_mapSize; };
 	size_t getEnemyCount() const;
+	MovablePath getPath(sf::Vector2f pos);
 
 };

@@ -23,6 +23,6 @@ void CheeseObject::handleCollision(CollidableObject& other)
 
 void CheeseObject::handleCollision(MousePlayer& other)
 {
-	other.handleCollision(*this);
 	setToDelete();
+	std::cout << "Cheese eaten!" << std::endl;
 }

@@ -25,5 +25,16 @@ void SmartCatEnemy::move(sf::Time deltaTime, GameLevel* manager)
 
 void SmartCatEnemy::handleCollision(WallObject& other)
 {
+	(void)other;
 	m_sprite.setPosition(MovingObject::getLastPos());
+}
+
+void SmartCatEnemy::handleCollision(CollidableObject& other)
+{
+	other.handleCollision(*this);
+}
+
+void SmartCatEnemy::handleCollision(MousePlayer& other)
+{
+	other.handleCollision(*this);
 }
