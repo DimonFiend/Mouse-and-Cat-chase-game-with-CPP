@@ -20,3 +20,9 @@ void CheeseObject::handleCollision(CollidableObject& other)
 {
 	other.handleCollision(*this);
 }
+
+void CheeseObject::handleCollision(MousePlayer& other)
+{
+	other.handleCollision(*this);
+	setToDelete();
+}

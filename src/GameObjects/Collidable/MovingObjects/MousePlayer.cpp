@@ -8,10 +8,10 @@
 unsigned int MousePlayer::m_lives = 3;
 unsigned int MousePlayer::m_score = 0;
 
-MousePlayer::MousePlayer(sf::Vector2f pos)
+MousePlayer::MousePlayer(sf::Vector2f pos, GameLevel* manager)
 	:MovingObject(MOUSE_SPEED)
 	, m_keys(0)
-	, m_manager(nullptr)
+	, m_manager(manager)
 {
 	m_sprite.setTexture(Resources::instance().getGameTexture());
 	auto rect = Resources::instance().getTextureRect(Objects::Mouse);
@@ -104,7 +104,7 @@ void MousePlayer::handleCollision(DoorObject& other)
 	if (m_keys > 0)
 	{
 		m_keys--;
-		other.setToDelete();
+		other.handlePlayer();
 		//play door sound
 	}
 	else
@@ -116,13 +116,11 @@ void MousePlayer::handleCollision(DoorObject& other)
 void MousePlayer::handleCollision(CheeseObject& other)
 {
 	m_score += 10;
-	other.setToDelete();
 	//play eat sound
 }
 void MousePlayer::handleCollision(KeyObject& other)
 {
 	m_keys++;
-	other.setToDelete();
 	//play key pickup
 }
 
@@ -133,7 +131,6 @@ void MousePlayer::handleCollision(CatEnemy& other)
 
 void MousePlayer::handleCollision(SmartCatEnemy& other)
 {
-
 }
 
 void MousePlayer::handleCollision(WallObject& other)

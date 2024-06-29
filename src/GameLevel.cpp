@@ -8,7 +8,7 @@
 
 GameLevel::GameLevel(Observer* observer) :
 	m_observer(observer),
-	m_levelNumber(1),
+	m_levelNumber(2),
 	m_level(std::make_unique<LevelLoader>(this, m_levelNumber))
 {
 	m_level->loadLevel();
@@ -127,6 +127,8 @@ void GameLevel::checkCollision()
 		}
 	}
 }
+
+
 
 void GameLevel::setMapSize(const sf::Vector2f mapSize)
 {

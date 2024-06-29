@@ -10,7 +10,7 @@ EnemyObject::EnemyObject(float speed)
 
 void EnemyObject::handleCollision(CollidableObject& other)
 {
-	//other.handleCollision(*this);
+	other.handleCollision(*this);
 }
 /*
 void EnemyObject::handleCollision(TimePresent& other)

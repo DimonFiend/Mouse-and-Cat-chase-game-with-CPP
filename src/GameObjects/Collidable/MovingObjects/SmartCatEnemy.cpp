@@ -14,12 +14,13 @@ SmartCatEnemy::SmartCatEnemy(sf::Vector2f pos)
 	m_sprite.setOrigin(textureSize.x / 2.f, textureSize.y / 2.f);
 	m_sprite.setColor(sf::Color::Red);
 	m_sprite.setPosition(posOrigin);
+    MovingObject::setSpawn(posOrigin);
+    MovingObject::setLastPos(posOrigin);
 }
 
 void SmartCatEnemy::move(sf::Time deltaTime, GameLevel* manager)
 {
-	//sf::Vector2f movement = getDirection();
-	//m_sprite.move(EnemyObject::getSpeed());
+	
 }
 
 void SmartCatEnemy::handleCollision(WallObject& other)

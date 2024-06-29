@@ -73,8 +73,7 @@ void LevelLoader::push_object(char id, sf::Vector2f position)
 		m_manager->setStatic(std::make_unique<FloorObject>(position));
 		break;
 	case 'D':
-		m_manager->setCollidable(std::make_unique<DoorObject>(position));
-		m_manager->setStatic(std::make_unique<FloorObject>(position));
+		m_manager->setCollidable(std::make_unique<DoorObject>(position, m_manager));
 		break;
 	case '*':
 		m_manager->setCollidable(std::make_unique<CheeseObject>(position));
@@ -87,7 +86,7 @@ void LevelLoader::push_object(char id, sf::Vector2f position)
 		m_manager->setStatic(std::make_unique<FloorObject>(position));
 		break;
 	case '%':
-		m_manager->setPlayer(std::make_unique<MousePlayer>(position));
+		m_manager->setPlayer(std::make_unique<MousePlayer>(position, m_manager));
 		m_manager->setStatic(std::make_unique<FloorObject>(position));
 		break;
 	case '^':

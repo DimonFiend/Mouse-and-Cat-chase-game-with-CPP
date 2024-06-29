@@ -14,7 +14,7 @@ private:
 
 	void checkMapBounds();
 public:
-	MousePlayer(sf::Vector2f pos);
+	MousePlayer(sf::Vector2f pos, GameLevel* manager);
 
 	static const unsigned int getLives() {return m_lives;};
 	static const unsigned int getScore() {return m_score;};

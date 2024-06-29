@@ -2,8 +2,11 @@
 #include "Resources.h"
 #include "MovingObject.h"
 #include "EnemyObject.h"
+#include "GameLevel.h"
+#include "FloorObject.h"
 
-DoorObject::DoorObject(sf::Vector2f pos)
+DoorObject::DoorObject(sf::Vector2f pos, GameLevel* manager)
+	:m_manager(manager)
 {
 	m_sprite.setTexture(Resources::instance().getGameTexture());
 	m_sprite.setTextureRect(Resources::instance().getTextureRect(Objects::Door));
@@ -21,6 +24,7 @@ void DoorObject::handleCollision(CollidableObject& other)
 void DoorObject::handleCollision(MousePlayer& other)
 {
 	other.handleCollision(*this);
+	
 }
 
 void DoorObject::handleCollision(SmartCatEnemy& other)
@@ -31,4 +35,13 @@ void DoorObject::handleCollision(SmartCatEnemy& other)
 void DoorObject::handleCollision(CatEnemy& other)
 {
 	other.handleCollision(*this);
+}
+
+void DoorObject::handlePlayer()
+{
+	setToDelete();
+	sf::Vector2f pos = m_sprite.getPosition();
+	pos.x -= 32;
+	pos.y -= 32;
+	m_manager->setStatic(std::make_unique<FloorObject>(pos));
 }
