@@ -3,7 +3,7 @@
 #include "Configs.h"
 #include "GameLevel.h"
 CatEnemy::CatEnemy(sf::Vector2f pos)
-	:EnemyObject(CAT_SPEED), m_direction(static_cast<Direction>(rand() %  4))
+	:EnemyObject(CAT_SPEED)
 {
 	m_sprite.setTexture(Resources::instance().getGameTexture());
 	auto rect = Resources::instance().getTextureRect(Objects::Cat);
@@ -19,92 +19,50 @@ CatEnemy::CatEnemy(sf::Vector2f pos)
 
 void CatEnemy::move(sf::Time deltaTime, GameLevel* manager)
 {
-	MovablePath path = manager->getPath(m_sprite.getPosition());
-    sf::Vector2f movement = getDirection(path);
+	auto posIndex = MovingObject::toGridIndex(m_sprite.getPosition());
+
+	MovablePath path = manager->getPath(posIndex);
+    sf::Vector2f dir = getDirection(path);
 
 	MovingObject::setLastPos(m_sprite.getPosition());
-	m_sprite.move(movement * EnemyObject::getSpeed() * deltaTime.asSeconds());
+	auto movement = dir * EnemyObject::getSpeed() * deltaTime.asSeconds();
+	m_sprite.move(movement);
 	this->checkMapBounds(manager);
 }
 
 sf::Vector2f CatEnemy::getDirection(const MovablePath& path)
 {
-	auto relativePos = calcRelativePos(m_sprite.getPosition());
+	auto relativePos = EnemyObject::calcRelativePos(m_sprite.getPosition());
 	auto time = m_timer.getElapsedTime();
 	auto offset = rand() % 5;
 
     if (path.size() >= 3 && time.asSeconds() > (1.5 + offset) 
 		&& (std::abs(relativePos.x - 32) < 4) && (std::abs(relativePos.y - 32) < 10))
     {
-		return switchDirection(path);
+		return this->switchDirection(path);
 	}
 	else
 	{
-		return enumToVector();
+		return MovingObject::enumToVector();
     }
 }
 
 sf::Vector2f CatEnemy::switchDirection(const MovablePath& path)
 {
 	auto generate = rand() % static_cast<int>(path.size());
-	auto rand_x = rand() % 2 + 2;
-	auto rand_y = rand() % 2;
 	auto keep_last = rand() % 3;
 
-	if (keep_last == 0)
-	{
-		return enumToVector();
-	}
+	auto pathVectorX = path[generate].x - std::floor(m_sprite.getPosition().x / 64);
+	auto pathVectorY = path[generate].y - std::floor(m_sprite.getPosition().y / 64);
 
-	if (path[generate].x == 0 && path[generate].y == 1
-		&& m_direction == Right || m_direction == Left)
-	{
-		m_direction = static_cast<Direction>(rand_y);
-	}
-	else if (path[generate].x == 0 && path[generate].y == -1
-		&& m_direction == Right || m_direction == Left)
-	{
-		m_direction = static_cast<Direction>(rand_y);
-	}
-	else if (path[generate].x == 1 && path[generate].y == 0
-		&& m_direction == Up || m_direction == Down)
-	{
-		m_direction = static_cast<Direction>(rand_x);
-	}
-	else if (path[generate].x == -1 && path[generate].y == 0
-		&& m_direction == Up || m_direction == Down)
-	{
-		m_direction = static_cast<Direction>(rand_x);
-	}
+	if (keep_last == 0){return MovingObject::enumToVector();}
+
+	if (pathVectorX == 0 && pathVectorY == 1 && m_direction != Up){m_direction = Down;}
+	else if (pathVectorX == 0 && pathVectorY == -1 && m_direction != Down){m_direction = Up;}
+	else if (pathVectorX == 1 && pathVectorY == 0 && m_direction != Left){m_direction = Right;}
+	else if (pathVectorX == -1 && pathVectorY == 0 && m_direction != Right){m_direction = Left;}
 	m_timer.restart();
-	return enumToVector();
-}
-
-sf::Vector2f CatEnemy::enumToVector() const
-{
-	switch (m_direction)
-	{
-	case Up:
-		return sf::Vector2f(0, -1);
-	case Down:
-		return sf::Vector2f(0, 1);
-	case Left:
-		return sf::Vector2f(-1, 0);
-	case Right:
-		return sf::Vector2f(1, 0);
-	}
-	return sf::Vector2f(0, 0);
-}
-
-sf::Vector2f CatEnemy::calcRelativePos(sf::Vector2f pos) const
-{
-	auto loc_y = std::floor(pos.y / 64);
-	auto loc_x = std::floor(pos.x / 64);
-
-	auto pos_y = (pos.y) - loc_y * 64;
-	auto pos_x = (pos.x) - loc_x * 64;
-
-	return sf::Vector2f(pos_x, pos_y);
+	return MovingObject::enumToVector();
 }
 
 void CatEnemy::checkMapBounds(GameLevel* manager)
@@ -128,8 +86,7 @@ void CatEnemy::handleCollision(CatEnemy& other)
 {
 	if (this != &other)
 	{
-		m_direction = static_cast<Direction>(rand() % 4);
-		m_sprite.setPosition(MovingObject::getLastPos());
+		this->handleObstruct();
 	}
 }
 
@@ -141,17 +98,17 @@ void CatEnemy::handleCollision(MousePlayer& other)
 void CatEnemy::handleCollision(WallObject& other)
 {
 	(void)other;
-    handleObstruct();
+    this->handleObstruct();
 }
 
 void CatEnemy::handleCollision(DoorObject& other)
 {
 	(void)other;
-    handleObstruct();
+    this->handleObstruct();
 }
 
 void CatEnemy::handleObstruct()
 {
-    m_sprite.setPosition(MovingObject::getLastPos());
-    m_direction = static_cast<Direction>(rand() % 4);
+	m_sprite.setPosition(MovingObject::getLastPos());
+	m_direction = static_cast<Direction>(rand() % 4);
 }

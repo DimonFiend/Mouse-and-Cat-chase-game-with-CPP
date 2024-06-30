@@ -7,7 +7,7 @@
 #include "MousePlayer.h"
 #include "LevelLoader.h"
 
-typedef std::vector<sf::Vector2f> MovablePath;
+typedef std::vector<sf::Vector2i> MovablePath;
 
 class Observer;
 class GameLevel : public GameState{
@@ -46,7 +46,8 @@ public:
 	void setCollidable(std::unique_ptr<CollidableObject> collidable);
 	void setStatic(std::unique_ptr<GameObject> object);
 	sf::Vector2f getMapSize() const { return m_mapSize; };
+	sf::Vector2f getPlayerPosition() const;
 	size_t getEnemyCount() const;
-	MovablePath getPath(sf::Vector2f pos);
+	MovablePath getPath(const sf::Vector2i pos) const;
 
 };

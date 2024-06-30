@@ -9,7 +9,7 @@ unsigned int MousePlayer::m_lives = 3;
 unsigned int MousePlayer::m_score = 0;
 
 MousePlayer::MousePlayer(sf::Vector2f pos, GameLevel* manager)
-	:MovingObject(MOUSE_SPEED)
+	:MovingObject(MOUSE_SPEED, Idle)
 	, m_keys(0)
 	, m_manager(manager)
 {

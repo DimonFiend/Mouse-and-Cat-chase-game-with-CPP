@@ -14,7 +14,6 @@ CheeseObject::CheeseObject(sf::Vector2f pos)
 	m_sprite.setOrigin(textureSize.x / 2.f, textureSize.y / 2.f);
 	m_sprite.setPosition(posOrigin);
 }
-#include <iostream>
 
 void CheeseObject::handleCollision(CollidableObject& other)
 {
@@ -23,6 +22,5 @@ void CheeseObject::handleCollision(CollidableObject& other)
 
 void CheeseObject::handleCollision(MousePlayer& other)
 {
-	setToDelete();
-	std::cout << "Cheese eaten!" << std::endl;
+	this->setToDelete();
 }

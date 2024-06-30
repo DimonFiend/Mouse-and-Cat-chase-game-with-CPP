@@ -8,7 +8,7 @@
 
 GameLevel::GameLevel(Observer* observer) :
 	m_observer(observer),
-	m_levelNumber(1),
+	m_levelNumber(2),
 	m_level(std::make_unique<LevelLoader>(this, m_levelNumber)),
 	m_isPaused(false)
 {
@@ -20,9 +20,9 @@ void GameLevel::update(sf::Time deltaTime)
 	checkConditions();
 	if (!m_isPaused)
 	{
-		move(deltaTime);
-		checkCollision();
-		removePickable();
+		this->move(deltaTime);
+		this->checkCollision();
+		this->removePickable();
 	}
 }
 void GameLevel::removePickable()
@@ -144,31 +144,34 @@ void GameLevel::checkObjectsCollision(CollidableObject* obj)
 }
 
 
-MovablePath GameLevel::getPath(sf::Vector2f pos)
+MovablePath GameLevel::getPath(const sf::Vector2i pos) const
 {
-	float pos_x = std::floor(pos.x / 64);
-	float pos_y = std::floor(pos.y / 64);
     MovablePath path;
 
     for (auto& floor : m_staticObjects)
     {
         sf::Vector2f floorPos = floor->getPosition();
-		float x_index = std::floor(floorPos.x / 64) - pos_x;
-		float y_index = std::floor(floorPos.y / 64) - pos_y;
+		int xIndex = static_cast<int>(std::floor(floorPos.x / 64));
+		int yIndex = static_cast<int>(std::floor(floorPos.y / 64));
 
-        if ((std::abs(x_index) == 1 && std::abs(y_index) == 0)
-			|| std::abs(y_index) == 1 && std::abs(x_index) == 0)
+        if ((std::abs(xIndex-pos.x) == 1 && std::abs(yIndex-pos.y) == 0)
+			|| std::abs(yIndex-pos.y) == 1 && std::abs(xIndex-pos.x) == 0)
         {
-			path.push_back(sf::Vector2f{x_index, y_index});
+			path.push_back(sf::Vector2i{xIndex, yIndex});
         }
     }
     return path;
 }
 
+sf::Vector2f GameLevel::getPlayerPosition() const
+{
+	return m_player->getPosition();
+}
+
 void GameLevel::setMapSize(const sf::Vector2f mapSize)
 {
 	m_mapSize = mapSize;
-	setView();
+	this->setView();
 }
 
 void GameLevel::setView()
