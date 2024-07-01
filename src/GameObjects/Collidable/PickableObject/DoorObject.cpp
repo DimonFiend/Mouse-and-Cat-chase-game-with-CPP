@@ -5,9 +5,8 @@
 #include "GameLevel.h"
 #include "FloorObject.h"
 
-DoorObject::DoorObject(sf::Vector2f pos, GameLevel* manager)
+DoorObject::DoorObject(sf::Vector2f pos)
 {
-	m_sprite.setTexture(Resources::instance().getGameTexture());
 	m_sprite.setTextureRect(Resources::instance().getTextureRect(Objects::Door));
 	auto posOrigin = sf::Vector2f(pos.x + 32, pos.y + 32);
 	auto textureSize = m_sprite.getLocalBounds().getSize();

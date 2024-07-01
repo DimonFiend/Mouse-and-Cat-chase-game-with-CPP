@@ -24,6 +24,6 @@ private:
 	void setGameData();
 	void setLine(std::string line);
 	void push_object(char id, sf::Vector2f position);
-	//d::unique_ptr<PresentObject> generatePresent(sf::Vector2f position);
+	std::unique_ptr<PresentObject> generatePresent(sf::Vector2f position);
 	std::unique_ptr<EnemyObject> generateEnemy(sf::Vector2f position);
 };

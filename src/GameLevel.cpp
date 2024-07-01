@@ -8,11 +8,12 @@
 
 GameLevel::GameLevel(Observer* observer) :
 	m_observer(observer),
-	m_levelNumber(2),
+	m_levelNumber(1),
 	m_level(std::make_unique<LevelLoader>(this, m_levelNumber)),
 	m_isPaused(false)
 {
 	m_level->loadLevel();
+	this->setTimer();
 }
 
 void GameLevel::update(sf::Time deltaTime)
@@ -23,8 +24,17 @@ void GameLevel::update(sf::Time deltaTime)
 		this->move(deltaTime);
 		this->checkCollision();
 		this->removePickable();
+		this->updateTimer();
 	}
 }
+
+void GameLevel::updateTimer()
+{
+	m_timeLeft = m_timerStart - m_time.getElapsedTime().asSeconds();
+
+	std::cout << this->getTime().x << " : " << this->getTime().y << std::endl;
+}
+
 void GameLevel::removePickable()
 {
 	std::erase_if(m_collidableObjects, [](auto& collidable)
@@ -69,13 +79,17 @@ void GameLevel::checkConditions()
 {
 	if (m_player->getLives() == 0)
 	{
-		//m_observer->switchState("GameOver");
+		m_observer->switchState("GameOver");
 	}
-	if (CheeseObject::getCheeseCount() == 0)
+	else if (CheeseObject::getCheeseCount() == 0)
 	{
 		this->LoadNextLevel();
 	}
-	//if time has passed GameOver
+	else if (m_timeLeft <= 0)
+	{
+		m_observer->switchState("GameOver");
+	}
+	
 }
 
 void GameLevel::LoadNextLevel()
@@ -86,6 +100,7 @@ void GameLevel::LoadNextLevel()
 	m_enemys.clear();
 	m_level = std::make_unique<LevelLoader>(this, m_levelNumber);
 	m_level->loadLevel();
+	this->setTimer();
 }
 
 void GameLevel::respawn()
@@ -197,7 +212,43 @@ void GameLevel::setStatic(std::unique_ptr<GameObject> object)
 	m_staticObjects.push_back(std::move(object));
 }
 
+void GameLevel::setTimer()
+{
+	m_timerStart += (CheeseObject::getCheeseCount()) * 5.f;
+	m_timerStart += (m_enemys.size()) * 30.f;
+}
+
 size_t GameLevel::getEnemyCount() const
 {
     return m_enemys.size();
+}
+
+sf::Vector2f GameLevel::getTime() const
+{
+	int minutes = static_cast<int>(m_timeLeft) / 60;
+	int seconds = static_cast<int>(m_timeLeft) % 60;
+	return sf::Vector2f(minutes, seconds);
+}
+
+void GameLevel::destroyEnemie()
+{
+	int enemyCount = getEnemyCount();
+	if (enemyCount > 1)
+	{
+		int index = rand() % enemyCount;
+		m_enemys.erase(m_enemys.begin() + index);
+	}
+}
+
+void GameLevel::freezeEnemies()
+{
+	for (auto& enemy : m_enemys)
+	{
+		enemy->setFreeze();
+	}
+}
+
+void GameLevel::addTime(float time)
+{
+	m_timeLeft += time;
 }

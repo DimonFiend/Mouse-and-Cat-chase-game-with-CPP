@@ -8,6 +8,10 @@ class WallObject;
 class KeyObject;
 class CheeseObject;
 class MousePlayer;
+class TimePresent;
+class FreezePresent;
+class DestroyPresent;
+
 class CollidableObject : public GameObject{
 private:
 	bool m_toDelete;
@@ -26,6 +30,7 @@ public:
 	virtual void handleCollision(DoorObject& other) = 0;
 	virtual void handleCollision(WallObject& other) = 0;
 	virtual void handleCollision(SmartCatEnemy& other) = 0;
-
-	//presents collision
+	virtual void handleCollision(TimePresent& other) = 0;
+	virtual void handleCollision(FreezePresent& other) = 0;
+	virtual void handleCollision(DestroyPresent& other) = 0;
 };

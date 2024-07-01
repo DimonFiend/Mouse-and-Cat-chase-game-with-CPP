@@ -5,7 +5,6 @@
 CatEnemy::CatEnemy(sf::Vector2f pos)
 	:EnemyObject(CAT_SPEED)
 {
-	m_sprite.setTexture(Resources::instance().getGameTexture());
 	auto rect = Resources::instance().getTextureRect(Objects::Cat);
 	m_sprite.setTextureRect(rect);
 	auto posOrigin = sf::Vector2f(pos.x + 32, pos.y + 32);
@@ -14,19 +13,25 @@ CatEnemy::CatEnemy(sf::Vector2f pos)
 	m_sprite.setPosition(posOrigin);
 	MovingObject::setSpawn(posOrigin);
 	MovingObject::setLastPos(posOrigin);
+	MovingObject::setAnimator();
 	m_timer.restart();
 }
 
 void CatEnemy::move(sf::Time deltaTime, GameLevel* manager)
 {
-	auto posIndex = MovingObject::toGridIndex(m_sprite.getPosition());
+	if (EnemyObject::checkFreezeStatus())
+	{
+		return;
+	}
 
+	auto posIndex = MovingObject::toGridIndex(m_sprite.getPosition());
 	MovablePath path = manager->getPath(posIndex);
     sf::Vector2f dir = getDirection(path);
 
 	MovingObject::setLastPos(m_sprite.getPosition());
 	auto movement = dir * EnemyObject::getSpeed() * deltaTime.asSeconds();
 	m_sprite.move(movement);
+	MovingObject::Animate(deltaTime, m_direction);
 	this->checkMapBounds(manager);
 }
 
@@ -37,7 +42,7 @@ sf::Vector2f CatEnemy::getDirection(const MovablePath& path)
 	auto offset = rand() % 5;
 
     if (path.size() >= 3 && time.asSeconds() > (1.5 + offset) 
-		&& (std::abs(relativePos.x - 32) < 4) && (std::abs(relativePos.y - 32) < 4))
+		&& (std::abs(relativePos.x - 32) < 4) && (std::abs(relativePos.y - 32) < 15))
     {
 		return this->switchDirection(path);
 	}
@@ -92,7 +97,10 @@ void CatEnemy::handleCollision(CatEnemy& other)
 
 void CatEnemy::handleCollision(MousePlayer& other)
 {
-	other.handleCollision(*this);
+	if (!isFrozen())
+	{
+		other.handleCollision(*this);
+	}
 }
 
 void CatEnemy::handleCollision(WallObject& other)

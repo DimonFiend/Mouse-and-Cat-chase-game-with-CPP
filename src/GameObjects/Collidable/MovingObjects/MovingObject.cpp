@@ -20,7 +20,7 @@ sf::Vector2f MovingObject::enumToVector() const
 	return sf::Vector2f(0, 0);
 }
 
-MovingObject::Direction MovingObject::vectorToEnum(const sf::Vector2i& pos)
+Direction MovingObject::vectorToEnum(const sf::Vector2i& pos)
 {
 	if (pos.x == 0 && pos.y == -1) {return Up;}
 	if (pos.x == 0 && pos.y == 1) {return Down;}
@@ -32,4 +32,13 @@ MovingObject::Direction MovingObject::vectorToEnum(const sf::Vector2i& pos)
 sf::Vector2i MovingObject::toGridIndex(const sf::Vector2f& position) const
 {
 	return sf::Vector2i(static_cast<int>(position.x) / 64, static_cast<int>(position.y) / 64);
+}
+
+void MovingObject::setAnimator()
+{
+	m_animator = std::move(std::make_unique<Animator>(m_sprite));
+}
+void MovingObject::Animate(sf::Time deltaTime, Direction direction)
+{
+	m_animator->update(deltaTime, direction);
 }

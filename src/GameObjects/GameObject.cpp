@@ -1,4 +1,11 @@
 #include "GameObject.h"
+#include "Resources.h"
+
+GameObject::GameObject()
+{
+	m_sprite.setTexture(Resources::instance().getGameTexture());
+
+}
 
 void GameObject::draw(sf::RenderWindow& window) const
 {

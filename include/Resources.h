@@ -16,6 +16,7 @@ enum Objects {
 	Present_Time,
 	Present_Freeze,
 	Present_CatDestr,
+	FrozenEnemy,
 	MaxObjects
 };
 

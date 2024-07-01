@@ -10,7 +10,6 @@
 SmartCatEnemy::SmartCatEnemy(sf::Vector2f pos)
 	:EnemyObject(SMART_CAT_SPEED, Idle)
 {
-	m_sprite.setTexture(Resources::instance().getGameTexture());
 	auto rect = Resources::instance().getTextureRect(Objects::Cat);
 	m_sprite.setTextureRect(rect);
 	auto posOrigin = sf::Vector2f(pos.x + 32, pos.y + 32);
@@ -18,16 +17,24 @@ SmartCatEnemy::SmartCatEnemy(sf::Vector2f pos)
 	m_sprite.setOrigin(textureSize.x / 2.f, textureSize.y / 2.f);
 	m_sprite.setColor(sf::Color::Red);
 	m_sprite.setPosition(posOrigin);
+
+	MovingObject::setAnimator();
     MovingObject::setSpawn(posOrigin);
     MovingObject::setLastPos(posOrigin);
 }
 
 void SmartCatEnemy::move(sf::Time deltaTime, GameLevel* manager)
 {
+	if (EnemyObject::checkFreezeStatus())
+	{
+		return;
+	}
+
 	this->getDirection(manager);
 	auto movement = MovingObject::enumToVector() * EnemyObject::getSpeed() * deltaTime.asSeconds();
 	MovingObject::setLastPos(m_sprite.getPosition());
 	m_sprite.move(movement);
+	MovingObject::Animate(deltaTime, m_direction);
 }
 
 void SmartCatEnemy::handleCollision(WallObject& other)
@@ -141,5 +148,8 @@ void SmartCatEnemy::handleCollision(CollidableObject& other)
 
 void SmartCatEnemy::handleCollision(MousePlayer& other)
 {
-	other.handleCollision(*this);
+	if (!isFrozen())
+	{
+		other.handleCollision(*this);
+	}
 }

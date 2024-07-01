@@ -64,4 +64,8 @@ void Controller::switchState(const std::string& buttonText)
     {
 		m_window.close();
 	}
+    else if (buttonText == "GameOver")
+    {
+		std::cout << "Game Over" << std::endl;
+    }
 }

@@ -1,11 +1,14 @@
 #pragma once
-#include "Presents.h"
+#include "PresentObject.h"
 
-class CollidableObject;
-class TimePresent : public Presents {
+class DestroyPresent;
+class FreezePresent;
+class TimePresent : public PresentObject {
 public:
-	TimePresent() = default;
-	virtual ~TimePresent() = default;
-	virtual void handleCollision(CollidableObject& other) override;
-	virtual Objects PresentId() override;
+	TimePresent(sf::Vector2f pos);
+	void handleCollision(CollidableObject& other) override;
+	void handleCollision(MousePlayer& other) override;
+	void handleCollision(TimePresent& other) override { (void)other; };
+	void handleCollision(FreezePresent& other) override { (void)other; };
+	void handleCollision(DestroyPresent& other) override { (void)other; };
 };

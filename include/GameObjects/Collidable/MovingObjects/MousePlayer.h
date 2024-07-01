@@ -1,13 +1,14 @@
 #pragma once
 #include "MovingObject.h"
 
+class Animator;
 class GameLevel;
 class EnemyObject;
 class MousePlayer : public MovingObject {
 
 private:
 	GameLevel* m_manager;
-	sf::Vector2f getDirection() const;
+	sf::Vector2f getDirection();
 	unsigned int m_keys;
 	static unsigned int m_lives;
 	static unsigned int m_score;
@@ -29,5 +30,8 @@ public:
 	virtual void handleCollision(CollidableObject& other) override;
 	virtual void handleCollision(KeyObject& other) override;
 	virtual void handleCollision(MousePlayer& other) override;
+	virtual void handleCollision(TimePresent& other) override;
+	virtual void handleCollision(FreezePresent& other) override;
+	virtual void handleCollision(DestroyPresent& other) override;
 	virtual void move(sf::Time deltaTime) override;
 };

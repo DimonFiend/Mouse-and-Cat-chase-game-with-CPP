@@ -18,4 +18,7 @@ public:
 	virtual void handleCollision(KeyObject& other) { (void)other; };
 	virtual void handleCollision(DoorObject& other) { (void)other; };
 	virtual void handleCollision(WallObject& other) { (void)other; };
+	virtual void handleCollision(TimePresent& other) override { (void)other; };
+	virtual void handleCollision(FreezePresent& other) override { (void)other; };
+	virtual void handleCollision(DestroyPresent& other) override { (void)other; };
 };
