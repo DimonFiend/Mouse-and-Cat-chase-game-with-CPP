@@ -37,7 +37,7 @@ sf::Vector2f CatEnemy::getDirection(const MovablePath& path)
 	auto offset = rand() % 5;
 
     if (path.size() >= 3 && time.asSeconds() > (1.5 + offset) 
-		&& (std::abs(relativePos.x - 32) < 4) && (std::abs(relativePos.y - 32) < 10))
+		&& (std::abs(relativePos.x - 32) < 4) && (std::abs(relativePos.y - 32) < 4))
     {
 		return this->switchDirection(path);
 	}
