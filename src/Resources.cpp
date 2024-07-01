@@ -30,4 +30,5 @@ void Resources::initTextures()
 	m_data[Present_Time] = sf::IntRect({ 98, 147 }, smallSize);
 	m_data[Present_Freeze] = sf::IntRect({ 49, 147 }, smallSize);
 	m_data[Present_CatDestr] = sf::IntRect({ 0, 147 }, smallSize);
+	m_data[FrozenEnemy] = sf::IntRect({ 245, 0 }, smallSize);
 }

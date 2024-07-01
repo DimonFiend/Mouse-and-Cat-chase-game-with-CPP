@@ -5,14 +5,16 @@
 class EnemyObject : public MovingObject {
 
 private:
-	
+	bool m_frozen;
+	sf::Clock m_frozenClock;
 public:
-	EnemyObject(float speed = 80);
+	EnemyObject(float speed = 80, Direction dir = static_cast<Direction>(rand() % 4));
 
-	 void handleCollision(CollidableObject& other) override;
-	 void handleCollision(CheeseObject& other) override;
-	 void handleCollision(KeyObject& other) override;
-	 void handleCollision(MousePlayer& other) override;
-	 void handleCollision(SmartCatEnemy& other) override {};
-	 void handleCollision(CatEnemy& other) override {};
+	virtual void move(sf::Time deltaTime) override { (void)deltaTime; };
+	virtual void move(sf::Time deltaTime, GameLevel* manager) = 0;
+	sf::Vector2f calcRelativePos(sf::Vector2f pos) const;
+	bool isFrozen() const { return m_frozen; };
+	void setFreeze();
+	bool checkFreezeStatus();
+	virtual void respawn();
 };

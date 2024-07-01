@@ -1,6 +1,8 @@
 #include "LevelLoader.h"
 #include <string>
 #include <iomanip>
+#include <ctime>
+#include <cstdlib>
 #include "GameLevel.h"
 
 #include "ObjectsInclude.h"
@@ -8,6 +10,7 @@
 #include "CatEnemy.h"
 #include "SmartCatEnemy.h"
 
+#include <cstdlib> // For rand() and srand()
 LevelLoader::LevelLoader(GameLevel* manager, unsigned int level)
 	: m_manager(manager), m_height(0), m_width(0), m_specialEnemy(false), m_level(level)
 {}
@@ -69,12 +72,11 @@ void LevelLoader::push_object(char id, sf::Vector2f position)
 		m_manager->setStatic(std::make_unique<FloorObject>(position));
 		break;
 	case '$':
-		//m_manager->setCollidable(generatePresent(position));
+		m_manager->setCollidable(generatePresent(position));
 		m_manager->setStatic(std::make_unique<FloorObject>(position));
 		break;
 	case 'D':
 		m_manager->setCollidable(std::make_unique<DoorObject>(position));
-		m_manager->setStatic(std::make_unique<FloorObject>(position));
 		break;
 	case '*':
 		m_manager->setCollidable(std::make_unique<CheeseObject>(position));
@@ -87,7 +89,7 @@ void LevelLoader::push_object(char id, sf::Vector2f position)
 		m_manager->setStatic(std::make_unique<FloorObject>(position));
 		break;
 	case '%':
-		m_manager->setPlayer(std::make_unique<MousePlayer>(position));
+		m_manager->setPlayer(std::make_unique<MousePlayer>(position, m_manager));
 		m_manager->setStatic(std::make_unique<FloorObject>(position));
 		break;
 	case '^':
@@ -98,23 +100,24 @@ void LevelLoader::push_object(char id, sf::Vector2f position)
 		break;
 	}
 }
-/*
+
 std::unique_ptr<PresentObject> LevelLoader::generatePresent(sf::Vector2f position)
 {
+	srand(static_cast<unsigned int>(time(0)));
 	int random = rand() % 3;
 	switch (random)
 	{
 	case 0:
-		return std::make_unique<PresentObject>(position, std::make_unique<DestroyPresent>());
+		return std::make_unique<DestroyPresent>(position);
 	case 1:
-		return std::make_unique<PresentObject>(position, std::make_unique<TimePresent>());
+		return std::make_unique<FreezePresent>(position);
 	case 2:
-		return std::make_unique<PresentObject>(position, std::make_unique<FreezePresent>());
+		return std::make_unique<TimePresent>(position);
 	default:
 		return nullptr;
-	
+	}
 }
-*/
+
 std::unique_ptr<EnemyObject> LevelLoader::generateEnemy(sf::Vector2f position)
 {
 	if (!m_specialEnemy && m_manager->getEnemyCount() > 1)

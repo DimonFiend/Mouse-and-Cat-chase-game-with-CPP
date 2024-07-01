@@ -13,7 +13,7 @@ MainMenu::MainMenu(Observer* observer)
 
 void MainMenu::update(sf::Time deltaTime)
 {
-
+	(void)deltaTime;
 }
 
 void MainMenu::render(sf::RenderWindow& window)
@@ -24,7 +24,7 @@ void MainMenu::render(sf::RenderWindow& window)
 	}
 }
 
-void MainMenu::handleEvent(const sf::Event& event, sf::RenderWindow& window)
+void MainMenu::handleEvent(sf::Event& event, sf::RenderWindow& window)
 {
 	switch (event.type)
 	{

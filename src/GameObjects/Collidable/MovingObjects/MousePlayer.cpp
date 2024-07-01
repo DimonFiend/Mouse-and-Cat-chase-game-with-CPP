@@ -3,56 +3,87 @@
 #include "ObjectsInclude.h"
 #include "EnemyObject.h"
 #include "Configs.h"
+#include "GameLevel.h"
+#include "Utilities.h"
 
 unsigned int MousePlayer::m_lives = 3;
 unsigned int MousePlayer::m_score = 0;
 
-MousePlayer::MousePlayer(sf::Vector2f pos)
-	:MovingObject(MOUSE_SPEED)
+MousePlayer::MousePlayer(sf::Vector2f pos, GameLevel* manager)
+	:MovingObject(MOUSE_SPEED, Idle)
 	, m_keys(0)
+	, m_manager(manager)
 {
-	m_sprite.setTexture(Resources::instance().getGameTexture());
 	auto rect = Resources::instance().getTextureRect(Objects::Mouse);
 	m_sprite.setTextureRect(rect);
 	auto posOrigin = sf::Vector2f(pos.x + 32, pos.y + 32);
 	auto textureSize = m_sprite.getLocalBounds().getSize();
 	m_sprite.setOrigin(textureSize.x / 2.f, textureSize.y / 2.f);
 	m_sprite.setPosition(posOrigin);
+
+	MovingObject::setAnimator();
 	MovingObject::setSpawn(posOrigin);
 	MovingObject::setLastPos(posOrigin);
 }
 
-void MousePlayer::move(sf::Time deltaTime)
-{
-	sf::Vector2f movement = getDirection();
-	MovingObject::setLastPos(m_sprite.getPosition());
-	m_sprite.move(movement * MovingObject::getSpeed() * deltaTime.asSeconds());
-}
 
 void MousePlayer::respawn()
 {
 	m_sprite.setPosition(MovingObject::getSpawn());
 }
 
-sf::Vector2f MousePlayer::getDirection() const
+
+void MousePlayer::move(sf::Time deltaTime)
+{
+	sf::Vector2f movement = getDirection();
+	MovingObject::setLastPos(m_sprite.getPosition());
+	m_sprite.move(movement * MovingObject::getSpeed() * deltaTime.asSeconds());
+	MovingObject::Animate(deltaTime, m_direction);
+
+	this->checkMapBounds();
+}
+
+//ensures the player stays in the map bounds
+void MousePlayer::checkMapBounds()
+{
+	auto pos = m_sprite.getPosition();
+	auto map_size = m_manager->getMapSize();
+	auto limit = m_sprite.getLocalBounds().getSize();
+	if (pos.x < (limit.x / 2) || pos.x > map_size.x - (limit.x / 2)
+		|| pos.y < limit.y / 2 || pos.y > map_size.y - (limit.y /2))
+	{
+		m_sprite.setPosition(MovingObject::getLastPos());
+	}
+}
+
+sf::Vector2f MousePlayer::getDirection()
 {
 	sf::Vector2f movement(0, 0);
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
 	{
 		movement.y -= 1;
+		m_direction = Up;
 	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
 	{
 		movement.y += 1;
+		m_direction = Down;
 	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
 	{
 		movement.x -= 1;
+		m_direction = Left;
 	}
-	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
+	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
 	{
 		movement.x += 1;
+		m_direction = Right;
 	}
+	else
+	{
+		m_direction = Idle;
+	}
+
 
 	return movement;
 }
@@ -63,31 +94,13 @@ void MousePlayer::handleCollision(CollidableObject& other)
 {
 	other.handleCollision(*this);
 }
-/*
-void MousePlayer::handleCollision(DestroyPresent& other)
-{
-	other.setToDelete();
-	//GameLevel deletes random cat
-}
 
-void MousePlayer::handleCollision(TimePresent& other)
-{
-	other.setToDelete();
-	//GameLevel deletes random cat
-}
-
-void MousePlayer::handleCollision(FreezePresent& other)
-{
-	other.setToDelete();
-	//GameLevel deletes random cat
-}
-*/
 void MousePlayer::handleCollision(DoorObject& other)
 {
 	if (m_keys > 0)
 	{
 		m_keys--;
-		other.setToDelete();
+		other.handlePlayer(m_manager);
 		//play door sound
 	}
 	else
@@ -99,39 +112,62 @@ void MousePlayer::handleCollision(DoorObject& other)
 void MousePlayer::handleCollision(CheeseObject& other)
 {
 	m_score += 10;
-	other.setToDelete();
+	other.handleCollision(*this);
 	//play eat sound
 }
 void MousePlayer::handleCollision(KeyObject& other)
 {
 	m_keys++;
-	other.setToDelete();
+	other.handleCollision(*this);
 	//play key pickup
-}
-
-void MousePlayer::handleCollision(CatEnemy& other)
-{
-
-}
-
-void MousePlayer::handleCollision(SmartCatEnemy& other)
-{
-
 }
 
 void MousePlayer::handleCollision(WallObject& other)
 {
+	(void)other;
 	m_sprite.setPosition(MovingObject::getLastPos());
 }
 
 void MousePlayer::handleCollision(MousePlayer& other)
 {
+	(void)other;
 	//no use for now
 }
 
-void MousePlayer::handleCollision(EnemyObject& other)
+void MousePlayer::handleCollision(CatEnemy& other)
 {
+	(void)other;
+	this->handleEnemy();
+}
+
+void MousePlayer::handleCollision(SmartCatEnemy& other)
+{
+	(void)other;
+	this->handleEnemy();
+}
+
+void MousePlayer::handleEnemy()
+{
+
 	m_lives--;
-	//respawn
+	m_manager->respawn();
 	//play hit sound
+}
+
+void MousePlayer::handleCollision(DestroyPresent& other)
+{
+	other.handleCollision(*this);
+	m_manager->destroyEnemie();
+}
+
+void MousePlayer::handleCollision(TimePresent& other)
+{
+	other.handleCollision(*this);
+	m_manager->addTime(TIME_PRESENT);
+}
+
+void MousePlayer::handleCollision(FreezePresent& other)
+{
+	other.handleCollision(*this);
+	m_manager->freezeEnemies();
 }

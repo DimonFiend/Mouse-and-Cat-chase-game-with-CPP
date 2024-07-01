@@ -8,14 +8,17 @@ private:
 	static unsigned int m_cheeseCount;
 public:
 	CheeseObject(sf::Vector2f pos);
+	static unsigned int getCheeseCount() { return m_cheeseCount; };
 	virtual ~CheeseObject() { m_cheeseCount--; };
-	virtual bool checkCollision(CollidableObject& other) override;
 	virtual void handleCollision(CollidableObject& other) override;
-	virtual void handleCollision(MousePlayer& other) override { other.handleCollision(*this);};
-	virtual void handleCollision(CatEnemy& other) override {};
-	virtual void handleCollision(SmartCatEnemy& other) override {};
-	virtual void handleCollision(CheeseObject& other) {};
-	virtual void handleCollision(KeyObject& other) {};
-	virtual void handleCollision(DoorObject& other) {};
-	virtual void handleCollision(WallObject& other) {};
+	virtual void handleCollision(MousePlayer& other) override;
+	virtual void handleCollision(CatEnemy& other) override { (void)other; };
+	virtual void handleCollision(SmartCatEnemy& other) override { (void)other; };
+	virtual void handleCollision(CheeseObject& other) { (void)other; };
+	virtual void handleCollision(KeyObject& other) { (void)other; };
+	virtual void handleCollision(DoorObject& other) { (void)other; };
+	virtual void handleCollision(WallObject& other) { (void)other; };
+	virtual void handleCollision(TimePresent& other) override { (void)other; };
+	virtual void handleCollision(FreezePresent& other) override { (void)other; };
+	virtual void handleCollision(DestroyPresent& other) override { (void)other; };
 };

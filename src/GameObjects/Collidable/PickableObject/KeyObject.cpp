@@ -4,7 +4,6 @@
 
 KeyObject::KeyObject(sf::Vector2f pos)
 {
-	m_sprite.setTexture(Resources::instance().getGameTexture());
 	m_sprite.setTextureRect(Resources::instance().getTextureRect(Objects::Key));
 	auto posOrigin = sf::Vector2f(pos.x + 32, pos.y + 32);
 	auto textureSize = m_sprite.getLocalBounds().getSize();
@@ -19,6 +18,6 @@ void KeyObject::handleCollision(CollidableObject& other)
 
 void KeyObject::handleCollision(MousePlayer& other)
 {
-	other.handleCollision(*this);
+	setToDelete();
 }
 

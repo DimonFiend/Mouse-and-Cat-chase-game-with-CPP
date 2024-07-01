@@ -5,9 +5,14 @@
 class Presents;
 class PresentObject : public PickableObject {
 private:
-	std::unique_ptr<Presents> m_present;
+
 public:
-	PresentObject(sf::Vector2f pos, std::unique_ptr<Presents> obj);
-	virtual bool checkCollision(CollidableObject& other) override;
-	virtual void handleCollision(CollidableObject& other) override;
+	PresentObject(sf::Vector2f pos);
+
+	virtual void handleCollision(CheeseObject& other) override { (void)other; };
+	virtual void handleCollision(KeyObject& other) override { (void)other; };
+	virtual void handleCollision(DoorObject& other) override { (void)other; };
+	virtual void handleCollision(WallObject& other) override { (void)other; };
+	virtual void handleCollision(SmartCatEnemy& other) override { (void)other; };
+	virtual void handleCollision(CatEnemy& other) override { (void)other; };
 };

@@ -9,19 +9,32 @@
 GameLevel::GameLevel(Observer* observer) :
 	m_observer(observer),
 	m_levelNumber(1),
-	m_level(std::make_unique<LevelLoader>(this, m_levelNumber))
+	m_level(std::make_unique<LevelLoader>(this, m_levelNumber)),
+	m_isPaused(false)
 {
 	m_level->loadLevel();
+	this->setTimer();
 }
 
 void GameLevel::update(sf::Time deltaTime)
 {
-	
-	move(deltaTime);
-	checkCollision();
-	removePickable();
-	//game over
+	checkConditions();
+	if (!m_isPaused)
+	{
+		this->move(deltaTime);
+		this->checkCollision();
+		this->removePickable();
+		this->updateTimer();
+	}
 }
+
+void GameLevel::updateTimer()
+{
+	m_timeLeft = m_timerStart - m_time.getElapsedTime().asSeconds();
+
+	std::cout << this->getTime().x << " : " << this->getTime().y << std::endl;
+}
+
 void GameLevel::removePickable()
 {
 	std::erase_if(m_collidableObjects, [](auto& collidable)
@@ -50,11 +63,53 @@ void GameLevel::render(sf::RenderWindow& window)
 
 }
 
-void GameLevel::handleEvent(const sf::Event& event, sf::RenderWindow& window)
+void GameLevel::handleEvent(sf::Event& event, sf::RenderWindow& window)
 {
 	if (event.Closed)
 	{
 		window.close();
+	}
+	else if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape)
+	{
+		m_isPaused = !m_isPaused; // Toggle the pause state
+	}
+}
+
+void GameLevel::checkConditions()
+{
+	if (m_player->getLives() == 0)
+	{
+		m_observer->switchState("GameOver");
+	}
+	else if (CheeseObject::getCheeseCount() == 0)
+	{
+		this->LoadNextLevel();
+	}
+	else if (m_timeLeft <= 0)
+	{
+		m_observer->switchState("GameOver");
+	}
+	
+}
+
+void GameLevel::LoadNextLevel()
+{
+	m_levelNumber++;
+	m_collidableObjects.clear();
+	m_staticObjects.clear();
+	m_enemys.clear();
+	m_level = std::make_unique<LevelLoader>(this, m_levelNumber);
+	m_level->loadLevel();
+	this->setTimer();
+}
+
+void GameLevel::respawn()
+{
+	m_player->respawn();
+
+	for (auto& enemy : m_enemys)
+	{
+		enemy->respawn();
 	}
 }
 
@@ -63,41 +118,75 @@ void GameLevel::move(sf::Time deltaTime)
 	m_player->move(deltaTime);
 	for (auto& enemy : m_enemys)
 	{
-		enemy->move(deltaTime);
+		enemy->move(deltaTime, this);
 	}
 }
 
 void GameLevel::checkCollision()
 {
-	for (auto& collidableObject : m_collidableObjects)
-	{
-		if (collidableObject->checkCollision(*m_player))
-		{
-			collidableObject->handleCollision(*m_player);
-		}
 
-		for (auto& enemy : m_enemys)
-		{
-			if (collidableObject->checkCollision(*enemy))
-			{
-				collidableObject->handleCollision(*enemy);
-			}
-		}
-	}
+	this->checkObjectsCollision(m_player.get());
 
 	for (auto& enemy : m_enemys)
 	{
-		if (enemy->checkCollision(*m_player))
+		this->checkObjectsCollision(enemy.get());
+		this->checkMovingCollision(enemy.get());	
+	}
+
+	this->checkMovingCollision(m_player.get());
+}
+
+void GameLevel::checkMovingCollision(CollidableObject* obj)
+{
+	for (auto& enemys : m_enemys)
+	{
+		if (enemys->checkCollision(*obj))
 		{
-			enemy->handleCollision(*m_player);
+			enemys->handleCollision(*obj);
 		}
 	}
+}
+
+void GameLevel::checkObjectsCollision(CollidableObject* obj)
+{
+	for (auto& collidableObject : m_collidableObjects)
+	{
+		if (collidableObject->checkCollision(*obj))
+		{
+			collidableObject->handleCollision(*obj);
+		}
+	}
+}
+
+
+MovablePath GameLevel::getPath(const sf::Vector2i pos) const
+{
+    MovablePath path;
+
+    for (auto& floor : m_staticObjects)
+    {
+        sf::Vector2f floorPos = floor->getPosition();
+		int xIndex = static_cast<int>(std::floor(floorPos.x / 64));
+		int yIndex = static_cast<int>(std::floor(floorPos.y / 64));
+
+        if ((std::abs(xIndex-pos.x) == 1 && std::abs(yIndex-pos.y) == 0)
+			|| std::abs(yIndex-pos.y) == 1 && std::abs(xIndex-pos.x) == 0)
+        {
+			path.push_back(sf::Vector2i{xIndex, yIndex});
+        }
+    }
+    return path;
+}
+
+sf::Vector2f GameLevel::getPlayerPosition() const
+{
+	return m_player->getPosition();
 }
 
 void GameLevel::setMapSize(const sf::Vector2f mapSize)
 {
 	m_mapSize = mapSize;
-	setView();
+	this->setView();
 }
 
 void GameLevel::setView()
@@ -123,7 +212,43 @@ void GameLevel::setStatic(std::unique_ptr<GameObject> object)
 	m_staticObjects.push_back(std::move(object));
 }
 
+void GameLevel::setTimer()
+{
+	m_timerStart += (CheeseObject::getCheeseCount()) * 5.f;
+	m_timerStart += (m_enemys.size()) * 30.f;
+}
+
 size_t GameLevel::getEnemyCount() const
 {
     return m_enemys.size();
+}
+
+sf::Vector2f GameLevel::getTime() const
+{
+	int minutes = static_cast<int>(m_timeLeft) / 60;
+	int seconds = static_cast<int>(m_timeLeft) % 60;
+	return sf::Vector2f(minutes, seconds);
+}
+
+void GameLevel::destroyEnemie()
+{
+	int enemyCount = getEnemyCount();
+	if (enemyCount > 1)
+	{
+		int index = rand() % enemyCount;
+		m_enemys.erase(m_enemys.begin() + index);
+	}
+}
+
+void GameLevel::freezeEnemies()
+{
+	for (auto& enemy : m_enemys)
+	{
+		enemy->setFreeze();
+	}
+}
+
+void GameLevel::addTime(float time)
+{
+	m_timeLeft += time;
 }
