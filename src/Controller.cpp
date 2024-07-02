@@ -1,14 +1,13 @@
 #include "Controller.h"
 #include "MainMenu.h"
 #include "GameLevel.h"
-//#include "HelpMenu.h"
-//#include "GameLevel.h"
+#include "HelpMenu.h"
 #include <iostream>
 
 
 Controller::Controller(int w, int h, std::string title) {
     // Constructor implementation
-    m_window.create(sf::VideoMode(w, h), title);
+    m_window.create(sf::VideoMode(w, h), title, sf::Style::Close);
 	m_window.setFramerateLimit(60);
     m_currentState = std::move(std::make_unique<MainMenu>(this));
     run();
@@ -58,8 +57,12 @@ void Controller::switchState(const std::string& buttonText)
 	}
     else if (buttonText == "Help")
     {
-		//m_currentState = std::move(std::make_unique<HelpMenu>());
+		m_currentState = std::move(std::make_unique<HelpMenu>(this));
 	}
+    else if (buttonText == "Main Menu")
+    {
+        m_currentState = std::move(std::make_unique<MainMenu>(this));
+    }
     else if (buttonText == "Exit")
     {
 		m_window.close();

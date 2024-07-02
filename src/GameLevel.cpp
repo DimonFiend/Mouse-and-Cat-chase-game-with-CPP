@@ -40,8 +40,6 @@ void GameLevel::update(sf::Time deltaTime)
 void GameLevel::updateTimer()
 {
 	m_timeLeft = m_timerStart - m_time.getElapsedTime().asSeconds();
-
-	//std::cout << this->getTime().x << " : " << this->getTime().y << std::endl;
 }
 
 void GameLevel::removePickable()
