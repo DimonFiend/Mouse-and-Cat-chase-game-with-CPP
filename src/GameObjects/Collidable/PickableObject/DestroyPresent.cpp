@@ -16,5 +16,6 @@ void DestroyPresent::handleCollision(CollidableObject& other)
 
 void DestroyPresent::handleCollision(MousePlayer& other)
 {
+	Resources::instance().playSound(Sounds::RemoveCat);
 	this->setToDelete();
 }

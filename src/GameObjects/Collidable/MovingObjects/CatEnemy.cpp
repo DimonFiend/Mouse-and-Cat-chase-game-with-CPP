@@ -19,11 +19,13 @@ CatEnemy::CatEnemy(sf::Vector2f pos)
 
 void CatEnemy::move(sf::Time deltaTime, GameLevel* manager)
 {
+	EnemyObject::catSpeak();
+	/*
 	if (EnemyObject::checkFreezeStatus())
 	{
 		return;
 	}
-
+	*/
 	auto posIndex = MovingObject::toGridIndex(m_sprite.getPosition());
 	MovablePath path = manager->getPath(posIndex);
     sf::Vector2f dir = getDirection(path);
@@ -42,7 +44,7 @@ sf::Vector2f CatEnemy::getDirection(const MovablePath& path)
 	auto offset = rand() % 5;
 
     if (path.size() >= 3 && time.asSeconds() > (1.5 + offset) 
-		&& (std::abs(relativePos.x - 32) < 4) && (std::abs(relativePos.y - 32) < 15))
+		&& (std::abs(relativePos.x - 32) < 4) && (std::abs(relativePos.y - 32) < 10))
     {
 		return this->switchDirection(path);
 	}
@@ -57,8 +59,9 @@ sf::Vector2f CatEnemy::switchDirection(const MovablePath& path)
 	auto generate = rand() % static_cast<int>(path.size());
 	auto keep_last = rand() % 3;
 
-	auto pathVectorX = path[generate].x - std::floor(m_sprite.getPosition().x / 64);
-	auto pathVectorY = path[generate].y - std::floor(m_sprite.getPosition().y / 64);
+	auto curToGrid = MovingObject::toGridIndex(m_sprite.getPosition());
+	auto pathVectorX = path[generate].x - curToGrid.x;
+	auto pathVectorY = path[generate].y - curToGrid.y;
 
 	if (keep_last == 0){return MovingObject::enumToVector();}
 
@@ -94,12 +97,12 @@ void CatEnemy::handleCollision(CatEnemy& other)
 		this->handleObstruct();
 	}
 }
-
 void CatEnemy::handleCollision(MousePlayer& other)
 {
 	if (!isFrozen())
 	{
 		other.handleCollision(*this);
+		soundOnPlayerHit();
 	}
 }
 
@@ -114,9 +117,10 @@ void CatEnemy::handleCollision(DoorObject& other)
 	(void)other;
     this->handleObstruct();
 }
-
+#include <iostream>
 void CatEnemy::handleObstruct()
 {
+	std::cout << "Cat obstructed" << std::endl;
+	m_direction = static_cast<Direction>((int(m_direction) + 1 + rand() % 3) % 4);
 	m_sprite.setPosition(MovingObject::getLastPos());
-	m_direction = static_cast<Direction>(rand() % 4);
 }

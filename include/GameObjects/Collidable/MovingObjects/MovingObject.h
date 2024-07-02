@@ -2,6 +2,7 @@
 #include "CollidableObject.h"
 #include "Utilities.h"
 #include "Animator.h"
+#include <SFML/Audio.hpp>
 
 class GameLevel;
 class MovingObject : public CollidableObject {
@@ -10,9 +11,9 @@ private:
 	sf::Vector2f m_spawn;
 	sf::Vector2f m_lastPos;
 	std::unique_ptr<Animator> m_animator;
-
 protected:
 	Direction m_direction;
+	sf::Sound m_sound;
 public:
 	MovingObject(float speed = 50, Direction dir = static_cast<Direction>(rand() % 4));
 	virtual ~MovingObject() = default;

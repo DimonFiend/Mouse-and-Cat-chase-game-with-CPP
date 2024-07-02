@@ -4,6 +4,7 @@
 #include "MousePlayer.h"
 #include "ObjectsInclude.h"
 #include "FloorObject.h"
+#include "Configs.h"
 #include <iostream>
 
 GameLevel::GameLevel(Observer* observer) :
@@ -14,11 +15,17 @@ GameLevel::GameLevel(Observer* observer) :
 {
 	m_level->loadLevel();
 	this->setTimer();
+
+	Resources::instance().playMusic(Music::M_GameLevel);
+}
+
+GameLevel::~GameLevel()
+{
+	Resources::instance().stopMusic(Music::M_GameLevel);
 }
 
 void GameLevel::update(sf::Time deltaTime)
 {
-	checkConditions();
 	if (!m_isPaused)
 	{
 		this->move(deltaTime);
@@ -26,13 +33,15 @@ void GameLevel::update(sf::Time deltaTime)
 		this->removePickable();
 		this->updateTimer();
 	}
+
+	checkConditions();
 }
 
 void GameLevel::updateTimer()
 {
 	m_timeLeft = m_timerStart - m_time.getElapsedTime().asSeconds();
 
-	std::cout << this->getTime().x << " : " << this->getTime().y << std::endl;
+	//std::cout << this->getTime().x << " : " << this->getTime().y << std::endl;
 }
 
 void GameLevel::removePickable()
@@ -83,18 +92,19 @@ void GameLevel::checkConditions()
 	}
 	else if (CheeseObject::getCheeseCount() == 0)
 	{
-		this->LoadNextLevel();
+		m_levelNumber++;
+		this->LoadLevel();
 	}
 	else if (m_timeLeft <= 0)
 	{
 		m_observer->switchState("GameOver");
+		this->LoadLevel();
 	}
 	
 }
 
-void GameLevel::LoadNextLevel()
+void GameLevel::LoadLevel()
 {
-	m_levelNumber++;
 	m_collidableObjects.clear();
 	m_staticObjects.clear();
 	m_enemys.clear();
@@ -140,9 +150,9 @@ void GameLevel::checkMovingCollision(CollidableObject* obj)
 {
 	for (auto& enemys : m_enemys)
 	{
-		if (enemys->checkCollision(*obj))
+		if (obj->checkCollision(*enemys))
 		{
-			enemys->handleCollision(*obj);
+			obj->handleCollision(*enemys);
 		}
 	}
 }
@@ -191,7 +201,11 @@ void GameLevel::setMapSize(const sf::Vector2f mapSize)
 
 void GameLevel::setView()
 {
-	m_view.setSize(m_mapSize.x, m_mapSize.y);
+	float scaleX = W_WIDTH / m_mapSize.x;
+	float scaleY = W_HEIGHT / m_mapSize.y;
+	float scale = std::min(scaleX, scaleY);
+
+	m_view.setSize(W_WIDTH / scale, W_HEIGHT / scale);
 	m_view.setCenter(m_mapSize.x / 2, m_mapSize.y / 2);
 }
 

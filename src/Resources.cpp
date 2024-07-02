@@ -1,5 +1,5 @@
 #include "Resources.h"
-
+#include "Configs.h"
 Resources& Resources::instance()
 {
 	static Resources instance;
@@ -13,6 +13,8 @@ Resources::Resources()
 	m_gameSprites.loadFromFile("GameSprites.png");
 	m_buttonTexture.loadFromFile("Button.png");
 	initTextures();
+	initSounds();
+	initMusic();
 }
 
 void Resources::initTextures()
@@ -30,5 +32,63 @@ void Resources::initTextures()
 	m_data[Present_Time] = sf::IntRect({ 98, 147 }, smallSize);
 	m_data[Present_Freeze] = sf::IntRect({ 49, 147 }, smallSize);
 	m_data[Present_CatDestr] = sf::IntRect({ 0, 147 }, smallSize);
+	m_data[Present_Life] = sf::IntRect({ 147, 147 }, smallSize);
 	m_data[FrozenEnemy] = sf::IntRect({ 245, 0 }, smallSize);
+}
+
+void Resources::initSounds()
+{
+	m_soundBuffer[CatCollision].loadFromFile("CatHiss.wav");
+	m_soundBuffer[MouseEat].loadFromFile("MouseEat.wav");
+	m_soundBuffer[CatPunch].loadFromFile("CatPunch.wav");
+	m_soundBuffer[CatMeow].loadFromFile("CatMeow.wav");
+	m_soundBuffer[DoorLock].loadFromFile("DoorLock.wav");
+	m_soundBuffer[FreezeFx].loadFromFile("FreezeFX.wav");
+	m_soundBuffer[KeyPickup].loadFromFile("KeyPick.wav");
+	m_soundBuffer[RemoveCat].loadFromFile("RemoveCat.wav");
+	m_soundBuffer[TearPresent].loadFromFile("TearPresent.wav");
+	loadSounds();
+}
+
+void Resources::initMusic()
+{
+	m_music[M_MainMenu].openFromFile("MainMenu.wav");
+	m_music[M_GameLevel].openFromFile("GameLevel.wav");
+	m_music[M_GameFinish].openFromFile("GameFinish.wav");
+	m_music[M_GameOver].openFromFile("GameOver.wav");
+
+	m_music[M_GameOver].setLoop(false);
+	m_music[M_GameFinish].setLoop(false);
+	m_music[M_MainMenu].setLoop(true);
+	m_music[M_GameLevel].setLoop(true);
+}
+
+void Resources::loadSounds()
+{
+	for (int i = 0; i < MaxSounds; i++)
+	{
+		m_sound[i].setBuffer(m_soundBuffer[i]);
+	}
+}
+
+void Resources::playSound(Sounds sound)
+{
+	m_sound[sound].setVolume(SOUND_VOLUME);
+	m_sound[sound].play();
+}
+
+void Resources::playMusic(Music music)
+{
+	m_music[music].setVolume(MUSIC_VOLUME);
+	m_music[music].play();
+}
+
+void Resources::stopMusic(Music music)
+{
+	m_music[music].stop();
+}
+
+const sf::IntRect Resources::getTextureRect(Objects object) const
+{
+	return m_data[object];
 }

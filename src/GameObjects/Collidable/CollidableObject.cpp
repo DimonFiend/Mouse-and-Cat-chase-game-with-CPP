@@ -10,12 +10,11 @@ bool CollidableObject::checkCollision(CollidableObject& other)
     sf::FloatRect intersection;
     if (m_sprite.getGlobalBounds().intersects(other.getBounds(), intersection))
     {
-        // Make the intersection rectangle smaller
-        float shrinkFactor = 1.5f;
-        intersection.left += intersection.width * shrinkFactor / 2;
-        intersection.top += intersection.height * shrinkFactor / 2;
-        intersection.width *= (1 - shrinkFactor);
-        intersection.height *= (1 - shrinkFactor);
+        // Reduce the intersection by 5 pixels on each side
+        intersection.left += 5;
+        intersection.top += 5;
+        intersection.width -= 10;
+        intersection.height -= 10;
     }
     
     return m_sprite.getGlobalBounds().intersects(intersection);

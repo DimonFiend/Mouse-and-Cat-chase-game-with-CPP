@@ -25,6 +25,7 @@ SmartCatEnemy::SmartCatEnemy(sf::Vector2f pos)
 
 void SmartCatEnemy::move(sf::Time deltaTime, GameLevel* manager)
 {
+	EnemyObject::catSpeak();
 	if (EnemyObject::checkFreezeStatus())
 	{
 		return;
@@ -151,5 +152,6 @@ void SmartCatEnemy::handleCollision(MousePlayer& other)
 	if (!isFrozen())
 	{
 		other.handleCollision(*this);
+		soundOnPlayerHit();
 	}
 }
