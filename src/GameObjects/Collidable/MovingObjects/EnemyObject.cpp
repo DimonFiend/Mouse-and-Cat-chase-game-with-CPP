@@ -3,6 +3,9 @@
 #include "MousePlayer.h"
 #include "Resources.h"
 #include "Utilities.h"
+#include "Configs.h"
+#include <ctime>
+
 EnemyObject::EnemyObject(float speed, Direction dir)
 	: MovingObject(speed, dir), m_frozen(false)
 {
@@ -30,6 +33,7 @@ void EnemyObject::setFreeze()
 	m_frozen = true;
 	m_frozenClock.restart();
 	m_sprite.setTextureRect(Resources::instance().getTextureRect(Objects::FrozenEnemy));
+	m_sprite.setScale(1,1);
 }
 
 bool EnemyObject::checkFreezeStatus()
@@ -42,11 +46,27 @@ bool EnemyObject::checkFreezeStatus()
 			m_frozen = false;
 			return false;
 		}
-		else
-		{
-			return true;
-		}
+
+		return false;
 	}
 
 	return false;
+}
+
+void EnemyObject::catSpeak()
+{
+	srand(static_cast<unsigned int>(time(0)));
+	int threshold = rand() % 20 + 4 + rand() % 7;
+	auto time = m_speak.getElapsedTime();
+	if (time.asSeconds() > threshold)
+	{
+		Resources::instance().playSound(Sounds::CatMeow);
+		m_speak.restart();
+	}
+}
+
+void EnemyObject::soundOnPlayerHit() const
+{
+	Resources::instance().playSound(Sounds::CatCollision);
+	Resources::instance().playSound(Sounds::CatPunch);
 }

@@ -1,0 +1,15 @@
+﻿configure_file ("CatHiss.wav" ${CMAKE_BINARY_DIR} COPYONLY)
+configure_file ("CatPunch.wav" ${CMAKE_BINARY_DIR} COPYONLY)
+configure_file ("MouseEat.wav" ${CMAKE_BINARY_DIR} COPYONLY)
+configure_file ("CatMeow.wav" ${CMAKE_BINARY_DIR} COPYONLY)
+configure_file ("DoorLock.wav" ${CMAKE_BINARY_DIR} COPYONLY)
+configure_file ("FreezeFX.wav" ${CMAKE_BINARY_DIR} COPYONLY)
+configure_file ("KeyPick.wav" ${CMAKE_BINARY_DIR} COPYONLY)
+configure_file ("RemoveCat.wav" ${CMAKE_BINARY_DIR} COPYONLY)
+configure_file ("TearPresent.wav" ${CMAKE_BINARY_DIR} COPYONLY)
+
+configure_file ("MainMenu.wav" ${CMAKE_BINARY_DIR} COPYONLY)
+configure_file ("GameLevel.wav" ${CMAKE_BINARY_DIR} COPYONLY)
+configure_file ("GameFinish.wav" ${CMAKE_BINARY_DIR} COPYONLY)
+configure_file ("GameOver.wav" ${CMAKE_BINARY_DIR} COPYONLY)
+

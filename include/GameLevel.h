@@ -28,7 +28,7 @@ private:
 	std::vector<std::unique_ptr<CollidableObject>> m_collidableObjects;
 	std::vector<std::unique_ptr<GameObject>> m_staticObjects;
 
-	void LoadNextLevel();
+	void LoadLevel();
 	void checkConditions();
 	void checkCollision();
 	void checkObjectsCollision(CollidableObject* obj);
@@ -40,7 +40,7 @@ private:
 public:
 	GameLevel(Observer* observer);
 	void setMapSize(const sf::Vector2f mapSize);
-	virtual ~GameLevel() = default;
+	virtual ~GameLevel();
 	virtual void update(sf::Time deltaTime) override;
 	virtual void render(sf::RenderWindow& window) override;
 	virtual void handleEvent(sf::Event& event, sf::RenderWindow& window) override;

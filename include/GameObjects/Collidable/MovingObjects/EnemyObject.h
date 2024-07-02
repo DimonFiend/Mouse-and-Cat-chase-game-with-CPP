@@ -7,6 +7,8 @@ class EnemyObject : public MovingObject {
 private:
 	bool m_frozen;
 	sf::Clock m_frozenClock;
+	sf::Clock m_speak;
+
 public:
 	EnemyObject(float speed = 80, Direction dir = static_cast<Direction>(rand() % 4));
 
@@ -17,4 +19,6 @@ public:
 	void setFreeze();
 	bool checkFreezeStatus();
 	virtual void respawn();
+	void soundOnPlayerHit() const;
+	void catSpeak();
 };

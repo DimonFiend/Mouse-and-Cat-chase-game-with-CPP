@@ -33,5 +33,6 @@ public:
 	virtual void handleCollision(TimePresent& other) override;
 	virtual void handleCollision(FreezePresent& other) override;
 	virtual void handleCollision(DestroyPresent& other) override;
+	virtual void handleCollision(LifePresent& other) override;
 	virtual void move(sf::Time deltaTime) override;
 };

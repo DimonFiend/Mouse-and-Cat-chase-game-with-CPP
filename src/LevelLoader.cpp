@@ -104,7 +104,7 @@ void LevelLoader::push_object(char id, sf::Vector2f position)
 std::unique_ptr<PresentObject> LevelLoader::generatePresent(sf::Vector2f position)
 {
 	srand(static_cast<unsigned int>(time(0)));
-	int random = rand() % 3;
+	int random = rand() % 4;
 	switch (random)
 	{
 	case 0:
@@ -113,6 +113,8 @@ std::unique_ptr<PresentObject> LevelLoader::generatePresent(sf::Vector2f positio
 		return std::make_unique<FreezePresent>(position);
 	case 2:
 		return std::make_unique<TimePresent>(position);
+	case 3:
+		return std::make_unique<LifePresent>(position);
 	default:
 		return nullptr;
 	}

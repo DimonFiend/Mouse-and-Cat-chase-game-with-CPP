@@ -8,6 +8,7 @@ class MainMenu : public GameState {
 
 public:
 	MainMenu(Observer* observer);
+	virtual ~MainMenu();
 	virtual void update(sf::Time deltaTime) override;
 	virtual void render(sf::RenderWindow& window) override;
 	virtual void handleEvent(sf::Event& event, sf::RenderWindow& window) override;

@@ -11,7 +11,7 @@ class MousePlayer;
 class TimePresent;
 class FreezePresent;
 class DestroyPresent;
-
+class LifePresent;
 class CollidableObject : public GameObject{
 private:
 	bool m_toDelete;
@@ -33,4 +33,5 @@ public:
 	virtual void handleCollision(TimePresent& other) = 0;
 	virtual void handleCollision(FreezePresent& other) = 0;
 	virtual void handleCollision(DestroyPresent& other) = 0;
+	virtual void handleCollision(LifePresent& other) = 0;
 };

@@ -2,6 +2,7 @@
 #include "Observer.h"
 #include "Button.h"
 #include "Configs.h"
+#include "Resources.h"
 
 MainMenu::MainMenu(Observer* observer)
 	: m_observer(observer)
@@ -9,6 +10,12 @@ MainMenu::MainMenu(Observer* observer)
 	m_buttons.push_back(Button("Start", sf::Vector2f(W_WIDTH /2, (W_HEIGHT / 4))));
 	m_buttons.push_back(Button("Help", sf::Vector2f(W_WIDTH /2, (W_HEIGHT / 4) + 200)));
 	m_buttons.push_back(Button("Exit", sf::Vector2f(W_WIDTH /2, (W_HEIGHT / 4) + 400)));
+	Resources::instance().playMusic(Music::M_MainMenu);
+}
+
+MainMenu::~MainMenu()
+{
+	Resources::instance().stopMusic(Music::M_MainMenu);
 }
 
 void MainMenu::update(sf::Time deltaTime)

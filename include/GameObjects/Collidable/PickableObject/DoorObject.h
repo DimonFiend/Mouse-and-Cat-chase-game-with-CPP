@@ -17,6 +17,7 @@ public:
 	virtual void handleCollision(TimePresent& other) override { (void)other; };
 	virtual void handleCollision(FreezePresent& other) override { (void)other; };
 	virtual void handleCollision(DestroyPresent& other) override { (void)other; };
+	virtual void handleCollision(LifePresent& other) override { (void)other; };
 	virtual void handleCollision(SmartCatEnemy& other) override;
 	virtual void handleCollision(CatEnemy& other) override;
 

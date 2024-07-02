@@ -101,7 +101,6 @@ void MousePlayer::handleCollision(DoorObject& other)
 	{
 		m_keys--;
 		other.handlePlayer(m_manager);
-		//play door sound
 	}
 	else
 	{
@@ -113,13 +112,13 @@ void MousePlayer::handleCollision(CheeseObject& other)
 {
 	m_score += 10;
 	other.handleCollision(*this);
-	//play eat sound
+	Resources::instance().playSound(Sounds::MouseEat);
 }
 void MousePlayer::handleCollision(KeyObject& other)
 {
 	m_keys++;
 	other.handleCollision(*this);
-	//play key pickup
+	Resources::instance().playSound(Sounds::KeyPickup);
 }
 
 void MousePlayer::handleCollision(WallObject& other)
@@ -131,7 +130,6 @@ void MousePlayer::handleCollision(WallObject& other)
 void MousePlayer::handleCollision(MousePlayer& other)
 {
 	(void)other;
-	//no use for now
 }
 
 void MousePlayer::handleCollision(CatEnemy& other)
@@ -148,15 +146,14 @@ void MousePlayer::handleCollision(SmartCatEnemy& other)
 
 void MousePlayer::handleEnemy()
 {
-
 	m_lives--;
 	m_manager->respawn();
-	//play hit sound
 }
 
 void MousePlayer::handleCollision(DestroyPresent& other)
 {
 	other.handleCollision(*this);
+	Resources::instance().playSound(Sounds::TearPresent);
 	m_manager->destroyEnemie();
 }
 
@@ -164,10 +161,19 @@ void MousePlayer::handleCollision(TimePresent& other)
 {
 	other.handleCollision(*this);
 	m_manager->addTime(TIME_PRESENT);
+	Resources::instance().playSound(Sounds::TearPresent);
 }
 
 void MousePlayer::handleCollision(FreezePresent& other)
 {
 	other.handleCollision(*this);
 	m_manager->freezeEnemies();
+	Resources::instance().playSound(Sounds::TearPresent);
+}
+
+void MousePlayer::handleCollision(LifePresent& other)
+{
+	other.handleCollision(*this);
+	m_lives++;
+	Resources::instance().playSound(Sounds::TearPresent);
 }

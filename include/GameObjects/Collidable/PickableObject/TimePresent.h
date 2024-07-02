@@ -11,4 +11,5 @@ public:
 	void handleCollision(TimePresent& other) override { (void)other; };
 	void handleCollision(FreezePresent& other) override { (void)other; };
 	void handleCollision(DestroyPresent& other) override { (void)other; };
+	void handleCollision(LifePresent& other) override { (void)other; };
 };
