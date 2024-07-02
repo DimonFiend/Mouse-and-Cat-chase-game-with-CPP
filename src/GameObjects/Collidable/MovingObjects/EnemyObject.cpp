@@ -47,7 +47,7 @@ bool EnemyObject::checkFreezeStatus()
 			return false;
 		}
 
-		return false;
+		return true;
 	}
 
 	return false;

@@ -10,11 +10,11 @@ bool CollidableObject::checkCollision(CollidableObject& other)
     sf::FloatRect intersection;
     if (m_sprite.getGlobalBounds().intersects(other.getBounds(), intersection))
     {
-        // Reduce the intersection by 5 pixels on each side
-        intersection.left += 5;
-        intersection.top += 5;
-        intersection.width -= 10;
-        intersection.height -= 10;
+        // Reduce the intersection by 10 pixels on each side
+        intersection.left += 10;
+        intersection.top += 10;
+        intersection.width -= 20;
+        intersection.height -= 20;
     }
     
     return m_sprite.getGlobalBounds().intersects(intersection);
