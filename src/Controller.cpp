@@ -2,7 +2,9 @@
 #include "MainMenu.h"
 #include "GameLevel.h"
 #include "HelpMenu.h"
+#include "EndGameMenu.h"
 #include <iostream>
+
 
 
 Controller::Controller(int w, int h, std::string title) {
@@ -71,4 +73,9 @@ void Controller::switchState(const std::string& buttonText)
     {
 		std::cout << "Game Over" << std::endl;
     }
+    else if (buttonText == "EndGameMenu")
+    {
+        m_currentState = std::move(std::make_unique<EndGameMenu>(this));
+    }
+
 }

@@ -264,3 +264,8 @@ void GameLevel::addTime(float time)
 {
 	m_timeLeft += time;
 }
+//when all finished the last level - switch the state to EndGameMenu
+void GameLevel::endOfLevels() const
+{
+	m_observer->switchState("EndGameMenu");
+}
