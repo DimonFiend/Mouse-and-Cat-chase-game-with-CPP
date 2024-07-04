@@ -25,6 +25,7 @@ void MainMenu::update(sf::Time deltaTime)
 
 void MainMenu::render(sf::RenderWindow& window)
 {
+	
 	for (auto& button : m_buttons)
 	{
 		button.draw(window);

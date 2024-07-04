@@ -59,5 +59,5 @@ public:
 	MovablePath getPath(const sf::Vector2i pos) const;
 	sf::Vector2f getTime() const;
 	void addTime(float time);
-	void endOfLevels() const;
+	void endOfLevels();
 };

@@ -16,7 +16,7 @@ private:
 	void setText(std::string text);
 	void setSprite(sf::Vector2f pos);
 public:
-	
+	Button() = default;
 	Button(std::string text, sf::Vector2f pos);
 	void draw(sf::RenderWindow& window);
 	bool isMouseOver(sf::RenderWindow& window);

@@ -13,15 +13,14 @@ GameLevel::GameLevel(Observer* observer) :
 	m_level(std::make_unique<LevelLoader>(this, m_levelNumber)),
 	m_isPaused(false)
 {
-	m_level->loadLevel();
-	this->setTimer();
-
+	LoadLevel();
 	Resources::instance().playMusic(Music::M_GameLevel);
 }
 
 GameLevel::~GameLevel()
 {
 	Resources::instance().stopMusic(Music::M_GameLevel);
+	m_level.reset();
 }
 
 void GameLevel::update(sf::Time deltaTime)
@@ -108,6 +107,13 @@ void GameLevel::LoadLevel()
 	m_enemys.clear();
 	m_level = std::make_unique<LevelLoader>(this, m_levelNumber);
 	m_level->loadLevel();
+
+	if (m_level->filesFinished())
+	{
+		this->endOfLevels();
+		return;
+	}
+
 	this->setTimer();
 }
 
@@ -166,7 +172,7 @@ void GameLevel::checkObjectsCollision(CollidableObject* obj)
 	}
 }
 
-
+// calculates the nearest paths to the object position by grid index
 MovablePath GameLevel::getPath(const sf::Vector2i pos) const
 {
     MovablePath path;
@@ -197,6 +203,7 @@ void GameLevel::setMapSize(const sf::Vector2f mapSize)
 	this->setView();
 }
 
+/*set the window view to fit the level size*/
 void GameLevel::setView()
 {
 	float scaleX = W_WIDTH / m_mapSize.x;
@@ -207,6 +214,7 @@ void GameLevel::setView()
 	m_view.setCenter(m_mapSize.x / 2, m_mapSize.y / 2);
 }
 
+/*=========================Level-Setters============================================*/
 void GameLevel::setPlayer(std::unique_ptr<MousePlayer> player)
 {
 	m_player = std::move(player);
@@ -223,11 +231,15 @@ void GameLevel::setStatic(std::unique_ptr<GameObject> object)
 {
 	m_staticObjects.push_back(std::move(object));
 }
-
+/*================================================================================*/
 void GameLevel::setTimer()
 {
 	m_timerStart += (CheeseObject::getCheeseCount()) * 5.f;
-	m_timerStart += (m_enemys.size()) * 30.f;
+
+	if (auto enemyCount = getEnemyCount(); enemyCount > 0)
+	{
+		m_timerStart += (m_enemys.size()) * 30.f;
+	}
 }
 
 size_t GameLevel::getEnemyCount() const
@@ -264,8 +276,9 @@ void GameLevel::addTime(float time)
 {
 	m_timeLeft += time;
 }
+
 //when all finished the last level - switch the state to EndGameMenu
-void GameLevel::endOfLevels() const
+void GameLevel::endOfLevels()
 {
 	m_observer->switchState("EndGameMenu");
 }

@@ -9,6 +9,7 @@ class LevelLoader {
 
 public:
 	LevelLoader(GameLevel* manager, unsigned int level);
+	bool filesFinished() const { return m_files; };
 	void loadLevel();
 
 	~LevelLoader();
@@ -20,10 +21,12 @@ private:
 	float m_width;
 	bool m_specialEnemy;
 	unsigned int m_level;
+	bool m_files;
 
 	void setGameData();
 	void setLine(std::string line);
 	void push_object(char id, sf::Vector2f position);
 	std::unique_ptr<PresentObject> generatePresent(sf::Vector2f position);
 	std::unique_ptr<EnemyObject> generateEnemy(sf::Vector2f position);
+	
 };

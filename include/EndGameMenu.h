@@ -1,8 +1,8 @@
 #pragma once
 #include "GameState.h"
 #include <vector>
+#include "Button.h"
 
-class Button;
 class Observer;
 class EndGameMenu : public GameState {
 
@@ -14,9 +14,8 @@ public:
 	virtual void handleEvent(sf::Event& event, sf::RenderWindow& window) override;
 
 private:
-	std::vector<Button> m_buttons;
+	Button m_button;
 	Observer* m_observer;
 	sf::Text m_Text;
 	sf::Font m_Font;
-	std::string m_beatTheGameMessage;
 };

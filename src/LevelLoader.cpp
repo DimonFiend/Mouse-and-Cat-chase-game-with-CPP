@@ -12,8 +12,14 @@
 
 #include <cstdlib> // For rand() and srand()
 LevelLoader::LevelLoader(GameLevel* manager, unsigned int level)
-	: m_manager(manager), m_height(0), m_width(0), m_specialEnemy(false), m_level(level)
+	: m_manager(manager),
+	m_height(0),
+	m_width(0),
+	m_specialEnemy(false),
+	m_level(level),
+	m_files(false)
 {}
+
 
 
 LevelLoader::~LevelLoader()
@@ -28,12 +34,11 @@ void LevelLoader::loadLevel()
 	m_file.open(m_fileName.str());
 	if (!m_file.is_open())
 	{
-		m_manager->endOfLevels();
+		m_files = true;
+		return;
 	}
-	else
-	{
-		setGameData();
-	}
+
+	setGameData();
 }
 
 void LevelLoader::setGameData()
