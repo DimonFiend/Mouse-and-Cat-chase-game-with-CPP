@@ -20,16 +20,17 @@ CatEnemy::CatEnemy(sf::Vector2f pos)
 void CatEnemy::move(sf::Time deltaTime, GameLevel* manager)
 {
 	EnemyObject::catSpeak();
-	/*
+
 	if (EnemyObject::checkFreezeStatus())
 	{
 		return;
 	}
-	*/
+
 	auto posIndex = MovingObject::toGridIndex(m_sprite.getPosition());
 	MovablePath path = manager->getPath(posIndex);
     sf::Vector2f dir = getDirection(path);
 
+	//moves the cat to the next grid
 	MovingObject::setLastPos(m_sprite.getPosition());
 	auto movement = dir * EnemyObject::getSpeed() * deltaTime.asSeconds();
 	m_sprite.move(movement);
@@ -39,6 +40,8 @@ void CatEnemy::move(sf::Time deltaTime, GameLevel* manager)
 
 sf::Vector2f CatEnemy::getDirection(const MovablePath& path)
 {
+	//moves the cat in his current direction or after some randome time limit
+	//switches to a new direction
 	auto relativePos = EnemyObject::calcRelativePos(m_sprite.getPosition());
 	auto time = m_timer.getElapsedTime();
 	auto offset = rand() % 5;
@@ -56,9 +59,12 @@ sf::Vector2f CatEnemy::getDirection(const MovablePath& path)
 
 sf::Vector2f CatEnemy::switchDirection(const MovablePath& path)
 {
+	//gets a randome possiblle walk path or
+	//a randome chance to stay in the current path
 	auto generate = rand() % static_cast<int>(path.size());
 	auto keep_last = rand() % 3;
 
+	//calculates the direction to the next grid
 	auto curToGrid = MovingObject::toGridIndex(m_sprite.getPosition());
 	auto pathVectorX = path[generate].x - curToGrid.x;
 	auto pathVectorY = path[generate].y - curToGrid.y;
@@ -75,6 +81,8 @@ sf::Vector2f CatEnemy::switchDirection(const MovablePath& path)
 
 void CatEnemy::checkMapBounds(GameLevel* manager)
 {
+	//makes sure the cat stays in the map bounds
+
 	auto pos = m_sprite.getPosition();
 	auto map_size = manager->getMapSize();
 	auto limit = m_sprite.getLocalBounds().getSize();
@@ -84,6 +92,8 @@ void CatEnemy::checkMapBounds(GameLevel* manager)
 		this->handleObstruct();
 	}
 }
+//=============================================================================
+/*                            Collision handlers                             */
 
 void CatEnemy::handleCollision(CollidableObject& other)
 {
@@ -117,10 +127,10 @@ void CatEnemy::handleCollision(DoorObject& other)
 	(void)other;
     this->handleObstruct();
 }
-#include <iostream>
+
 void CatEnemy::handleObstruct()
 {
-	std::cout << "Cat obstructed" << std::endl;
+	//if can't pass turns to another randome direction
 	m_direction = static_cast<Direction>((int(m_direction) + 1 + rand() % 3) % 4);
 	m_sprite.setPosition(MovingObject::getLastPos());
 }
