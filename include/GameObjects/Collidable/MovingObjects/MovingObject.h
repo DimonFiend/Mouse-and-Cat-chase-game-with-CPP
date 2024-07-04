@@ -1,3 +1,13 @@
+///=======================================================================
+/// \file MovingObject.h
+/// \brief This file contains the declaration of the MovingObject class.
+/// 
+/// The MovingObject class is a derived class from CollidableObject class.
+/// It is an abstract class that represents a moving object in the game.
+/// It contains the speed, spawn position, last position, direction, and animator.
+/// It also contains the methods to move the object, set the speed, spawn position, last position.
+/// ========================================================================
+
 #pragma once
 #include "CollidableObject.h"
 #include "Utilities.h"
@@ -13,9 +23,8 @@ private:
 	std::unique_ptr<Animator> m_animator;
 protected:
 	Direction m_direction;
-	sf::Sound m_sound;
 public:
-	MovingObject(float speed = 50, Direction dir = static_cast<Direction>(rand() % 4));
+	MovingObject(float speed, sf::Vector2f pos, sf::IntRect obj);
 	virtual ~MovingObject() = default;
 	virtual void move(sf::Time deltaTime) = 0;
 
@@ -28,9 +37,9 @@ public:
 	float getSpeed() const { return m_speed; };
 
 	sf::Vector2f enumToVector() const;
-	Direction vectorToEnum(const sf::Vector2i& pos);
+	Direction vectorToEnum(const sf::Vector2i& pos) const;
 	sf::Vector2i toGridIndex(const sf::Vector2f& position) const;
 	void setAnimator();
-	void Animate(sf::Time deltaTime, Direction direction);
+	void Animate(sf::Time deltaTime, Direction direction) const;
 
 };

@@ -6,13 +6,8 @@
 #include "FloorObject.h"
 
 DoorObject::DoorObject(sf::Vector2f pos)
-{
-	m_sprite.setTextureRect(Resources::instance().getTextureRect(Objects::Door));
-	auto posOrigin = sf::Vector2f(pos.x + 32, pos.y + 32);
-	auto textureSize = m_sprite.getLocalBounds().getSize();
-	m_sprite.setOrigin(textureSize.x / 2.f, textureSize.y / 2.f);
-	m_sprite.setPosition(posOrigin);
-}
+	: PickableObject(pos, Resources::instance().getTextureRect(Objects::Door))
+{}
 
 void DoorObject::handleCollision(CollidableObject& other)
 {

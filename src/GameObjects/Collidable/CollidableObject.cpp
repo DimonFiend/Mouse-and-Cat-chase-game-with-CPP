@@ -1,8 +1,8 @@
 #include "CollidableObject.h"
 #include "MovingObject.h"
 
-CollidableObject::CollidableObject()
-	:m_toDelete(false)
+CollidableObject::CollidableObject(sf::Vector2f pos, sf::IntRect obj)
+	:GameObject(pos, obj), m_toDelete(false)
 {}
 
 bool CollidableObject::checkCollision(CollidableObject& other)

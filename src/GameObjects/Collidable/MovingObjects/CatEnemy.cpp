@@ -3,17 +3,9 @@
 #include "Configs.h"
 #include "GameLevel.h"
 CatEnemy::CatEnemy(sf::Vector2f pos)
-	:EnemyObject(CAT_SPEED)
+	:EnemyObject(CAT_SPEED, pos, Resources::instance().getTextureRect(Objects::Cat))
 {
-	auto rect = Resources::instance().getTextureRect(Objects::Cat);
-	m_sprite.setTextureRect(rect);
-	auto posOrigin = sf::Vector2f(pos.x + 32, pos.y + 32);
-	auto textureSize = m_sprite.getLocalBounds().getSize();
-	m_sprite.setOrigin(textureSize.x / 2.f, textureSize.y / 2.f);
-	m_sprite.setPosition(posOrigin);
-	MovingObject::setSpawn(posOrigin);
-	MovingObject::setLastPos(posOrigin);
-	MovingObject::setAnimator();
+	m_direction = static_cast<Direction>(rand() % 4);
 	m_timer.restart();
 }
 

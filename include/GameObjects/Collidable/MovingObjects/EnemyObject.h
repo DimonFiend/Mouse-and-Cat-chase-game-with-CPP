@@ -10,7 +10,7 @@ private:
 	sf::Clock m_speak;
 
 public:
-	EnemyObject(float speed = 80, Direction dir = static_cast<Direction>(rand() % 4));
+	EnemyObject(float speed, sf::Vector2f pos, sf::IntRect obj);
 
 	virtual void move(sf::Time deltaTime) override { (void)deltaTime; };
 	virtual void move(sf::Time deltaTime, GameLevel* manager) = 0;

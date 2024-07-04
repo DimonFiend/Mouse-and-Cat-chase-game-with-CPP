@@ -11,5 +11,8 @@ class PickableObject : public CollidableObject
 private:
 
 public:
-	PickableObject() = default;
+	PickableObject(sf::Vector2f pos, sf::IntRect obj):
+		CollidableObject(pos, obj)
+	{};
+	virtual ~PickableObject() = default;
 };

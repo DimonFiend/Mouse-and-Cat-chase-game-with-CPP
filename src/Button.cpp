@@ -24,6 +24,12 @@ void Button::setSprite(sf::Vector2f pos)
 
 void Button::setText(std::string text)
 {
+	m_firstLetter.setFont(Resources::instance().getFont());
+	m_firstLetter.setString(text[0]);
+	m_firstLetter.setCharacterSize(48);
+	m_firstLetter.setFillColor(sf::Color::White);
+	m_firstLetter.setStyle(sf::Text::Bold | sf::Text::Underlined);
+
 	m_text.setFont(Resources::instance().getFont());
 	m_text.setString(text);
 	m_text.setCharacterSize(48);
@@ -33,6 +39,8 @@ void Button::setText(std::string text)
 	sf::FloatRect textBounds = m_text.getLocalBounds();
 	m_text.setOrigin(textBounds.left + textBounds.width / 2.f, textBounds.top + textBounds.height / 2.f);
 	m_text.setPosition(m_sprite.getPosition());
+
+	m_firstLetter.setPosition(m_text.findCharacterPos(0));
 }
 void Button::setScale(float x, float y)
 {
@@ -43,6 +51,7 @@ void Button::draw(sf::RenderWindow& window)
 {
 	window.draw(m_sprite);
 	window.draw(m_text);
+	window.draw(m_firstLetter);
 }
 
 bool Button::isMouseOver(sf::RenderWindow& window)

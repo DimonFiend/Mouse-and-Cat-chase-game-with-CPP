@@ -4,7 +4,7 @@
 class GameObject {
 
 public:
-	GameObject();
+	GameObject(sf::Vector2f pos, sf::IntRect obj);
 	virtual ~GameObject() = default;
 	virtual void draw(sf::RenderWindow& window) const;
 	sf::FloatRect getBounds() const;

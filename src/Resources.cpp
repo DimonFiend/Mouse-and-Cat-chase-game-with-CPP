@@ -15,6 +15,7 @@ Resources::Resources()
 	initTextures();
 	initSounds();
 	initMusic();
+	initBackgrounds();
 }
 
 void Resources::initTextures()
@@ -34,6 +35,11 @@ void Resources::initTextures()
 	m_data[Present_CatDestr] = sf::IntRect({ 0, 147 }, smallSize);
 	m_data[Present_Life] = sf::IntRect({ 147, 147 }, smallSize);
 	m_data[FrozenEnemy] = sf::IntRect({ 245, 0 }, smallSize);
+}
+
+void Resources::initBackgrounds()
+{
+	m_backgrounds[B_MainMenu].loadFromFile("Mouse_Run_Background.jpg");
 }
 
 void Resources::initSounds()
@@ -91,4 +97,9 @@ void Resources::stopMusic(Music music)
 const sf::IntRect Resources::getTextureRect(Objects object) const
 {
 	return m_data[object];
+}
+
+const sf::Texture& Resources::getBackground(Backgrounds background) const
+{
+	return m_backgrounds[background];
 }

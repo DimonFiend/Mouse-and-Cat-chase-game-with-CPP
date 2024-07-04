@@ -8,19 +8,9 @@
 
 
 SmartCatEnemy::SmartCatEnemy(sf::Vector2f pos)
-	:EnemyObject(SMART_CAT_SPEED, Idle)
+	:EnemyObject(SMART_CAT_SPEED, pos, Resources::instance().getTextureRect(Objects::Cat))
 {
-	auto rect = Resources::instance().getTextureRect(Objects::Cat);
-	m_sprite.setTextureRect(rect);
-	auto posOrigin = sf::Vector2f(pos.x + 32, pos.y + 32);
-	auto textureSize = m_sprite.getLocalBounds().getSize();
-	m_sprite.setOrigin(textureSize.x / 2.f, textureSize.y / 2.f);
 	m_sprite.setColor(sf::Color::Red);
-	m_sprite.setPosition(posOrigin);
-
-	MovingObject::setAnimator();
-    MovingObject::setSpawn(posOrigin);
-    MovingObject::setLastPos(posOrigin);
 }
 
 void SmartCatEnemy::move(sf::Time deltaTime, GameLevel* manager)
@@ -54,10 +44,15 @@ void SmartCatEnemy::getDirection(GameLevel* manager)
 	}
 }
 
+// BFS algorithm to find the shortest path to the player
+//the function inserts into the queue the next possible path
+//the 1D data structures uses linear function of the map size
+//to store the visited vectors and the predecessors
 void SmartCatEnemy::directionBfs(GameLevel* manager)
 {
 	auto mapSize = MovingObject::toGridIndex(manager->getMapSize());
 
+	// Initialize the visited vectors and predecessors
 	std::unique_ptr<bool[]> visitedVectors = std::make_unique<bool[]>(mapSize.x * mapSize.y);
 	Predecessors pred = initializePred(mapSize);
     std::queue<sf::Vector2i> queue;
@@ -88,6 +83,7 @@ void SmartCatEnemy::directionBfs(GameLevel* manager)
 	nextPath(pred, manager, mapSize.x);
 }
 
+// Initialize the predecessors vector with -1 so all grid indexes can be checked
 Predecessors SmartCatEnemy::initializePred(const sf::Vector2i& mapSize) const
 {
 	Predecessors pred = std::make_unique<sf::Vector2i[]>(mapSize.x * mapSize.y);
@@ -98,6 +94,8 @@ Predecessors SmartCatEnemy::initializePred(const sf::Vector2i& mapSize) const
 	return pred;
 }
 
+// Find the next path to the player
+// The function uses the predecessors vector to find the next path
 void SmartCatEnemy::nextPath(const Predecessors& pred, GameLevel* manager, int mapWidth)
 {
     auto playerPos = MovingObject::toGridIndex(manager->getPlayerPosition());
@@ -127,6 +125,7 @@ void SmartCatEnemy::nextPath(const Predecessors& pred, GameLevel* manager, int m
 
 }
 
+// Convert the path to the next grid to enum
 void SmartCatEnemy::pathToEnum(const sf::Vector2i& curr, const sf::Vector2i& next)
 {
 	auto nextPath = sf::Vector2i{ next.x - curr.x, next.y - curr.y };
@@ -137,6 +136,8 @@ void SmartCatEnemy::pathToEnum(const sf::Vector2i& curr, const sf::Vector2i& nex
 	else if (nextPath.x == -1 && nextPath.y == 0) { m_direction = Left; }
 }
 
+//=============================================================================
+/*-----------------------------Collision handlers-----------------------------*/
 void SmartCatEnemy::handleCollision(CatEnemy& other)
 {
 	other.handleCollision(*this);

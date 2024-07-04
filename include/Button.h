@@ -10,6 +10,7 @@ class Button {
 private:
 	sf::Sprite m_sprite;
 	sf::Text m_text;
+	sf::Text m_firstLetter;
 	sf::Font m_font;
 	sf::Vector2f m_pos;
 

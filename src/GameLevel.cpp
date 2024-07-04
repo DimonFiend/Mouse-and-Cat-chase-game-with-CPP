@@ -20,9 +20,9 @@ GameLevel::GameLevel(Observer* observer) :
 GameLevel::~GameLevel()
 {
 	Resources::instance().stopMusic(Music::M_GameLevel);
-	m_level.reset();
 }
 
+//updates the game level
 void GameLevel::update(sf::Time deltaTime)
 {
 	if (!m_isPaused)
@@ -36,16 +36,20 @@ void GameLevel::update(sf::Time deltaTime)
 	checkConditions();
 }
 
+//updates the timer
 void GameLevel::updateTimer()
 {
 	m_timeLeft = m_timerStart - m_time.getElapsedTime().asSeconds();
 }
 
+//removes the pickable objects from the vector
 void GameLevel::removePickable()
 {
 	std::erase_if(m_collidableObjects, [](auto& collidable)
 		{return collidable->getToDelete();});
 }
+
+//draws the objects
 void GameLevel::render(sf::RenderWindow& window)
 {
 	window.setView(m_view);
@@ -69,18 +73,22 @@ void GameLevel::render(sf::RenderWindow& window)
 
 }
 
-void GameLevel::handleEvent(sf::Event& event, sf::RenderWindow& window)
+void GameLevel::handleEvent(sf::RenderWindow& window)
 {
-	if (event.Closed)
+	for (auto event = sf::Event{}; window.pollEvent(event);)
 	{
-		window.close();
-	}
-	else if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape)
-	{
-		m_isPaused = !m_isPaused; // Toggle the pause state
+		if (event.Closed)
+		{
+			window.close();
+		}
+		else if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape)
+		{
+			m_isPaused = !m_isPaused; // Toggle the pause state
+		}
 	}
 }
 
+//checks the conditions of the game
 void GameLevel::checkConditions()
 {
 	if (m_player->getLives() == 0)
@@ -94,12 +102,15 @@ void GameLevel::checkConditions()
 	}
 	else if (m_timeLeft <= 0)
 	{
-		m_observer->switchState("GameOver");
+		//reloads the level and subtracts the score of eaten cheese
+		int getCheese = CheeseObject::getCheeseCount();
 		this->LoadLevel();
+		int getCheese2 = CheeseObject::getCheeseCount();
+		m_player->setScore(-(getCheese2 - getCheese) * CHEESE_SCORE);
 	}
-	
 }
 
+//loads a level from the file
 void GameLevel::LoadLevel()
 {
 	m_collidableObjects.clear();
@@ -117,6 +128,7 @@ void GameLevel::LoadLevel()
 	this->setTimer();
 }
 
+//respawns all the objects
 void GameLevel::respawn()
 {
 	m_player->respawn();
@@ -127,6 +139,7 @@ void GameLevel::respawn()
 	}
 }
 
+//moves the player and the enemies
 void GameLevel::move(sf::Time deltaTime)
 {
 	m_player->move(deltaTime);
@@ -136,6 +149,7 @@ void GameLevel::move(sf::Time deltaTime)
 	}
 }
 
+//checks the collision between the objects
 void GameLevel::checkCollision()
 {
 
@@ -150,6 +164,7 @@ void GameLevel::checkCollision()
 	this->checkMovingCollision(m_player.get());
 }
 
+//checks the collision between the moving objects
 void GameLevel::checkMovingCollision(CollidableObject* obj)
 {
 	for (auto& enemys : m_enemys)
@@ -161,6 +176,7 @@ void GameLevel::checkMovingCollision(CollidableObject* obj)
 	}
 }
 
+//checks the collision between the static objects
 void GameLevel::checkObjectsCollision(CollidableObject* obj)
 {
 	for (auto& collidableObject : m_collidableObjects)
@@ -238,7 +254,7 @@ void GameLevel::setTimer()
 
 	if (auto enemyCount = getEnemyCount(); enemyCount > 0)
 	{
-		m_timerStart += (m_enemys.size()) * 30.f;
+		m_timerStart += (m_enemys.size()) * 10.f;
 	}
 }
 
@@ -254,6 +270,7 @@ sf::Vector2f GameLevel::getTime() const
 	return sf::Vector2f(minutes, seconds);
 }
 
+//destroy a random enemy
 void GameLevel::destroyEnemie()
 {
 	int enemyCount = getEnemyCount();
@@ -264,6 +281,7 @@ void GameLevel::destroyEnemie()
 	}
 }
 
+//freeze all the enemies
 void GameLevel::freezeEnemies()
 {
 	for (auto& enemy : m_enemys)
@@ -272,6 +290,7 @@ void GameLevel::freezeEnemies()
 	}
 }
 
+//add time to the timer
 void GameLevel::addTime(float time)
 {
 	m_timeLeft += time;

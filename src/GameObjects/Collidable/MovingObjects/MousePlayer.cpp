@@ -6,25 +6,14 @@
 #include "GameLevel.h"
 #include "Utilities.h"
 
-unsigned int MousePlayer::m_lives = 3;
+unsigned int MousePlayer::m_lives = MAX_LIVES;
 unsigned int MousePlayer::m_score = 0;
 
 MousePlayer::MousePlayer(sf::Vector2f pos, GameLevel* manager)
-	:MovingObject(MOUSE_SPEED, Idle)
+	:MovingObject(MOUSE_SPEED, pos, Resources::instance().getTextureRect(Objects::Mouse))
 	, m_keys(0)
 	, m_manager(manager)
-{
-	auto rect = Resources::instance().getTextureRect(Objects::Mouse);
-	m_sprite.setTextureRect(rect);
-	auto posOrigin = sf::Vector2f(pos.x + 32, pos.y + 32);
-	auto textureSize = m_sprite.getLocalBounds().getSize();
-	m_sprite.setOrigin(textureSize.x / 2.f, textureSize.y / 2.f);
-	m_sprite.setPosition(posOrigin);
-
-	MovingObject::setAnimator();
-	MovingObject::setSpawn(posOrigin);
-	MovingObject::setLastPos(posOrigin);
-}
+{}
 
 
 void MousePlayer::respawn()
@@ -32,11 +21,16 @@ void MousePlayer::respawn()
 	m_sprite.setPosition(MovingObject::getSpawn());
 }
 
+void MousePlayer::setScore(int score)
+{
+	m_score += score;
+}
 
 void MousePlayer::move(sf::Time deltaTime)
 {
 	sf::Vector2f movement = getDirection();
 	MovingObject::setLastPos(m_sprite.getPosition());
+
 	m_sprite.move(movement * MovingObject::getSpeed() * deltaTime.asSeconds());
 	MovingObject::Animate(deltaTime, m_direction);
 
@@ -56,27 +50,23 @@ void MousePlayer::checkMapBounds()
 	}
 }
 
+//gets the direction of the player based on the keyboard input
 sf::Vector2f MousePlayer::getDirection()
 {
-	sf::Vector2f movement(0, 0);
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
 	{
-		movement.y -= 1;
 		m_direction = Up;
 	}
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
 	{
-		movement.y += 1;
 		m_direction = Down;
 	}
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
 	{
-		movement.x -= 1;
 		m_direction = Left;
 	}
 	else if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
 	{
-		movement.x += 1;
 		m_direction = Right;
 	}
 	else
@@ -85,8 +75,9 @@ sf::Vector2f MousePlayer::getDirection()
 	}
 
 
-	return movement;
+	return enumToVector();
 }
+
 //=============================================================================
 /*                            Collision handlers                             */
 
@@ -101,6 +92,7 @@ void MousePlayer::handleCollision(DoorObject& other)
 	{
 		m_keys--;
 		other.handlePlayer(m_manager);
+		this->setScore(DOOR_SCORE);
 	}
 	else
 	{
@@ -110,7 +102,7 @@ void MousePlayer::handleCollision(DoorObject& other)
 
 void MousePlayer::handleCollision(CheeseObject& other)
 {
-	m_score += 10;
+	this->setScore(CHEESE_SCORE);
 	other.handleCollision(*this);
 	Resources::instance().playSound(Sounds::MouseEat);
 }
@@ -155,6 +147,7 @@ void MousePlayer::handleCollision(DestroyPresent& other)
 	other.handleCollision(*this);
 	Resources::instance().playSound(Sounds::TearPresent);
 	m_manager->destroyEnemie();
+	this->setScore(PRESENT_SCORE);
 }
 
 void MousePlayer::handleCollision(TimePresent& other)
@@ -162,6 +155,7 @@ void MousePlayer::handleCollision(TimePresent& other)
 	other.handleCollision(*this);
 	m_manager->addTime(TIME_PRESENT);
 	Resources::instance().playSound(Sounds::TearPresent);
+	this->setScore(PRESENT_SCORE);
 }
 
 void MousePlayer::handleCollision(FreezePresent& other)
@@ -169,6 +163,7 @@ void MousePlayer::handleCollision(FreezePresent& other)
 	other.handleCollision(*this);
 	m_manager->freezeEnemies();
 	Resources::instance().playSound(Sounds::TearPresent);
+	this->setScore(PRESENT_SCORE);
 }
 
 void MousePlayer::handleCollision(LifePresent& other)
@@ -176,4 +171,8 @@ void MousePlayer::handleCollision(LifePresent& other)
 	other.handleCollision(*this);
 	m_lives++;
 	Resources::instance().playSound(Sounds::TearPresent);
+	this->setScore(PRESENT_SCORE);
 }
+
+/*-----------------------------End of collision handlers-----------------------------*/
+//=====================================================================================

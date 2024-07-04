@@ -43,7 +43,7 @@ public:
 	virtual ~GameLevel();
 	virtual void update(sf::Time deltaTime) override;
 	virtual void render(sf::RenderWindow& window) override;
-	virtual void handleEvent(sf::Event& event, sf::RenderWindow& window) override;
+	virtual void handleEvent(sf::RenderWindow& window) override;
 
 	void respawn();
 	void destroyEnemie();

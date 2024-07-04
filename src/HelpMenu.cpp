@@ -11,8 +11,10 @@ HelpMenu::HelpMenu(Observer* observer)
 	}
 
 	m_sprite.setTexture(m_texture);
+	m_sprite.setPosition(0, 0);
 	m_observer = observer;
 	setView();
+	setBackgroundScale();
 }
 
 void HelpMenu::setView()
@@ -28,19 +30,31 @@ void HelpMenu::setView()
 	m_view.setCenter(widthBound / 2, heightBound / 2);
 }
 
+void HelpMenu::setBackgroundScale()
+{
+	sf::Vector2u textureSize = m_sprite.getTexture()->getSize();
+	sf::Vector2f scale;
+	scale.x = (float)W_WIDTH / textureSize.x;
+	scale.y = (float)W_HEIGHT / textureSize.y;
+	m_sprite.setScale(scale.x, scale.y);
+}
+
 void HelpMenu::render(sf::RenderWindow& window)
 {
 	window.setView(m_view);
 	window.draw(m_sprite);
 }
 
-void HelpMenu::handleEvent(sf::Event& event, sf::RenderWindow& window)
+void HelpMenu::handleEvent(sf::RenderWindow& window)
 {
-	switch (event.type) {
-	case sf::Event::MouseButtonReleased:
-	case sf::Event::KeyReleased:
-		m_observer->switchState("Main Menu");
-		break;
+	for (auto event = sf::Event{}; window.pollEvent(event);)
+	{
+		switch (event.type) {
+		case sf::Event::MouseButtonReleased:
+		case sf::Event::KeyPressed:
+			m_observer->switchState("Main Menu");
+			break;
+		}
 	}
 }
 

@@ -1,3 +1,9 @@
+/// \file CollidableObject.h
+/// \brief A class that represents a collidable object in the game.
+/// 
+/// This class is a base class for all the collidable objects in the game.
+/// It is a derived class from GameObject.
+
 #pragma once
 #include "GameObject.h"
 
@@ -17,10 +23,12 @@ private:
 	bool m_toDelete;
 
 public:
-	CollidableObject();
+	CollidableObject(sf::Vector2f pos, sf::IntRect obj);
+	virtual ~CollidableObject() = default;
 
 	bool getToDelete() const { return m_toDelete; };
 	void setToDelete() { m_toDelete = !m_toDelete; };
+
 	virtual bool checkCollision(CollidableObject& other);
 	virtual void handleCollision(CollidableObject& other) = 0;
 	virtual void handleCollision(MousePlayer& other) = 0;

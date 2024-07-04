@@ -4,14 +4,14 @@
 
 class Button;
 class Observer;
-class YouLost : public GameState {
+class GameOver : public GameState {
 
 public:
-	YouLost(Observer* observer);
-	virtual ~YouLost();
+	GameOver(Observer* observer);
+	virtual ~GameOver();
 	virtual void update(sf::Time deltaTime) override;
 	virtual void render(sf::RenderWindow& window) override;
-	virtual void handleEvent(sf::Event& event, sf::RenderWindow& window) override;
+	virtual void handleEvent(sf::RenderWindow& window) override;
 
 private:
 	std::vector<Button> m_buttons;
@@ -19,4 +19,6 @@ private:
 	sf::Text m_Text;
 	sf::Font m_Font;
 	std::string m_youLostMessage;
+
+	void handleClick(const Button& check);
 };

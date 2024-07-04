@@ -7,7 +7,8 @@ class PresentObject : public PickableObject {
 private:
 
 public:
-	PresentObject(sf::Vector2f pos);
+	PresentObject(sf::Vector2f pos, sf::IntRect obj);
+	virtual ~PresentObject() = default;
 
 	virtual void handleCollision(CheeseObject& other) override { (void)other; };
 	virtual void handleCollision(KeyObject& other) override { (void)other; };

@@ -3,7 +3,7 @@
 #include "GameLevel.h"
 #include "HelpMenu.h"
 #include "EndGameMenu.h"
-#include "YouLost.h"
+#include "GameOver.h"
 #include <iostream>
 #include "Configs.h"
 
@@ -49,14 +49,7 @@ void Controller::render() {
 
 void Controller::processEvents() 
 {
-    for (auto event = sf::Event{};m_window.pollEvent(event);)
-    {
-        if (event.type == sf::Event::Closed)
-        {
-            m_window.close();
-        }
-        m_currentState->handleEvent(event, m_window);
-    }
+    m_currentState->handleEvent(m_window);
 }
 
 void Controller::switchState(const std::string& buttonText)
@@ -79,7 +72,7 @@ void Controller::switchState(const std::string& buttonText)
 	}
     else if (buttonText == "GameOver")
     {
-        m_currentState = std::move(std::make_unique<YouLost>(this));
+        m_currentState = std::move(std::make_unique<GameOver>(this));
     }
     else if (buttonText == "EndGameMenu")
     {

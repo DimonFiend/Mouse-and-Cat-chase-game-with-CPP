@@ -41,28 +41,36 @@ void EndGameMenu::render(sf::RenderWindow& window)
 	m_button.draw(window);
 }
 
-void EndGameMenu::handleEvent(sf::Event& event, sf::RenderWindow& window)
+void EndGameMenu::handleEvent(sf::RenderWindow& window)
 {
-	switch (event.type)
+	for (auto event = sf::Event{}; window.pollEvent(event);)
 	{
-	case sf::Event::MouseButtonReleased:
-	{
-		if (event.mouseButton.button == sf::Mouse::Left)
+		switch (event.type)
 		{
-			if (m_button.isMouseOver(window))
+		case sf::Event::MouseButtonReleased:
+		{
+			if (event.mouseButton.button == sf::Mouse::Left)
+			{
+				if (m_button.isMouseOver(window))
+				{
+					m_observer->switchState(m_button.getText());
+				}
+			}
+			break;
+		}
+		case sf::Event::KeyPressed:
+		{
+			if (event.key.code == sf::Keyboard::M)
 			{
 				m_observer->switchState(m_button.getText());
 			}
 		}
-		break;
-
-	case sf::Event::KeyPressed:
-	{
-		if (event.key.code == sf::Keyboard::M)
+		case sf::Event::Closed:
 		{
-			m_observer->switchState(m_button.getText());
+			window.close();
 		}
+		}
+
 	}
-	}
-	}
+	
 }
