@@ -3,6 +3,7 @@
 #include "GameLevel.h"
 #include "HelpMenu.h"
 #include "EndGameMenu.h"
+#include "YouLost.h"
 #include <iostream>
 
 
@@ -71,7 +72,7 @@ void Controller::switchState(const std::string& buttonText)
 	}
     else if (buttonText == "GameOver")
     {
-		std::cout << "Game Over" << std::endl;
+        m_currentState = std::move(std::make_unique<YouLost>(this));
     }
     else if (buttonText == "EndGameMenu")
     {

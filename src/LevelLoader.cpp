@@ -28,7 +28,6 @@ void LevelLoader::loadLevel()
 	m_file.open(m_fileName.str());
 	if (!m_file.is_open())
 	{
-		
 		m_manager->endOfLevels();
 	}
 	else

@@ -1,35 +1,34 @@
-#include "EndGameMenu.h"
+#include "YouLost.h"
 #include "Observer.h"
 #include "Button.h"
 #include "Configs.h"
 #include "Resources.h"
 #include <iostream>
 
-EndGameMenu::EndGameMenu(Observer* observer)
-	: m_observer(observer), m_beatTheGameMessage("Congradulations! you beat the game!")
+YouLost::YouLost(Observer* observer)
+	: m_observer(observer), m_youLostMessage("No more lives :(, \nplease choose how you want to conitnue")
 {
 	m_buttons.push_back(Button("Restart", sf::Vector2f(W_WIDTH / 2, (W_HEIGHT / 4))));
 	m_buttons.push_back(Button("Exit", sf::Vector2f(W_WIDTH / 2, (W_HEIGHT / 4) + 400)));
 	Resources::instance().playMusic(Music::M_MainMenu);
 	//set text for beat the game message
 	m_Text.setFont(Resources::instance().getFont());
-	m_Text.setString(m_beatTheGameMessage);
+	m_Text.setString(m_youLostMessage);
 	m_Text.setCharacterSize(48);
 	m_Text.setFillColor(sf::Color::White);
-	
 }
 
-EndGameMenu::~EndGameMenu()
+YouLost::~YouLost()
 {
 	Resources::instance().stopMusic(Music::M_MainMenu);
 }
 
-void EndGameMenu::update(sf::Time deltaTime)
+void YouLost::update(sf::Time deltaTime)
 {
 	(void)deltaTime;
 }
 
-void EndGameMenu::render(sf::RenderWindow& window)
+void YouLost::render(sf::RenderWindow& window)
 {
 	sf::FloatRect textRect = m_Text.getLocalBounds();
 	m_Text.setOrigin(textRect.left + textRect.width / 2.0f, textRect.top);
@@ -44,7 +43,7 @@ void EndGameMenu::render(sf::RenderWindow& window)
 	}
 }
 
-void EndGameMenu::handleEvent(sf::Event& event, sf::RenderWindow& window)
+void YouLost::handleEvent(sf::Event& event, sf::RenderWindow& window)
 {
 	switch (event.type)
 	{
@@ -59,7 +58,7 @@ void EndGameMenu::handleEvent(sf::Event& event, sf::RenderWindow& window)
 					if (button.getText() == "Restart") {
 						m_observer->switchState("Start");
 					}
-					
+
 					m_observer->switchState(button.getText());
 				}
 			}
