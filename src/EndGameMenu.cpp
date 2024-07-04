@@ -8,7 +8,7 @@
 EndGameMenu::EndGameMenu(Observer* observer)
 	: m_observer(observer)
 {
-	m_button = Button("Main Menu", sf::Vector2f(W_WIDTH / 2, (W_HEIGHT / 2 - 100)));
+	m_button = Button("Main Menu", sf::Vector2f(W_WIDTH / 2, (W_HEIGHT / 2)));
 	Resources::instance().playMusic(Music::M_GameFinish);
 	//set text for beat the game message
 	m_Text.setFont(Resources::instance().getFont());
@@ -20,7 +20,7 @@ EndGameMenu::EndGameMenu(Observer* observer)
 	m_Text.setOrigin({ textSize.x / 2, textSize.y / 2 });
 
 	// Set the position of the text to the center of the window
-	m_Text.setPosition(W_WIDTH / 2.0f, 30);
+	m_Text.setPosition(W_WIDTH / 2.0f, 50);
 	
 }
 
@@ -60,7 +60,7 @@ void EndGameMenu::handleEvent(sf::Event& event, sf::RenderWindow& window)
 	{
 		if (event.key.code == sf::Keyboard::M)
 		{
-			m_observer->switchState("Start");
+			m_observer->switchState(m_button.getText());
 		}
 	}
 	}

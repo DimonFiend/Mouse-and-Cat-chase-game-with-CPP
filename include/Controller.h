@@ -17,9 +17,10 @@ public:
 	void processEvents();
 
 	virtual void switchState(const std::string& buttonText) override;
-
+	static void startGame(); // static function to run the game
 private:
 	sf::Clock m_clock;
 	sf::RenderWindow m_window;
 	std::unique_ptr<GameState> m_currentState;
+	sf::View m_view;
 };

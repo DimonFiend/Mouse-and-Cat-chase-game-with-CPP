@@ -5,7 +5,7 @@
 #include "EndGameMenu.h"
 #include "YouLost.h"
 #include <iostream>
-
+#include "Configs.h"
 
 
 Controller::Controller(int w, int h, std::string title) {
@@ -13,10 +13,16 @@ Controller::Controller(int w, int h, std::string title) {
     m_window.create(sf::VideoMode(w, h), title, sf::Style::Close);
 	m_window.setFramerateLimit(60);
     m_currentState = std::move(std::make_unique<MainMenu>(this));
-    run();
+	m_view = m_window.getDefaultView();
 }
 
 Controller::~Controller() {}
+
+void Controller::startGame()
+{
+    Controller controller(W_WIDTH,W_HEIGHT, "Mouse Run");
+    controller.run();
+}
 
 void Controller::run() 
 {
@@ -38,6 +44,7 @@ void Controller::render() {
     m_window.clear();
     m_currentState->render(m_window);
     m_window.display();
+	m_window.setView(m_view);
 }
 
 void Controller::processEvents() 

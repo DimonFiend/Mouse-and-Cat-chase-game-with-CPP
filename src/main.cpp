@@ -4,6 +4,6 @@
 
 int main()
 {
-	Controller controller(W_WIDTH, W_HEIGHT, "SFML Window");
+	Controller::startGame();
 	exit(EXIT_SUCCESS);
 }
