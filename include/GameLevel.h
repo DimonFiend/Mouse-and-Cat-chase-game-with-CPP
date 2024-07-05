@@ -9,6 +9,7 @@
 
 typedef std::vector<sf::Vector2i> MovablePath;
 
+class PlayerUI;
 class Observer;
 class GameLevel : public GameState{
 
@@ -20,7 +21,9 @@ private:
 	float m_timeLeft;
 	sf::Vector2f m_mapSize;
 	sf::View m_view;
+	sf::Sprite m_background;
 	bool m_isPaused;
+	std::unique_ptr<PlayerUI> m_playerUI;
 
 	std::unique_ptr<LevelLoader> m_level;
 	std::unique_ptr<MousePlayer> m_player;
@@ -37,6 +40,9 @@ private:
 	void setView();
 	void move(sf::Time deltaTime);
 	void updateTimer();
+	void setBackground();
+	void setUI();
+	void pause();
 public:
 	GameLevel(Observer* observer);
 	void setMapSize(const sf::Vector2f mapSize);

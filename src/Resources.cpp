@@ -12,6 +12,7 @@ Resources::Resources()
 	m_font.loadFromFile("ComicFont.ttf");
 	m_gameSprites.loadFromFile("GameSprites.png");
 	m_buttonTexture.loadFromFile("Button.png");
+	m_UIbar.loadFromFile("UIBar.png");
 	initTextures();
 	initSounds();
 	initMusic();
@@ -40,6 +41,7 @@ void Resources::initTextures()
 void Resources::initBackgrounds()
 {
 	m_backgrounds[B_MainMenu].loadFromFile("Mouse_Run_Background.jpg");
+	m_backgrounds[B_GameLevel].loadFromFile("LevelBackground.png");
 }
 
 void Resources::initSounds()
@@ -102,4 +104,9 @@ const sf::IntRect Resources::getTextureRect(Objects object) const
 const sf::Texture& Resources::getBackground(Backgrounds background) const
 {
 	return m_backgrounds[background];
+}
+
+const sf::Texture& Resources::getUiBarTexture() const
+{
+	return m_UIbar;
 }

@@ -4,7 +4,7 @@
 #include <ctime>
 #include <cstdlib>
 #include "GameLevel.h"
-
+#include "Utilities.h"
 #include "ObjectsInclude.h"
 #include "MousePlayer.h"
 #include "CatEnemy.h"
@@ -63,7 +63,7 @@ void LevelLoader::setLine(std::string line)
 
 	for (size_t i = 0; i < lineSize; i++)
 	{
-		sf::Vector2f position(static_cast<int>(i) * 64, m_height * 64);
+		sf::Vector2f position(static_cast<int>(i) * 64, m_height * 64 + UI_HEIGHT);
 		push_object(line[i], position);
 	}
 }

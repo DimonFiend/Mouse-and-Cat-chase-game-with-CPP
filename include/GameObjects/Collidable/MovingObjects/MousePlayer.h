@@ -20,6 +20,7 @@ public:
 
 	static const unsigned int getLives() {return m_lives;};
 	static const unsigned int getScore() {return m_score;};
+	unsigned int getKeys() const { return m_keys; };
 	void setScore(int score);
 
 	void respawn();

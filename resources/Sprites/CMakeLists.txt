@@ -2,3 +2,5 @@
 configure_file ("Button.png" ${CMAKE_BINARY_DIR} COPYONLY)
 configure_file ("Tutorial.png" ${CMAKE_BINARY_DIR} COPYONLY)
 configure_file ("Mouse_Run_Background.jpg" ${CMAKE_BINARY_DIR} COPYONLY)
+configure_file ("LevelBackground.png" ${CMAKE_BINARY_DIR} COPYONLY)
+configure_file ("UIBar.png" ${CMAKE_BINARY_DIR} COPYONLY)

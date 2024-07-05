@@ -73,8 +73,6 @@ sf::Vector2f MousePlayer::getDirection()
 	{
 		m_direction = Idle;
 	}
-
-
 	return enumToVector();
 }
 

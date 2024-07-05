@@ -14,3 +14,5 @@ constexpr auto MAX_LIVES = 3;
 
 constexpr auto POS_OFFSET = 32;
 constexpr auto GRID_SIZE = 64;
+
+constexpr auto UI_HEIGHT = 64;

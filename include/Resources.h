@@ -32,6 +32,7 @@ enum Music {
 
 enum Backgrounds {
 	B_MainMenu,
+	B_GameLevel,
 	B_MaxBackgrounds
 };
 
@@ -49,6 +50,7 @@ public:
 	void stopMusic(Music music);
 	const sf::IntRect getTextureRect(Objects object) const;
 	const sf::Texture& getBackground(Backgrounds background) const;
+	const sf::Texture& getUiBarTexture() const;
 private:
 	Resources();
 	Resources(const Resources&) = delete;
@@ -63,6 +65,7 @@ private:
 	sf::Texture m_gameSprites;
 	sf::Texture m_buttonTexture;
 	sf::Texture m_backgrounds[B_MaxBackgrounds];
+	sf::Texture m_UIbar;
 
 	sf::SoundBuffer m_soundBuffer[MaxSounds];
 	sf::Sound m_sound[MaxSounds];
