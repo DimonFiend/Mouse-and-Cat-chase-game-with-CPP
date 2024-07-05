@@ -46,43 +46,43 @@ void MainMenu::render(sf::RenderWindow& window)
 
 void MainMenu::handleEvent(sf::RenderWindow& window)
 {
-	for (auto event = sf::Event{}; window.pollEvent(event);)
-	{
-		switch (event.type)
-		{
-		case sf::Event::MouseButtonReleased:
-		{
-			if (event.mouseButton.button == sf::Mouse::Left)
-			{
-				for (auto& button : m_buttons)
-				{
-					if (button.isMouseOver(window))
-					{
-						m_observer->switchState(button.getText());
-					}
-				}
-			}
-			break;
-		}
-		case sf::Event::KeyPressed:
-		{
-			if (event.key.code == sf::Keyboard::E)
-			{
-				window.close();
-			}
-			else if (event.key.code == sf::Keyboard::H)
-			{
-				if (sf::Event::KeyReleased == sf::Keyboard::H)
-				{
-					m_observer->switchState("Help");
-				}
-			}
-			else if (event.key.code == sf::Keyboard::S)
-			{
-				m_observer->switchState("Start");
-			}
-			break;
-		}
-		}
-	}
+    for (auto event = sf::Event{}; window.pollEvent(event);)
+    {
+        switch (event.type)
+        {
+        case sf::Event::MouseButtonReleased:
+        {
+            if (event.mouseButton.button == sf::Mouse::Left)
+            {
+                for (auto& button : m_buttons)
+                {
+                    if (button.isMouseOver(window))
+                    {
+                        m_observer->switchState(button.getText());
+                        return;
+                    }
+                }
+            }
+            break;
+        }
+        case sf::Event::KeyReleased:
+        {
+            if (event.key.code == sf::Keyboard::E)
+            {
+                window.close();
+            }
+            else if (event.key.code == sf::Keyboard::H )
+            {
+                m_observer->switchState("Help");
+                return;
+            }
+            else if (event.key.code == sf::Keyboard::S)
+            {
+                m_observer->switchState("Start");
+                return;
+            }
+            break;
+        }
+        }
+    }
 }

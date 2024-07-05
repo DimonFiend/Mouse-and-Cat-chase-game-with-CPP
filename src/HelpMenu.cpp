@@ -19,15 +19,8 @@ HelpMenu::HelpMenu(Observer* observer)
 
 void HelpMenu::setView()
 {
-	auto widthBound = m_sprite.getGlobalBounds().width;
-	auto heightBound = m_sprite.getGlobalBounds().height;
-
-	float scaleX = W_WIDTH / widthBound;
-	float scaleY = W_HEIGHT / heightBound;
-	float scale = std::min(scaleX, scaleY);
-
-	m_view.setSize(W_WIDTH / scale, W_HEIGHT / scale);
-	m_view.setCenter(widthBound / 2, heightBound / 2);
+	m_view.setSize(W_WIDTH, W_HEIGHT);
+	m_view.setCenter(W_WIDTH / 2, W_HEIGHT / 2);
 }
 
 void HelpMenu::setBackgroundScale()
@@ -49,11 +42,12 @@ void HelpMenu::handleEvent(sf::RenderWindow& window)
 {
 	for (auto event = sf::Event{}; window.pollEvent(event);)
 	{
-		switch (event.type) {
+		switch (event.type)
+		{
 		case sf::Event::MouseButtonReleased:
-		case sf::Event::KeyPressed:
+		case sf::Event::KeyReleased:
 			m_observer->switchState("Main Menu");
-			break;
+			return;
 		}
 	}
 }
