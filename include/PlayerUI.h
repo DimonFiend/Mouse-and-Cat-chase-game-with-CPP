@@ -5,7 +5,7 @@ typedef unsigned int PosInt;
 
 class PlayerUI {
 public:
-	PlayerUI(sf::View WindowSize);
+	PlayerUI();
 	~PlayerUI() = default;
 
 	void setScore(PosInt score);
@@ -30,6 +30,8 @@ private:
 	unsigned int m_keys;
 	sf::Text m_scoreText[PlayerUI::Max];
 	sf::Sprite m_UIbar;
-
+	sf::View m_view;
 	void timeCondition();
+	void setUIview();
+	void setText();
 };

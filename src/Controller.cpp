@@ -44,7 +44,6 @@ void Controller::render() {
     m_window.clear();
     m_currentState->render(m_window);
     m_window.display();
-	m_window.setView(m_view);
 }
 
 void Controller::processEvents() 
@@ -77,6 +76,10 @@ void Controller::switchState(const std::string& buttonText)
     else if (buttonText == "EndGameMenu")
     {
         m_currentState = std::move(std::make_unique<EndGameMenu>(this));
+    }
+    else if (buttonText == "Restart")
+    {
+        m_currentState = std::move(std::make_unique<GameLevel>(this));
     }
 
 }

@@ -16,9 +16,13 @@ public:
 private:
 	std::vector<Button> m_buttons;
 	Observer* m_observer;
+	sf::RectangleShape m_textBackground;
 	sf::Text m_Text;
-	sf::Font m_Font;
-	std::string m_youLostMessage;
+	sf::View m_view;
+	sf::Sprite m_background;
 
-	void handleClick(const Button& check);
+	void mouseClickHandle(sf::Event event, sf::RenderWindow& window);
+	void keyboardHandle(sf::Event event, sf::RenderWindow& window);
+	void setBackgroundScale();
+	void setText();
 };

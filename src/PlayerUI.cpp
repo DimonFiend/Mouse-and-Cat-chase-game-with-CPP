@@ -2,8 +2,9 @@
 #include "Resources.h"
 #include <format>
 #include "Utilities.h"
+#include "Configs.h"
 
-PlayerUI::PlayerUI(sf::View windowSize)
+PlayerUI::PlayerUI()
     : m_score(0), m_timeLeft({0,0}), m_health(0), m_keys(0),
     m_UIbar(Resources::instance().getUiBarTexture()),
     m_scoreText{ sf::Text(), sf::Text(), sf::Text(), sf::Text() }
@@ -12,61 +13,65 @@ PlayerUI::PlayerUI(sf::View windowSize)
     {
         m_scoreText[i].setFont(Resources::instance().getFont());
         m_scoreText[i].setCharacterSize(32);
-        m_scoreText[i].setFillColor(sf::Color::White);
     }
+    setUIview();
+}
 
-	auto windowArea = windowSize.getViewport();
+void PlayerUI::setText()
+{
+    auto startPos = sf::Vector2f(20, GRID_SIZE / 5);
 
-    m_UIbar.setPosition({ 0 , 0});
-
-    // Calculate the scale factors
-    float xFactor = windowSize.getSize().x / static_cast<float>(m_UIbar.getTexture()->getSize().x);
-    float yFactor = GRID_SIZE / static_cast<float>(m_UIbar.getTexture()->getSize().y);
-
-    // Set the scale of the m_UIbar
-    m_UIbar.setScale(xFactor, yFactor);
-
-    // Update the position of the UI elements based on the scaled UI bar
-    float elementXPosition = 0.0f;
     for (unsigned int i = 0; i < PlayerUI::Max; i++)
     {
-        m_scoreText[i].setOrigin(m_scoreText[i].getGlobalBounds().width / 2, m_scoreText[i].getGlobalBounds().height / 2);
-        m_scoreText[i].setPosition(elementXPosition, m_UIbar.getGlobalBounds().height / 2);
-        elementXPosition += m_scoreText[i].getGlobalBounds().width + 100;
+        auto bounds = m_scoreText[i].getLocalBounds();
+        m_scoreText[i].setPosition(startPos.x, startPos.y);
+        startPos.x += bounds.width + 20;
     }
+}
+
+void PlayerUI::setUIview()
+{
+    m_view.setSize(W_WIDTH, GRID_SIZE);
+    m_view.setCenter(W_WIDTH / 2, GRID_SIZE / 2);
+    m_view.setViewport(sf::FloatRect(0, 0, 1, 64.0f / W_HEIGHT));
+    m_UIbar.setPosition({ 0 , 0 });
+    m_UIbar.setScale(W_WIDTH / m_UIbar.getLocalBounds().width, GRID_SIZE / m_UIbar.getLocalBounds().height);
 }
 
 void PlayerUI::setScore(PosInt score)
 {
     m_score = score;
-    m_scoreText[UIElement::Score].setString(std::format("Score: {}", m_score));
+    m_scoreText[UIElement::Score].setString(std::format("Score:{}", m_score));
 }
 
 
 void PlayerUI::setHealth(PosInt health)
 {
     m_health = health;
-    m_scoreText[UIElement::Health].setString(std::format("Health: {}", m_health));
+    m_scoreText[UIElement::Health].setString(std::format("Health:{}", m_health));
  
 }
 
 void PlayerUI::setKey(PosInt key)
 {
     m_keys = key;
-    m_scoreText[UIElement::Key].setString(std::format("Keys: {}", m_keys));
+    m_scoreText[UIElement::Key].setString(std::format("Keys:{}", m_keys));
 }
 
 void PlayerUI::setTimeLeft(float time)
 {
     m_timeLeft = sf::Vector2i{ static_cast<int>(time) / 60, static_cast<int>(time) % 60 };
 
-    m_scoreText[UIElement::TimeLeft].setString(std::format("Time Left: {:02}:{:02}", static_cast<int>(m_timeLeft.x), static_cast<int>(m_timeLeft.y)));
+    m_scoreText[UIElement::TimeLeft].setString(std::format("Time Left:{:02}:{:02}", static_cast<int>(m_timeLeft.x), static_cast<int>(m_timeLeft.y)));
 
     timeCondition();
 }
 
 void PlayerUI::draw(sf::RenderWindow& window)
 {
+    setText();
+
+	window.setView(m_view);
     window.draw(m_UIbar);
     for (unsigned int i = 0; i < PlayerUI::Max; i++)
     {

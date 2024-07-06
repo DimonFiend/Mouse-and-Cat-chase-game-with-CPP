@@ -10,20 +10,22 @@ private:
 	GameLevel* m_manager;
 	sf::Vector2f getDirection();
 	unsigned int m_keys;
-	static unsigned int m_lives;
-	static unsigned int m_score;
+	unsigned int m_lives;
+	unsigned int m_score;
 
 	void checkMapBounds();
 	void handleEnemy();
 public:
 	MousePlayer(sf::Vector2f pos, GameLevel* manager);
-
-	static const unsigned int getLives() {return m_lives;};
-	static const unsigned int getScore() {return m_score;};
-	unsigned int getKeys() const { return m_keys; };
+	MousePlayer& operator=(MousePlayer& other);
+	const unsigned int getLives() {return m_lives;};
+	const unsigned int getScore() {return m_score;};
+	unsigned int getKeys() const {return m_keys; };
 	void setScore(int score);
 
 	void respawn();
+	virtual void move(sf::Time deltaTime) override;
+
 	virtual void handleCollision(CatEnemy& other) override;
 	virtual void handleCollision(SmartCatEnemy& other) override;
 	virtual void handleCollision(WallObject& other) override;
@@ -36,5 +38,4 @@ public:
 	virtual void handleCollision(FreezePresent& other) override;
 	virtual void handleCollision(DestroyPresent& other) override;
 	virtual void handleCollision(LifePresent& other) override;
-	virtual void move(sf::Time deltaTime) override;
 };

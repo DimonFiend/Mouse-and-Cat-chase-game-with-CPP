@@ -83,6 +83,10 @@ void MainMenu::handleEvent(sf::RenderWindow& window)
             }
             break;
         }
+		case sf::Event::Closed:
+		{
+			window.close();
+		}
         }
     }
 }

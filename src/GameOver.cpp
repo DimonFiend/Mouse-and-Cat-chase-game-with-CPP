@@ -6,16 +6,42 @@
 #include <iostream>
 
 GameOver::GameOver(Observer* observer)
-	: m_observer(observer), m_youLostMessage("No more lives :(, \nplease choose how you want to conitnue")
+	: m_observer(observer)
 {
-	m_buttons.push_back(Button("Restart", sf::Vector2f(W_WIDTH / 2, (W_HEIGHT / 2 - 200))));
-	m_buttons.push_back(Button("Exit", sf::Vector2f(W_WIDTH / 2, (W_HEIGHT / 4) + 200)));
+	m_buttons.push_back(Button("Restart", sf::Vector2f(W_WIDTH / 2, (W_HEIGHT / 2))));
+	m_buttons.push_back(Button("Main Menu", sf::Vector2f(W_WIDTH / 2, (W_HEIGHT / 2 + 150 ))));
+	m_buttons.push_back(Button("Exit", sf::Vector2f(W_WIDTH / 2, (W_HEIGHT / 2) + 300)));
 	Resources::instance().playMusic(Music::M_MainMenu);
-	//set text for beat the game message
+	m_view.setSize(W_WIDTH, W_HEIGHT);
+	m_background.setTexture(Resources::instance().getBackground(Backgrounds::B_GameOver));
+	setBackgroundScale();
+	setText();
+}
+
+void GameOver::setText()
+{
 	m_Text.setFont(Resources::instance().getFont());
-	m_Text.setString(m_youLostMessage);
+	m_Text.setString("Game Over! no more lives left!");
 	m_Text.setCharacterSize(48);
-	m_Text.setFillColor(sf::Color::White);
+	m_Text.setFillColor(sf::Color::Black);
+	m_Text.setStyle(sf::Text::Bold);
+	auto textSize = m_Text.getLocalBounds().getSize();
+	m_Text.setOrigin({ textSize.x / 2, textSize.y / 2 });
+	m_Text.setPosition(W_WIDTH / 2.0f, 50);
+
+	m_textBackground.setSize({ m_Text.getLocalBounds().width + 20, m_Text.getLocalBounds().height + 30 });
+	m_textBackground.setFillColor(sf::Color::Blue);
+	m_textBackground.setOrigin(m_textBackground.getSize().x / 2, m_textBackground.getSize().y / 2);
+	m_textBackground.setPosition(m_Text.getPosition());
+}
+
+void GameOver::setBackgroundScale()
+{
+	sf::Vector2u textureSize = m_background.getTexture()->getSize();
+	sf::Vector2f scale;
+	scale.x = (float)W_WIDTH / textureSize.x;
+	scale.y = (float)W_HEIGHT / textureSize.y;
+	m_background.setScale(scale.x, scale.y);
 }
 
 GameOver::~GameOver()
@@ -30,11 +56,9 @@ void GameOver::update(sf::Time deltaTime)
 
 void GameOver::render(sf::RenderWindow& window)
 {
-	sf::FloatRect textRect = m_Text.getLocalBounds();
-	m_Text.setOrigin(textRect.left + textRect.width / 2.0f, textRect.top);
-
-	// Set the position of the text to the center of the window
-	m_Text.setPosition(window.getSize().x / 2.0f, 50.0f);
+	window.setView(m_view);
+	window.draw(m_background);
+	window.draw(m_textBackground);
 	window.draw(m_Text);
 
 	for (auto& button : m_buttons)
@@ -51,43 +75,51 @@ void GameOver::handleEvent(sf::RenderWindow& window)
 		{
 		case sf::Event::MouseButtonReleased:
 		{
-			if (event.mouseButton.button == sf::Mouse::Left)
-			{
-				for (auto& button : m_buttons)
-				{
-					if (button.isMouseOver(window))
-					{
-						handleClick(button);
-					}
-				}
-			}
+			mouseClickHandle(event, window);
 			break;
 		}
-		case sf::Event::KeyPressed:
+		case sf::Event::KeyReleased:
 		{
-			if (event.key.code == sf::Keyboard::E)
-			{
-				window.close();
-			}
-			else if (event.key.code == sf::Keyboard::R)
-			{
-				m_observer->switchState("Start");
-				return;
-			}
+			keyboardHandle(event, window);
 			break;
+		}
+		case sf::Event::Closed:
+		{
+			window.close();
 		}
 		}
 	}
 }
 
-void GameOver::handleClick(const Button& check)
+void GameOver::mouseClickHandle(sf::Event event, sf::RenderWindow& window)
 {
-	if (check.getText() == "Restart") {
-		m_observer->switchState("Start");
-	}
-	else
+	if (event.mouseButton.button == sf::Mouse::Left)
 	{
-		m_observer->switchState(check.getText());
+		for (auto& button : m_buttons)
+		{
+			if (button.isMouseOver(window))
+			{
+				m_observer->switchState(button.getText());
+				return;
+			}
+		}
 	}
-	return;
+}
+
+void GameOver::keyboardHandle(sf::Event event, sf::RenderWindow& window)
+{
+	if (event.key.code == sf::Keyboard::E)
+	{
+		window.close();
+	}
+	else if (event.key.code == sf::Keyboard::R)
+	{
+		m_observer->switchState("Restart");
+		return;
+	}
+	else if (event.key.code == sf::Keyboard::M)
+	{
+		m_observer->switchState("Main Menu");
+		return;
+	}
 }

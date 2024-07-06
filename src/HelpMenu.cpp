@@ -2,6 +2,7 @@
 #include "Observer.h" 
 #include <iostream>
 #include "Configs.h"
+#include "Resources.h"
 
 HelpMenu::HelpMenu(Observer* observer)
 {
@@ -15,6 +16,12 @@ HelpMenu::HelpMenu(Observer* observer)
 	m_observer = observer;
 	setView();
 	setBackgroundScale();
+	Resources::instance().playMusic(Music::M_MainMenu);
+}
+
+HelpMenu::~HelpMenu()
+{
+	Resources::instance().stopMusic(Music::M_MainMenu);
 }
 
 void HelpMenu::setView()
@@ -48,6 +55,10 @@ void HelpMenu::handleEvent(sf::RenderWindow& window)
 		case sf::Event::KeyReleased:
 			m_observer->switchState("Main Menu");
 			return;
+			break;
+		case sf::Event::Closed:
+			window.close();
+			break;
 		}
 	}
 }

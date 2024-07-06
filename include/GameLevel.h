@@ -21,6 +21,7 @@ private:
 	float m_timeLeft;
 	sf::Vector2f m_mapSize;
 	sf::View m_view;
+	sf::View m_backgroundView;
 	sf::Sprite m_background;
 	bool m_isPaused;
 	std::unique_ptr<PlayerUI> m_playerUI;
@@ -54,7 +55,7 @@ public:
 	void respawn();
 	void destroyEnemie();
 	void freezeEnemies();
-	void setPlayer(std::unique_ptr<MousePlayer> player);
+	void setPlayer(std::unique_ptr<MousePlayer>& player);
 	void setEnemy(std::unique_ptr<EnemyObject> enemy);
 	void setCollidable(std::unique_ptr<CollidableObject> collidable);
 	void setStatic(std::unique_ptr<GameObject> object);

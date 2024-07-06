@@ -42,6 +42,8 @@ void Resources::initBackgrounds()
 {
 	m_backgrounds[B_MainMenu].loadFromFile("Mouse_Run_Background.jpg");
 	m_backgrounds[B_GameLevel].loadFromFile("LevelBackground.png");
+	m_backgrounds[B_GameFinish].loadFromFile("GameFinishBackground.png");
+	m_backgrounds[B_GameOver].loadFromFile("GameOverBackground.png");
 }
 
 void Resources::initSounds()
@@ -93,7 +95,10 @@ void Resources::playMusic(Music music)
 
 void Resources::stopMusic(Music music)
 {
-	m_music[music].stop();
+	if (m_music[music].getStatus() == sf::Music::Playing)
+	{
+		m_music[music].stop();
+	}
 }
 
 const sf::IntRect Resources::getTextureRect(Objects object) const

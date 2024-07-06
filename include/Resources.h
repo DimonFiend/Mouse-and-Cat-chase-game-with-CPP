@@ -33,6 +33,8 @@ enum Music {
 enum Backgrounds {
 	B_MainMenu,
 	B_GameLevel,
+	B_GameFinish,
+	B_GameOver,
 	B_MaxBackgrounds
 };
 
@@ -70,6 +72,7 @@ private:
 	sf::SoundBuffer m_soundBuffer[MaxSounds];
 	sf::Sound m_sound[MaxSounds];
 	sf::Music m_music[M_MaxMusic];
+	sf::Music m_currentMusic;
 	sf::Font m_font;
 	std::vector<sf::IntRect> m_data;
 };

@@ -63,7 +63,7 @@ void LevelLoader::setLine(std::string line)
 
 	for (size_t i = 0; i < lineSize; i++)
 	{
-		sf::Vector2f position(static_cast<int>(i) * 64, m_height * 64 + UI_HEIGHT);
+		sf::Vector2f position(static_cast<int>(i) * 64, m_height * 64);
 		push_object(line[i], position);
 	}
 }

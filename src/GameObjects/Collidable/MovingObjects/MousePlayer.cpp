@@ -6,14 +6,28 @@
 #include "GameLevel.h"
 #include "Utilities.h"
 
-unsigned int MousePlayer::m_lives = MAX_LIVES;
-unsigned int MousePlayer::m_score = 0;
 
 MousePlayer::MousePlayer(sf::Vector2f pos, GameLevel* manager)
 	:MovingObject(MOUSE_SPEED, pos, Resources::instance().getTextureRect(Objects::Mouse))
-	, m_keys(0)
+	, m_keys(0), m_lives(3), m_score(0)
 	, m_manager(manager)
 {}
+
+
+MousePlayer& MousePlayer::operator=(MousePlayer& other)
+{
+	if (this != &other)
+	{
+		MovingObject::operator=(other);
+		m_keys = other.m_keys;
+		m_lives = other.m_lives;
+		m_score = other.m_score;
+		m_manager = other.m_manager;
+		m_sprite = other.m_sprite;
+		m_sprite.setPosition(other.m_sprite.getPosition());
+	}
+	return *this;
+}
 
 
 void MousePlayer::respawn()
@@ -23,6 +37,12 @@ void MousePlayer::respawn()
 
 void MousePlayer::setScore(int score)
 {
+	if (m_score + score < 0)
+	{
+		m_score = 0;
+		return;
+	}
+
 	m_score += score;
 }
 

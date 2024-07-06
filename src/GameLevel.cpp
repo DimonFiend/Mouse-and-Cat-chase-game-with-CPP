@@ -16,6 +16,8 @@ GameLevel::GameLevel(Observer* observer) :
 	m_isPaused(false)
 {
 	m_background.setTexture(Resources::instance().getBackground(Backgrounds::B_GameLevel));
+	m_backgroundView.setSize(W_WIDTH, W_HEIGHT);
+	m_backgroundView.setCenter(W_WIDTH / 2, W_HEIGHT / 2);
 	LoadLevel();
 	Resources::instance().playMusic(Music::M_GameLevel);
 }
@@ -59,8 +61,10 @@ void GameLevel::removePickable()
 //draws the objects
 void GameLevel::render(sf::RenderWindow& window)
 {
-	window.setView(m_view);
+	window.setView(m_backgroundView);
 	window.draw(m_background);
+	window.setView(m_view);
+
 	for (auto& staticObject : m_staticObjects)
 	{
 		staticObject->draw(window);
@@ -142,7 +146,7 @@ void GameLevel::LoadLevel()
 	m_enemys.clear();
 	m_level = std::make_unique<LevelLoader>(this, m_levelNumber);
 	m_level->loadLevel();
-
+	this->setView();
 	if (m_level->filesFinished())
 	{
 		this->endOfLevels();
@@ -248,9 +252,7 @@ sf::Vector2f GameLevel::getPlayerPosition() const
 void GameLevel::setMapSize(const sf::Vector2f mapSize)
 {
 	m_mapSize = mapSize;
-	m_mapSize.y += UI_HEIGHT;
-	m_playerUI = std::make_unique<PlayerUI>(m_view);
-	this->setView();
+	m_playerUI = std::make_unique<PlayerUI>();
 	this->setBackground();
 	this->setUI();
 }
@@ -258,16 +260,13 @@ void GameLevel::setMapSize(const sf::Vector2f mapSize)
 /*set the background to fit the level size*/
 void GameLevel::setBackground()
 {
-
-	sf::Vector2u textureSize = m_background.getTexture()->getSize();
-	m_background.setOrigin(textureSize.x / 2, textureSize.y / 2);
-	m_background.setPosition(m_mapSize.x / 2, m_mapSize.y / 2);
+	auto size = m_background.getTexture()->getSize();
+	m_background.setPosition(0, 0);
 	
 	sf::Vector2f scale;
-	scale.x = static_cast<float>(m_view.getSize().x) / textureSize.x;
-	scale.y = static_cast<float>(m_view.getSize().y) / textureSize.y;
+	scale.x = static_cast<float>(m_backgroundView.getSize().x) / size.x;
+	scale.y = static_cast<float>(m_backgroundView.getSize().y) / size.y;
 	m_background.setScale(scale);
-
 }
 
 /*set the window view to fit the level size*/
@@ -277,14 +276,23 @@ void GameLevel::setView()
 	float scaleY = W_HEIGHT / m_mapSize.y;
 	float scale = std::min(scaleX, scaleY);
 
-	m_view.setSize(W_WIDTH / scale, W_HEIGHT / scale);
-	m_view.setCenter(m_mapSize.x / 2, m_mapSize.y  / 2);
+	m_view.setSize(W_WIDTH / scale, W_HEIGHT - 64 / scale);
+	m_view.setCenter(m_mapSize.x / 2, m_mapSize.y / 2);
+	m_view.setViewport({ 0.f, 64.f / W_HEIGHT, 1.f, (W_HEIGHT - 64.f) / W_HEIGHT });
 }
 
 /*=========================Level-Setters============================================*/
-void GameLevel::setPlayer(std::unique_ptr<MousePlayer> player)
+void GameLevel::setPlayer(std::unique_ptr<MousePlayer>& player)
 {
-	m_player = std::move(player);
+	if (m_player != nullptr)
+	{
+		*player = *m_player;
+		m_player = std::move(player);
+	}
+	else
+	{
+		m_player = std::move(player);
+	}
 }
 void GameLevel::setEnemy(std::unique_ptr<EnemyObject> enemy)
 {
