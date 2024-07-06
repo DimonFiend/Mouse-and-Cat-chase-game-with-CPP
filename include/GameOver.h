@@ -8,7 +8,7 @@ class GameOver : public GameState {
 
 public:
 	GameOver(Observer* observer);
-	virtual ~GameOver();
+	virtual ~GameOver() = default;
 	virtual void update(sf::Time deltaTime) override;
 	virtual void render(sf::RenderWindow& window) override;
 	virtual void handleEvent(sf::RenderWindow& window) override;

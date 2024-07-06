@@ -8,7 +8,7 @@ class MainMenu : public GameState {
 
 public:
 	MainMenu(Observer* observer);
-	virtual ~MainMenu();
+	virtual ~MainMenu() = default;
 	virtual void update(sf::Time deltaTime) override;
 	virtual void render(sf::RenderWindow& window) override;
 	virtual void handleEvent(sf::RenderWindow& window) override;
@@ -18,6 +18,5 @@ private:
 	sf::Sprite m_background;
 	sf::View m_view;
 	Observer* m_observer;
-
 	void setBackgroundScale();
 };

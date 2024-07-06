@@ -67,6 +67,7 @@ void PlayerUI::setTimeLeft(float time)
     timeCondition();
 }
 
+
 void PlayerUI::draw(sf::RenderWindow& window)
 {
     setText();

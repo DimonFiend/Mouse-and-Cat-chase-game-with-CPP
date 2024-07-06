@@ -22,6 +22,7 @@ private:
 	sf::RectangleShape m_textBackground;
 	sf::Sprite m_background;
 
+	void setText();
 	void setBackground();
 	void mouseClickHandle(sf::Event event, sf::RenderWindow& window);
 	void keyboardHandle(sf::Event event, sf::RenderWindow& window);

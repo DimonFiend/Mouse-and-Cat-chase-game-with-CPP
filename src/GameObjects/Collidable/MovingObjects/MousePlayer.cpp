@@ -18,7 +18,6 @@ MousePlayer& MousePlayer::operator=(const MousePlayer& other)
 {
 	if (this != &other)
 	{
-		m_keys = other.m_keys;
 		m_lives = other.m_lives;
 		m_score = other.m_score;
 		m_manager = other.m_manager;

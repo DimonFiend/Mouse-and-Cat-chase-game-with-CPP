@@ -15,6 +15,7 @@ GameOver::GameOver(Observer* observer)
 	m_background.setTexture(Resources::instance().getBackground(Backgrounds::B_GameOver));
 	setBackgroundScale();
 	setText();
+	setMusic(Resources::instance().getMusicPath(Music::M_GameOver), false, MUSIC_VOLUME);
 }
 
 void GameOver::setText()
@@ -41,11 +42,6 @@ void GameOver::setBackgroundScale()
 	scale.x = (float)W_WIDTH / textureSize.x;
 	scale.y = (float)W_HEIGHT / textureSize.y;
 	m_background.setScale(scale.x, scale.y);
-}
-
-GameOver::~GameOver()
-{
-
 }
 
 void GameOver::update(sf::Time deltaTime)

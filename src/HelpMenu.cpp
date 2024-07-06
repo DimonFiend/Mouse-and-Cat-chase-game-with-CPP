@@ -6,22 +6,12 @@
 
 HelpMenu::HelpMenu(Observer* observer)
 {
-	if (!m_texture.loadFromFile("Tutorial.png")) {
-		std::cerr << "The tutorial.png didn't load proparly";
-		system("pause");
-	}
-
-	m_sprite.setTexture(m_texture);
+	m_sprite.setTexture(Resources::instance().getBackground(B_HelpMenu));
 	m_sprite.setPosition(0, 0);
 	m_observer = observer;
 	setView();
 	setBackgroundScale();
-
-}
-
-HelpMenu::~HelpMenu()
-{
-
+	setMusic(Resources::instance().getMusicPath(Music::M_MainMenu), true, MUSIC_VOLUME);
 }
 
 void HelpMenu::setView()

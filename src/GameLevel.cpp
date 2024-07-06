@@ -13,20 +13,18 @@ GameLevel::GameLevel(Observer* observer) :
 	m_observer(observer),
 	m_levelNumber(1),
 	m_level(std::make_unique<LevelLoader>(this, m_levelNumber)),
-	m_isPaused(false)
+	m_isPaused(false),
+	m_pausedTime(0),
+	m_pauseText("Paused",Resources::instance().getFont(), 64)
 {
+	m_pauseText.setFillColor(sf::Color::Black);
+	m_pauseText.setStyle(sf::Text::Bold);
 	m_background.setTexture(Resources::instance().getBackground(Backgrounds::B_GameLevel));
 	m_backgroundView.setSize(W_WIDTH, W_HEIGHT);
 	m_backgroundView.setCenter(W_WIDTH / 2, W_HEIGHT / 2);
 	LoadLevel();
-	m_music.openFromFile(Resources::instance().getMusicPath(Music::M_GameLevel));
-	m_music.setLoop(true);
-	m_music.play();
-}
-
-GameLevel::~GameLevel()
-{
-	m_music.stop();
+	setMusic(Resources::instance().getMusicPath(Music::M_GameLevel), true, MUSIC_VOLUME);
+	
 }
 
 //updates the game level
@@ -63,27 +61,36 @@ void GameLevel::removePickable()
 //draws the objects
 void GameLevel::render(sf::RenderWindow& window)
 {
-	window.setView(m_backgroundView);
-	window.draw(m_background);
-	window.setView(m_view);
+    window.setView(m_backgroundView);
+    window.draw(m_background);
+    window.setView(m_view);
 
-	for (auto& staticObject : m_staticObjects)
-	{
-		staticObject->draw(window);
-	}
+    for (auto& staticObject : m_staticObjects)
+    {
+        staticObject->draw(window);
+    }
 
-	for (auto& collidableObject : m_collidableObjects)
-	{
-		collidableObject->draw(window);
-	}
+    for (auto& collidableObject : m_collidableObjects)
+    {
+        collidableObject->draw(window);
+    }
 
-	for (auto& enemyObject : m_enemys)
-	{
-		enemyObject->draw(window);
-	}
+    for (auto& enemyObject : m_enemys)
+    {
+        enemyObject->draw(window);
+    }
 
-	m_player->draw(window);
-	m_playerUI->draw(window);
+    m_player->draw(window);
+    m_playerUI->draw(window);
+
+    if (m_isPaused)
+    {
+		auto textBounds = m_pauseText.getLocalBounds();
+        m_pauseText.setOrigin(textBounds.left + textBounds.width / 2.0f, textBounds.top + textBounds.height / 2.0f);
+        m_pauseText.setPosition({W_WIDTH /2, W_HEIGHT / 2});
+		window.setView(window.getDefaultView());
+        window.draw(m_pauseText);
+    }
 }
 
 void GameLevel::handleEvent(sf::RenderWindow& window)
@@ -105,14 +112,18 @@ void GameLevel::handleEvent(sf::RenderWindow& window)
 	}
 }
 
+//pauses the game
 void GameLevel::pause()
 {
 	if (!m_isPaused)
 	{
+		m_pausedTime = m_time.getElapsedTime().asSeconds();
 		m_isPaused = true;
 	}
 	else
 	{
+		//counts the passed time while the game was paused
+		m_timerStart -= m_pausedTime;
 		m_time.restart();
 		m_isPaused = false;
 	}
@@ -133,12 +144,22 @@ void GameLevel::checkConditions()
 	}
 	else if (m_timeLeft <= 0)
 	{
-		//reloads the level and subtracts the score of eaten cheese
-		int getCheese = CheeseObject::getCheeseCount();
-		this->LoadLevel();
-		int getCheese2 = CheeseObject::getCheeseCount();
-		m_player->setScore(-(getCheese2 - getCheese) * CHEESE_SCORE);
+		this->resetLevel();
 	}
+}
+
+void GameLevel::resetLevel()
+{
+	//reloads the level and subtracts the score of eaten cheese
+	int getPickedCheese = CheeseObject::getCheeseCount();
+	int getOpenedDoors = DoorObject::getDoorCount();
+	this->LoadLevel();
+	int getCheeseCount = CheeseObject::getCheeseCount();
+	int getDoorCount = DoorObject::getDoorCount();
+
+	int subtractScore = (getPickedCheese - getCheeseCount) * CHEESE_SCORE
+						+ (getOpenedDoors - getDoorCount) * DOOR_SCORE;
+	m_player->setScore(-1*subtractScore);
 }
 
 void GameLevel::levelFinishScore()
@@ -289,7 +310,7 @@ void GameLevel::setView()
 	float scaleY = W_HEIGHT / m_mapSize.y;
 	float scale = std::min(scaleX, scaleY);
 
-	m_view.setSize(W_WIDTH / scale, W_HEIGHT - 64 / scale);
+	m_view.setSize(W_WIDTH / scale, W_HEIGHT/ scale);
 	m_view.setCenter(m_mapSize.x / 2, m_mapSize.y / 2);
 	m_view.setViewport({ 0.f, 64.f / W_HEIGHT, 1.f, (W_HEIGHT - 64.f) / W_HEIGHT });
 }
@@ -322,13 +343,14 @@ void GameLevel::setStatic(std::unique_ptr<GameObject> object)
 /*================================================================================*/
 void GameLevel::setTimer()
 {
-	m_timerStart += (CheeseObject::getCheeseCount()) * 2.f;
-	m_timerStart += ((int)m_mapSize.x / 64 + (int)m_mapSize.y / 64) * 0.2f;
+	m_timerStart = 0;
+	m_pausedTime = 0;
 
-	if (auto enemyCount = getEnemyCount(); enemyCount > 0)
-	{
-		m_timerStart += (m_enemys.size()) * 5.f;
-	}
+	m_timerStart += (CheeseObject::getCheeseCount()) * 2.5f;
+	m_timerStart += ((int)m_mapSize.x / 64 + (int)m_mapSize.y / 64) * 0.5f;
+	m_timerStart += (m_enemys.size()) * 7.f;
+	m_timeLeft = m_timerStart;
+	m_time.restart();
 }
 
 size_t GameLevel::getEnemyCount() const
@@ -366,7 +388,7 @@ void GameLevel::freezeEnemies()
 //add time to the timer
 void GameLevel::addTime(float time)
 {
-	m_timeLeft += time;
+	m_timerStart += time;
 }
 
 //when all finished the last level - switch the state to EndGameMenu

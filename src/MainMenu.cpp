@@ -13,6 +13,7 @@ MainMenu::MainMenu(Observer* observer)
 	m_buttons.push_back(Button("Help", sf::Vector2f(W_WIDTH /2, (W_HEIGHT / 1.5) + 100)));
 	m_buttons.push_back(Button("Exit", sf::Vector2f(W_WIDTH /2, (W_HEIGHT / 1.5) + 200)));
 
+	setMusic(Resources::instance().getMusicPath(Music::M_MainMenu), true, MUSIC_VOLUME);
 }
 
 void MainMenu::setBackgroundScale()
@@ -22,11 +23,6 @@ void MainMenu::setBackgroundScale()
 	scale.x = (float)W_WIDTH / textureSize.x;
 	scale.y = (float)W_HEIGHT / textureSize.y;
 	m_background.setScale(scale.x, scale.y);
-}
-
-MainMenu::~MainMenu()
-{
-
 }
 
 void MainMenu::update(sf::Time deltaTime)

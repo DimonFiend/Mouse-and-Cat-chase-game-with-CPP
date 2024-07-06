@@ -5,9 +5,13 @@
 #include "GameLevel.h"
 #include "FloorObject.h"
 
+unsigned int DoorObject::m_doorCount = 0;
+
 DoorObject::DoorObject(sf::Vector2f pos)
 	: PickableObject(pos, Resources::instance().getTextureRect(Objects::Door))
-{}
+{
+	m_doorCount++;
+}
 
 void DoorObject::handleCollision(CollidableObject& other)
 {

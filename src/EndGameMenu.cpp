@@ -11,7 +11,15 @@ EndGameMenu::EndGameMenu(Observer* observer)
 	m_button.push_back(Button("Main Menu", sf::Vector2f(W_WIDTH / 2, (W_HEIGHT / 2))));
 	m_button.push_back(Button("Exit", sf::Vector2f(W_WIDTH / 2, (W_HEIGHT / 2 + 200))));
 
+	setText();
+	setBackground();
+	setMusic(Resources::instance().getMusicPath(Music::M_GameFinish), false, MUSIC_VOLUME);
+}
+
+void EndGameMenu::setText()
+{
 	//set text for beat the game message
+
 	m_Text.setFont(Resources::instance().getFont());
 	m_Text.setString("Congradulations! you've beaten the game!");
 	m_Text.setCharacterSize(48);
@@ -25,7 +33,6 @@ EndGameMenu::EndGameMenu(Observer* observer)
 	m_view.setSize(W_WIDTH, W_HEIGHT);
 	m_textBackground.setSize({ W_WIDTH, m_Text.getLocalBounds().height + 30 });
 	m_textBackground.setFillColor(sf::Color::Black);
-	setBackground();
 }
 
 void EndGameMenu::setBackground()

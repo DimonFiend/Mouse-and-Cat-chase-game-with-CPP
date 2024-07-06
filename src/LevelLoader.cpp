@@ -18,7 +18,9 @@ LevelLoader::LevelLoader(GameLevel* manager, unsigned int level)
 	m_specialEnemy(false),
 	m_level(level),
 	m_files(false)
-{}
+{
+	srand(static_cast<unsigned int>(time(0)));
+}
 
 
 
@@ -111,7 +113,6 @@ void LevelLoader::push_object(char id, sf::Vector2f position)
 
 std::unique_ptr<PresentObject> LevelLoader::generatePresent(sf::Vector2f position)
 {
-	srand(static_cast<unsigned int>(time(0)));
 	int random = rand() % 4;
 	switch (random)
 	{

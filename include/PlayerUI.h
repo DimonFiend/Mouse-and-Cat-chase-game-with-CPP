@@ -22,12 +22,14 @@ private:
 		Key,
 		Score,
 		TimeLeft,
+		PauseState,
 		Max
 	};
 	unsigned int m_score;
 	sf::Vector2i m_timeLeft;
 	unsigned int m_health;
 	unsigned int m_keys;
+
 	sf::Text m_scoreText[PlayerUI::Max];
 	sf::Sprite m_UIbar;
 	sf::View m_view;

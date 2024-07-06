@@ -19,15 +19,16 @@ private:
 	sf::Clock m_time;
 	float m_timerStart;
 	float m_timeLeft;
+	float m_pausedTime;
 	sf::Vector2f m_mapSize;
 	sf::View m_view;
 	sf::View m_backgroundView;
 	sf::Sprite m_background;
-	sf::Music m_music;
+	sf::Text m_pauseText;
 	bool m_isPaused;
 	std::unique_ptr<PlayerUI> m_playerUI;
-
 	std::unique_ptr<LevelLoader> m_level;
+
 	std::unique_ptr<MousePlayer> m_player;
 	std::vector<std::unique_ptr<EnemyObject>> m_enemys;
 	std::vector<std::unique_ptr<CollidableObject>> m_collidableObjects;
@@ -46,10 +47,11 @@ private:
 	void setUI();
 	void pause();
 	void levelFinishScore();
+	void resetLevel();
 public:
 	GameLevel(Observer* observer);
 	void setMapSize(const sf::Vector2f mapSize);
-	virtual ~GameLevel();
+	virtual ~GameLevel() = default;
 	virtual void update(sf::Time deltaTime) override;
 	virtual void render(sf::RenderWindow& window) override;
 	virtual void handleEvent(sf::RenderWindow& window) override;

@@ -9,7 +9,7 @@ class HelpMenu : public GameState {
 public:
 	HelpMenu() = delete;
 	HelpMenu(Observer* observer);
-	virtual ~HelpMenu();
+	virtual ~HelpMenu() = default;
 	virtual void render(sf::RenderWindow& window) override;
 	virtual void handleEvent(sf::RenderWindow& window) override;
 	virtual void update(sf::Time deltaTime);

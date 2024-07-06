@@ -44,6 +44,7 @@ void Resources::initBackgrounds()
 	m_backgrounds[B_GameLevel].loadFromFile("LevelBackground.png");
 	m_backgrounds[B_GameFinish].loadFromFile("GameFinishBackground.png");
 	m_backgrounds[B_GameOver].loadFromFile("GameOverBackground.png");
+	m_backgrounds[B_HelpMenu].loadFromFile("Tutorial.png");
 }
 
 void Resources::initSounds()
@@ -89,10 +90,9 @@ const sf::Texture& Resources::getUiBarTexture() const
 {
 	return m_UIbar;
 }
-#include <iostream>
+
 const std::string Resources::getMusicPath(Music music) const
 {
-	std::cout << "path:" << m_musicPath[music] << std::endl;
 	return m_musicPath[music];
 }
 
