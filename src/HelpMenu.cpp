@@ -16,12 +16,12 @@ HelpMenu::HelpMenu(Observer* observer)
 	m_observer = observer;
 	setView();
 	setBackgroundScale();
-	Resources::instance().playMusic(Music::M_MainMenu);
+
 }
 
 HelpMenu::~HelpMenu()
 {
-	Resources::instance().stopMusic(Music::M_MainMenu);
+
 }
 
 void HelpMenu::setView()

@@ -48,31 +48,28 @@ public:
 	sf::Texture& getButtonTexture() { return m_buttonTexture;};
 	sf::Texture& getGameTexture() { return m_gameSprites; };
 	void playSound(Sounds sound);
-	void playMusic(Music music);
-	void stopMusic(Music music);
 	const sf::IntRect getTextureRect(Objects object) const;
 	const sf::Texture& getBackground(Backgrounds background) const;
 	const sf::Texture& getUiBarTexture() const;
+	const std::string getMusicPath(Music music) const;
 private:
 	Resources();
 	Resources(const Resources&) = delete;
 	Resources& operator=(const Resources&) = delete;
 	void initTextures();
 	void initSounds();
-	void initMusic();
+	void setSounds();
 	void initBackgrounds();
-	void loadSounds();
+	void initMusicPath();
 
 
 	sf::Texture m_gameSprites;
 	sf::Texture m_buttonTexture;
 	sf::Texture m_backgrounds[B_MaxBackgrounds];
 	sf::Texture m_UIbar;
-
+	std::string m_musicPath[M_MaxMusic];
 	sf::SoundBuffer m_soundBuffer[MaxSounds];
 	sf::Sound m_sound[MaxSounds];
-	sf::Music m_music[M_MaxMusic];
-	sf::Music m_currentMusic;
 	sf::Font m_font;
 	std::vector<sf::IntRect> m_data;
 };

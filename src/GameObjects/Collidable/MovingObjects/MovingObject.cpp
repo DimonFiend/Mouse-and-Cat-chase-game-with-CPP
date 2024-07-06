@@ -7,15 +7,15 @@ MovingObject::MovingObject(float speed, sf::Vector2f pos, sf::IntRect obj)
 	setLastPos(m_sprite.getPosition());
 	setAnimator();
 }
-
-MovingObject& MovingObject::operator=(MovingObject& other)
+/*
+MovingObject& MovingObject::operator=(const MovingObject& other)
 {
 	setSpawn(other.getSpawn());
 	setLastPos(other.getLastPos());
 	setAnimator();
 	return *this;
 }
-
+*/
 //returns the direction vector by enum value
 sf::Vector2f MovingObject::enumToVector() const
 {

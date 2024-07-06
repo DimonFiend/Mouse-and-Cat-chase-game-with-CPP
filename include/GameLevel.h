@@ -11,7 +11,7 @@ typedef std::vector<sf::Vector2i> MovablePath;
 
 class PlayerUI;
 class Observer;
-class GameLevel : public GameState{
+class GameLevel : public GameState {
 
 private:
 	unsigned int m_levelNumber;
@@ -23,6 +23,7 @@ private:
 	sf::View m_view;
 	sf::View m_backgroundView;
 	sf::Sprite m_background;
+	sf::Music m_music;
 	bool m_isPaused;
 	std::unique_ptr<PlayerUI> m_playerUI;
 
@@ -44,6 +45,7 @@ private:
 	void setBackground();
 	void setUI();
 	void pause();
+	void levelFinishScore();
 public:
 	GameLevel(Observer* observer);
 	void setMapSize(const sf::Vector2f mapSize);

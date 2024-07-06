@@ -11,7 +11,6 @@ GameOver::GameOver(Observer* observer)
 	m_buttons.push_back(Button("Restart", sf::Vector2f(W_WIDTH / 2, (W_HEIGHT / 2))));
 	m_buttons.push_back(Button("Main Menu", sf::Vector2f(W_WIDTH / 2, (W_HEIGHT / 2 + 150 ))));
 	m_buttons.push_back(Button("Exit", sf::Vector2f(W_WIDTH / 2, (W_HEIGHT / 2) + 300)));
-	Resources::instance().playMusic(Music::M_MainMenu);
 	m_view.setSize(W_WIDTH, W_HEIGHT);
 	m_background.setTexture(Resources::instance().getBackground(Backgrounds::B_GameOver));
 	setBackgroundScale();
@@ -46,7 +45,7 @@ void GameOver::setBackgroundScale()
 
 GameOver::~GameOver()
 {
-	Resources::instance().stopMusic(Music::M_MainMenu);
+
 }
 
 void GameOver::update(sf::Time deltaTime)

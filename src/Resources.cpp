@@ -15,8 +15,8 @@ Resources::Resources()
 	m_UIbar.loadFromFile("UIBar.png");
 	initTextures();
 	initSounds();
-	initMusic();
 	initBackgrounds();
+	initMusicPath();
 }
 
 void Resources::initTextures()
@@ -57,48 +57,22 @@ void Resources::initSounds()
 	m_soundBuffer[KeyPickup].loadFromFile("KeyPick.wav");
 	m_soundBuffer[RemoveCat].loadFromFile("RemoveCat.wav");
 	m_soundBuffer[TearPresent].loadFromFile("TearPresent.wav");
-	loadSounds();
+	setSounds();
 }
 
-void Resources::initMusic()
+void Resources::setSounds()
 {
-	m_music[M_MainMenu].openFromFile("MainMenu.wav");
-	m_music[M_GameLevel].openFromFile("GameLevel.wav");
-	m_music[M_GameFinish].openFromFile("GameFinish.wav");
-	m_music[M_GameOver].openFromFile("GameOver.wav");
-
-	m_music[M_GameOver].setLoop(false);
-	m_music[M_GameFinish].setLoop(false);
-	m_music[M_MainMenu].setLoop(true);
-	m_music[M_GameLevel].setLoop(true);
-}
-
-void Resources::loadSounds()
-{
-	for (int i = 0; i < MaxSounds; i++)
+	for (auto i = 0; i < MaxSounds; i++)
 	{
 		m_sound[i].setBuffer(m_soundBuffer[i]);
 	}
 }
 
+
 void Resources::playSound(Sounds sound)
 {
 	m_sound[sound].setVolume(SOUND_VOLUME);
 	m_sound[sound].play();
-}
-
-void Resources::playMusic(Music music)
-{
-	m_music[music].setVolume(MUSIC_VOLUME);
-	m_music[music].play();
-}
-
-void Resources::stopMusic(Music music)
-{
-	if (m_music[music].getStatus() == sf::Music::Playing)
-	{
-		m_music[music].stop();
-	}
 }
 
 const sf::IntRect Resources::getTextureRect(Objects object) const
@@ -114,4 +88,18 @@ const sf::Texture& Resources::getBackground(Backgrounds background) const
 const sf::Texture& Resources::getUiBarTexture() const
 {
 	return m_UIbar;
+}
+#include <iostream>
+const std::string Resources::getMusicPath(Music music) const
+{
+	std::cout << "path:" << m_musicPath[music] << std::endl;
+	return m_musicPath[music];
+}
+
+void Resources::initMusicPath()
+{
+    m_musicPath[M_MainMenu] = "MainMenu.wav";
+    m_musicPath[M_GameLevel] = "GameLevel.wav";
+    m_musicPath[M_GameFinish] = "GameFinish.wav";
+    m_musicPath[M_GameOver] = "GameOver.wav";
 }

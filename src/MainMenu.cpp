@@ -12,7 +12,7 @@ MainMenu::MainMenu(Observer* observer)
 	m_buttons.push_back(Button("Start", sf::Vector2f(W_WIDTH /2, (W_HEIGHT / 1.5))));
 	m_buttons.push_back(Button("Help", sf::Vector2f(W_WIDTH /2, (W_HEIGHT / 1.5) + 100)));
 	m_buttons.push_back(Button("Exit", sf::Vector2f(W_WIDTH /2, (W_HEIGHT / 1.5) + 200)));
-	Resources::instance().playMusic(Music::M_MainMenu);
+
 }
 
 void MainMenu::setBackgroundScale()
@@ -26,7 +26,7 @@ void MainMenu::setBackgroundScale()
 
 MainMenu::~MainMenu()
 {
-	Resources::instance().stopMusic(Music::M_MainMenu);
+
 }
 
 void MainMenu::update(sf::Time deltaTime)

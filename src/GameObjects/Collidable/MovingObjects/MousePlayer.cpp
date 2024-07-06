@@ -14,17 +14,14 @@ MousePlayer::MousePlayer(sf::Vector2f pos, GameLevel* manager)
 {}
 
 
-MousePlayer& MousePlayer::operator=(MousePlayer& other)
+MousePlayer& MousePlayer::operator=(const MousePlayer& other)
 {
 	if (this != &other)
 	{
-		MovingObject::operator=(other);
 		m_keys = other.m_keys;
 		m_lives = other.m_lives;
 		m_score = other.m_score;
 		m_manager = other.m_manager;
-		m_sprite = other.m_sprite;
-		m_sprite.setPosition(other.m_sprite.getPosition());
 	}
 	return *this;
 }

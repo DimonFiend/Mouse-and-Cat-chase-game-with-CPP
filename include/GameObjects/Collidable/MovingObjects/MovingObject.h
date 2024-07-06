@@ -25,7 +25,7 @@ protected:
 	Direction m_direction;
 public:
 	MovingObject(float speed, sf::Vector2f pos, sf::IntRect obj);
-	MovingObject& operator=(MovingObject& other);
+	MovingObject& operator=(const MovingObject& other) = default;
 	virtual ~MovingObject() = default;
 	virtual void move(sf::Time deltaTime) = 0;
 

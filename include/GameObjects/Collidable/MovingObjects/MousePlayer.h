@@ -17,7 +17,7 @@ private:
 	void handleEnemy();
 public:
 	MousePlayer(sf::Vector2f pos, GameLevel* manager);
-	MousePlayer& operator=(MousePlayer& other);
+	MousePlayer& operator=(const MousePlayer& other);
 	const unsigned int getLives() {return m_lives;};
 	const unsigned int getScore() {return m_score;};
 	unsigned int getKeys() const {return m_keys; };

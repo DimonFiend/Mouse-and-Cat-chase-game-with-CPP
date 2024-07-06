@@ -10,7 +10,7 @@ EndGameMenu::EndGameMenu(Observer* observer)
 {
 	m_button.push_back(Button("Main Menu", sf::Vector2f(W_WIDTH / 2, (W_HEIGHT / 2))));
 	m_button.push_back(Button("Exit", sf::Vector2f(W_WIDTH / 2, (W_HEIGHT / 2 + 200))));
-	Resources::instance().playMusic(Music::M_GameFinish);
+
 	//set text for beat the game message
 	m_Text.setFont(Resources::instance().getFont());
 	m_Text.setString("Congradulations! you've beaten the game!");
@@ -40,7 +40,7 @@ void EndGameMenu::setBackground()
 
 EndGameMenu::~EndGameMenu()
 {
-	Resources::instance().stopMusic(Music::M_GameFinish);
+
 }
 
 void EndGameMenu::update(sf::Time deltaTime)

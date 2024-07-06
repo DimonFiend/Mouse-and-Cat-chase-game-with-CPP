@@ -19,12 +19,14 @@ GameLevel::GameLevel(Observer* observer) :
 	m_backgroundView.setSize(W_WIDTH, W_HEIGHT);
 	m_backgroundView.setCenter(W_WIDTH / 2, W_HEIGHT / 2);
 	LoadLevel();
-	Resources::instance().playMusic(Music::M_GameLevel);
+	m_music.openFromFile(Resources::instance().getMusicPath(Music::M_GameLevel));
+	m_music.setLoop(true);
+	m_music.play();
 }
 
 GameLevel::~GameLevel()
 {
-	Resources::instance().stopMusic(Music::M_GameLevel);
+	m_music.stop();
 }
 
 //updates the game level
@@ -126,6 +128,7 @@ void GameLevel::checkConditions()
 	else if (CheeseObject::getCheeseCount() == 0)
 	{
 		m_levelNumber++;
+		this->levelFinishScore();
 		this->LoadLevel();
 	}
 	else if (m_timeLeft <= 0)
@@ -135,6 +138,16 @@ void GameLevel::checkConditions()
 		this->LoadLevel();
 		int getCheese2 = CheeseObject::getCheeseCount();
 		m_player->setScore(-(getCheese2 - getCheese) * CHEESE_SCORE);
+	}
+}
+
+void GameLevel::levelFinishScore()
+{
+	m_player->setScore(static_cast<int>(m_timeLeft));
+	m_player->setScore(LEVEL_SCORE);
+	for (auto& enemy : m_enemys)
+	{
+		m_player->setScore(CAT_ALIVE_SCORE);
 	}
 }
 

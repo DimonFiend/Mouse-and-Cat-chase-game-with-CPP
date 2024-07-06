@@ -70,40 +70,43 @@ void LevelLoader::setLine(std::string line)
 
 void LevelLoader::push_object(char id, sf::Vector2f position)
 {
-	switch (id)
-	{
-	case 'F':
-		m_manager->setCollidable(std::make_unique<KeyObject>(position));
-		m_manager->setStatic(std::make_unique<FloorObject>(position));
-		break;
-	case '$':
-		m_manager->setCollidable(generatePresent(position));
-		m_manager->setStatic(std::make_unique<FloorObject>(position));
-		break;
-	case 'D':
-		m_manager->setCollidable(std::make_unique<DoorObject>(position));
-		break;
-	case '*':
-		m_manager->setCollidable(std::make_unique<CheeseObject>(position));
-		m_manager->setStatic(std::make_unique<FloorObject>(position));
-		break;
-	case '#':
-		m_manager->setCollidable(std::make_unique<WallObject>(position));
-		break;
-	case ' ':
-		m_manager->setStatic(std::make_unique<FloorObject>(position));
-		break;
-	case '%':
-		m_manager->setPlayer(std::make_unique<MousePlayer>(position, m_manager));
-		m_manager->setStatic(std::make_unique<FloorObject>(position));
-		break;
-	case '^':
-		m_manager->setEnemy(generateEnemy(position));
-		m_manager->setStatic(std::make_unique<FloorObject>(position));
-		break;
-	default:
-		break;
-	}
+    switch (id)
+    {
+    case 'F':
+        m_manager->setCollidable(std::make_unique<KeyObject>(position));
+        m_manager->setStatic(std::make_unique<FloorObject>(position));
+        break;
+    case '$':
+        m_manager->setCollidable(generatePresent(position));
+        m_manager->setStatic(std::make_unique<FloorObject>(position));
+        break;
+    case 'D':
+        m_manager->setCollidable(std::make_unique<DoorObject>(position));
+        break;
+    case '*':
+        m_manager->setCollidable(std::make_unique<CheeseObject>(position));
+        m_manager->setStatic(std::make_unique<FloorObject>(position));
+        break;
+    case '#':
+        m_manager->setCollidable(std::make_unique<WallObject>(position));
+        break;
+    case ' ':
+        m_manager->setStatic(std::make_unique<FloorObject>(position));
+        break;
+    case '%':
+        {
+			std::unique_ptr<MousePlayer> player = std::make_unique<MousePlayer>(position, m_manager);
+            m_manager->setPlayer(player);
+        }
+        m_manager->setStatic(std::make_unique<FloorObject>(position));
+        break;
+    case '^':
+        m_manager->setEnemy(generateEnemy(position));
+        m_manager->setStatic(std::make_unique<FloorObject>(position));
+        break;
+    default:
+        break;
+    }
 }
 
 std::unique_ptr<PresentObject> LevelLoader::generatePresent(sf::Vector2f position)

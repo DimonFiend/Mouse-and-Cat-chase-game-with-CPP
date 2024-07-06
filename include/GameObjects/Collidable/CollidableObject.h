@@ -25,7 +25,7 @@ private:
 public:
 	CollidableObject(sf::Vector2f pos, sf::IntRect obj);
 	virtual ~CollidableObject() = default;
-	CollidableObject& operator=(CollidableObject& other) = default;
+	CollidableObject& operator=(const CollidableObject& other) = default;
 
 	bool getToDelete() const { return m_toDelete; };
 	void setToDelete() { m_toDelete = !m_toDelete; };
