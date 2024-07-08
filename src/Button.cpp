@@ -22,6 +22,7 @@ void Button::setSprite(sf::Vector2f pos)
 
 }
 
+//sets the buttons text so the  first letter is underlined and bold
 void Button::setText(std::string text)
 {
 	m_firstLetter.setFont(Resources::instance().getFont());
@@ -47,14 +48,15 @@ void Button::setScale(float x, float y)
 	m_sprite.setScale(x, y);
 }
 
-void Button::draw(sf::RenderWindow& window)
+void Button::draw(sf::RenderWindow& window) const
 {
 	window.draw(m_sprite);
 	window.draw(m_text);
 	window.draw(m_firstLetter);
 }
 
-bool Button::isMouseOver(sf::RenderWindow& window)
+//checks if the mouse is over the button
+bool Button::isMouseOver(sf::RenderWindow& window) const
 {
 	sf::Vector2f mouse_pos{ window.mapPixelToCoords(sf::Mouse::getPosition(window)) };
 

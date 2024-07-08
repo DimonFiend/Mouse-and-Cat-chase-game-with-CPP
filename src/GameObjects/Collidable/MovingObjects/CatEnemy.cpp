@@ -1,6 +1,5 @@
 #include "CatEnemy.h"
 #include "Resources.h"
-#include "Configs.h"
 #include "GameLevel.h"
 CatEnemy::CatEnemy(sf::Vector2f pos)
 	:EnemyObject(CAT_SPEED, pos, Resources::instance().getTextureRect(Objects::Cat))

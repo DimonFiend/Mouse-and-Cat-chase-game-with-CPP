@@ -12,6 +12,7 @@ void FreezePresent::handleCollision(CollidableObject& other)
 
 void FreezePresent::handleCollision(MousePlayer& other)
 {
+	Resources::instance().playSound(Sounds::TearPresent);
 	Resources::instance().playSound(Sounds::FreezeFx);
 	this->setToDelete();
 }

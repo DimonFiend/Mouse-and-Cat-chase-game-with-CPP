@@ -1,3 +1,9 @@
+///=======================================================================
+/// \file	MainMenu.h
+/// \brief	Header file for the MainMenu class.
+/// the MainMenu class is a derived class from the GameState class.
+/// It is responsible for the main menu of the game.
+
 #pragma once
 #include "GameState.h"
 #include <vector>
@@ -10,7 +16,7 @@ public:
 	MainMenu(Observer* observer);
 	virtual ~MainMenu() = default;
 	virtual void update(sf::Time deltaTime) override;
-	virtual void render(sf::RenderWindow& window) override;
+	virtual void render(sf::RenderWindow& window) const override;
 	virtual void handleEvent(sf::RenderWindow& window) override;
 
 private:

@@ -15,7 +15,7 @@ GameLevel::GameLevel(Observer* observer) :
 	m_level(std::make_unique<LevelLoader>(this, m_levelNumber)),
 	m_isPaused(false),
 	m_pausedTime(0),
-	m_pauseText("Paused",Resources::instance().getFont(), 64)
+	m_pauseText("Paused",Resources::instance().getFont(), 69)
 {
 	m_pauseText.setFillColor(sf::Color::Black);
 	m_pauseText.setStyle(sf::Text::Bold);
@@ -37,9 +37,13 @@ void GameLevel::update(sf::Time deltaTime)
 		this->removePickable();
 		this->updateTimer();
 		this->setUI();
+		checkConditions();
+	}
+	else
+	{
+		setPausetext();
 	}
 
-	checkConditions();
 }
 
 //updates the timer
@@ -59,7 +63,7 @@ void GameLevel::removePickable()
 }
 
 //draws the objects
-void GameLevel::render(sf::RenderWindow& window)
+void GameLevel::render(sf::RenderWindow& window) const
 {
     window.setView(m_backgroundView);
     window.draw(m_background);
@@ -85,12 +89,16 @@ void GameLevel::render(sf::RenderWindow& window)
 
     if (m_isPaused)
     {
-		auto textBounds = m_pauseText.getLocalBounds();
-        m_pauseText.setOrigin(textBounds.left + textBounds.width / 2.0f, textBounds.top + textBounds.height / 2.0f);
-        m_pauseText.setPosition({W_WIDTH /2, W_HEIGHT / 2});
 		window.setView(window.getDefaultView());
         window.draw(m_pauseText);
     }
+}
+
+void GameLevel::setPausetext()
+{
+	auto textBounds = m_pauseText.getLocalBounds();
+	m_pauseText.setOrigin(textBounds.left + textBounds.width / 2.0f, textBounds.top + textBounds.height / 2.0f);
+	m_pauseText.setPosition({ W_WIDTH / 2, W_HEIGHT / 2 });
 }
 
 void GameLevel::handleEvent(sf::RenderWindow& window)
@@ -141,6 +149,7 @@ void GameLevel::checkConditions()
 		m_levelNumber++;
 		this->levelFinishScore();
 		this->LoadLevel();
+		this->setTimer();
 	}
 	else if (m_timeLeft <= 0)
 	{

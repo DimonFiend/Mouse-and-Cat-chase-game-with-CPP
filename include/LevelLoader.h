@@ -1,3 +1,9 @@
+///========================================================================================
+/// \file	LevelLoader.h
+/// \brief	Header file for the LevelLoader class.
+/// the LevelLoader class is responsible for loading the game levels.
+/// It reads the level files and creates the objects in the game using the GameLevel class.
+/// =======================================================================================
 #pragma once
 #include <fstream>
 #include <sstream>
@@ -23,6 +29,7 @@ private:
 	unsigned int m_level;
 	bool m_files;
 
+	//private functions
 	void setGameData();
 	void setLine(std::string line);
 	void push_object(char id, sf::Vector2f position);

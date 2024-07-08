@@ -1,3 +1,6 @@
+///=======================================================================
+/// \file	ObjectsInclude.h
+/// \brief	Header file for the Objects include.
 #pragma once
 #include "KeyObject.h"
 #include "CheeseObject.h"

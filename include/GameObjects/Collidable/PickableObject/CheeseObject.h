@@ -1,3 +1,9 @@
+///=======================================================================
+/// \file CheeseObject.h
+/// \brief A class that represents a cheese object in the game.
+/// represents a cheese object in the game. has a static member that counts
+/// the number of cheese objects in the game.
+
 #pragma once
 #include "PickableObject.h"
 #include "ObjectsInclude.h"
@@ -10,6 +16,8 @@ public:
 	CheeseObject(sf::Vector2f pos);
 	static unsigned int getCheeseCount() { return m_cheeseCount; };
 	virtual ~CheeseObject() { m_cheeseCount--; };
+
+	//Double dispatch
 	virtual void handleCollision(CollidableObject& other) override;
 	virtual void handleCollision(MousePlayer& other) override;
 	virtual void handleCollision(CatEnemy& other) override { (void)other; };

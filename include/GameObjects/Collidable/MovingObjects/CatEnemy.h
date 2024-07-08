@@ -1,3 +1,12 @@
+///========================================================================
+/// \file		CatEnemy.h
+/// \brief		This file contains the declaration of the CatEnemy class.
+/// \details	The CatEnemy class is a derived class from the EnemyObject class.
+/// 		    It represents the cat enemy in the game. It contains the methods to
+///			    move the cat enemy, handle collision with other objects.
+///             the cat enemy moves randomly by a timer and changes direction when it
+///			    hits a wall or meets an intersection.
+
 #pragma once
 
 #include "EnemyObject.h"
@@ -13,6 +22,8 @@ private:
 	void checkMapBounds(GameLevel* manager);
 public:
 	CatEnemy(sf::Vector2f pos);
+
+	//double dispatch
 	virtual void move(sf::Time deltaTime, GameLevel* manager) override;
 	virtual void handleCollision(CollidableObject& other) override;
 	virtual void handleCollision(WallObject& other) override;

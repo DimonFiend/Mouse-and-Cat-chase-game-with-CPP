@@ -19,8 +19,8 @@ private:
 public:
 	Button() = default;
 	Button(std::string text, sf::Vector2f pos);
-	void draw(sf::RenderWindow& window);
-	bool isMouseOver(sf::RenderWindow& window);
+	void draw(sf::RenderWindow& window) const;
+	bool isMouseOver(sf::RenderWindow& window) const;
 	void setScale(float x, float y);
     sf::String getText() const;
 };

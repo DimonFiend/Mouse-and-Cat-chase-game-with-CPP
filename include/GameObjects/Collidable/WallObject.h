@@ -7,6 +7,8 @@ class WallObject : public CollidableObject {
 
 public:
 	WallObject(sf::Vector2f pos);
+
+	//Double dispatch
 	virtual void handleCollision(CollidableObject& other) override;
 	virtual void handleCollision(MousePlayer& other) override;
 	virtual void handleCollision(CatEnemy& other) override;

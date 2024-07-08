@@ -4,7 +4,6 @@
 #include "EnemyObject.h"
 #include "Configs.h"
 #include "GameLevel.h"
-#include "Utilities.h"
 
 
 MousePlayer::MousePlayer(sf::Vector2f pos, GameLevel* manager)
@@ -159,7 +158,6 @@ void MousePlayer::handleEnemy()
 void MousePlayer::handleCollision(DestroyPresent& other)
 {
 	other.handleCollision(*this);
-	Resources::instance().playSound(Sounds::TearPresent);
 	m_manager->destroyEnemie();
 	this->setScore(PRESENT_SCORE);
 }
@@ -168,7 +166,6 @@ void MousePlayer::handleCollision(TimePresent& other)
 {
 	other.handleCollision(*this);
 	m_manager->addTime(TIME_PRESENT);
-	Resources::instance().playSound(Sounds::TearPresent);
 	this->setScore(PRESENT_SCORE);
 }
 
@@ -176,7 +173,6 @@ void MousePlayer::handleCollision(FreezePresent& other)
 {
 	other.handleCollision(*this);
 	m_manager->freezeEnemies();
-	Resources::instance().playSound(Sounds::TearPresent);
 	this->setScore(PRESENT_SCORE);
 }
 
@@ -184,7 +180,6 @@ void MousePlayer::handleCollision(LifePresent& other)
 {
 	other.handleCollision(*this);
 	m_lives++;
-	Resources::instance().playSound(Sounds::TearPresent);
 	this->setScore(PRESENT_SCORE);
 }
 

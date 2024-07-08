@@ -1,3 +1,8 @@
+///=======================================================================
+/// \file	EnemyObject.h
+/// \brief	This file contains the declaration of the EnemyObject class.
+///         its a base class for all the enemies in the game.
+
 #pragma once
 
 #include "MovingObject.h"
@@ -12,7 +17,6 @@ private:
 public:
 	EnemyObject(float speed, sf::Vector2f pos, sf::IntRect obj);
 
-	virtual void move(sf::Time deltaTime) override { (void)deltaTime; };
 	virtual void move(sf::Time deltaTime, GameLevel* manager) = 0;
 	sf::Vector2f calcRelativePos(sf::Vector2f pos) const;
 	bool isFrozen() const { return m_frozen; };

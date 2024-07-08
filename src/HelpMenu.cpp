@@ -29,7 +29,7 @@ void HelpMenu::setBackgroundScale()
 	m_sprite.setScale(scale.x, scale.y);
 }
 
-void HelpMenu::render(sf::RenderWindow& window)
+void HelpMenu::render(sf::RenderWindow& window) const
 {
 	window.setView(m_view);
 	window.draw(m_sprite);

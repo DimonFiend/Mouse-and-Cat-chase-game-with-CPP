@@ -45,17 +45,12 @@ void EndGameMenu::setBackground()
 	m_background.setScale(scale.x, scale.y);
 }
 
-EndGameMenu::~EndGameMenu()
-{
-
-}
-
 void EndGameMenu::update(sf::Time deltaTime)
 {
 	(void)deltaTime;
 }
 
-void EndGameMenu::render(sf::RenderWindow& window)
+void EndGameMenu::render(sf::RenderWindow& window) const
 {
 	window.setView(m_view);
 	window.draw(m_background);
@@ -95,6 +90,9 @@ void EndGameMenu::handleEvent(sf::RenderWindow& window)
 		}
 	}
 }
+
+//==========================================================================
+//-----------------------------Input Handling-------------------------------
 
 void EndGameMenu::mouseClickHandle(sf::Event event, sf::RenderWindow& window)
 {

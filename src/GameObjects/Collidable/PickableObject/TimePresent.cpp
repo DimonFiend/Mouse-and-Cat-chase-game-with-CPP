@@ -13,4 +13,5 @@ void TimePresent::handleCollision(CollidableObject& other)
 void TimePresent::handleCollision(MousePlayer& other)
 {
 	this->setToDelete();
+	Resources::instance().playSound(Sounds::TearPresent);
 }

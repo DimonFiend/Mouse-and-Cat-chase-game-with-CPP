@@ -30,6 +30,7 @@ public:
 	bool getToDelete() const { return m_toDelete; };
 	void setToDelete() { m_toDelete = !m_toDelete; };
 
+	//Double dispatch
 	virtual bool checkCollision(CollidableObject& other);
 	virtual void handleCollision(CollidableObject& other) = 0;
 	virtual void handleCollision(MousePlayer& other) = 0;

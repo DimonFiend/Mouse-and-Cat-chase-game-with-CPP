@@ -13,4 +13,6 @@ void LifePresent::handleCollision(CollidableObject& other)
 void LifePresent::handleCollision(MousePlayer& other)
 {
 	this->setToDelete();
+	Resources::instance().playSound(Sounds::TearPresent);
+
 }

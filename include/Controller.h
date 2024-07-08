@@ -1,3 +1,9 @@
+///=======================================================================
+/// \file    Controller.h
+/// \brief   Header file for the Controller class.
+/// the Controller class is responsible for the game loop and the game windows.
+
+
 #pragma once
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
@@ -16,7 +22,7 @@ public:
 	void render();
 	void processEvents();
 
-	virtual void switchState(const std::string& buttonText) override;
+	virtual void switchState(const std::string& buttonText) override; // switch between game states
 	static void startGame(); // static function to run the game
 private:
 	sf::Clock m_clock;

@@ -49,18 +49,23 @@ public:
 
 	~Resources() = default;
 	static Resources& instance();
+	//getters
 	sf::Font& getFont() { return m_font;};
 	sf::Texture& getButtonTexture() { return m_buttonTexture;};
 	sf::Texture& getGameTexture() { return m_gameSprites; };
-	void playSound(Sounds sound);
 	const sf::IntRect getTextureRect(Objects object) const;
 	const sf::Texture& getBackground(Backgrounds background) const;
 	const sf::Texture& getUiBarTexture() const;
 	const std::string getMusicPath(Music music) const;
+
+	void playSound(Sounds sound);
+
 private:
 	Resources();
 	Resources(const Resources&) = delete;
 	Resources& operator=(const Resources&) = delete;
+
+	// Private functions
 	void initTextures();
 	void initSounds();
 	void setSounds();

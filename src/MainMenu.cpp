@@ -30,7 +30,7 @@ void MainMenu::update(sf::Time deltaTime)
 	(void)deltaTime;
 }
 
-void MainMenu::render(sf::RenderWindow& window)
+void MainMenu::render(sf::RenderWindow& window) const
 {
 	window.setView(m_view);
 	window.draw(m_background);

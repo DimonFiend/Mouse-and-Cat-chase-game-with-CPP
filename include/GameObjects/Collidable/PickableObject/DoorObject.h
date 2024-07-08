@@ -1,3 +1,10 @@
+///=======================================================================
+/// \file	DoorObject.h
+/// \brief	A class that represents a door object in the game.
+/// 		This class is a derived class from PickableObject.
+/// 	    and is responsible for the door object in the game.
+///         has a static member that counts the number of doors in the game.
+
 #pragma once
 #include "PickableObject.h"
 #include "SmartCatEnemy.h"
@@ -10,8 +17,11 @@ private:
 public:
 	DoorObject(sf::Vector2f pos);
 	virtual ~DoorObject() { m_doorCount--; };
+
+	//Double dispatch
 	virtual void handleCollision(CollidableObject& other) override;
 	virtual void handleCollision(MousePlayer& other) override;
+	//not relevant
 	virtual void handleCollision(CheeseObject& other) override { (void)other; };
 	virtual void handleCollision(KeyObject& other) override { (void)other; };
 	virtual void handleCollision(DoorObject& other) override { (void)other; };

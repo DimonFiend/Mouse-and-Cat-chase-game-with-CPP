@@ -1,3 +1,9 @@
+///=======================================================================
+/// \file Observer.h
+/// 
+/// This file contains the abstract Observer class.
+/// responsible for updating the state of the game window.
+
 #pragma once
 
 #include <string>

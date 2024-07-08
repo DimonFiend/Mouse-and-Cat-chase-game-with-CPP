@@ -12,11 +12,14 @@ PlayerUI::PlayerUI()
     for (unsigned int i = 0; i < PlayerUI::Max; i++)
     {
         m_scoreText[i].setFont(Resources::instance().getFont());
-        m_scoreText[i].setCharacterSize(32);
+        float characterSize = m_UIbar.getLocalBounds().width * 0.05;
+        m_scoreText[i].setCharacterSize(static_cast<int>(characterSize));
     }
     setUIview();
 }
 
+// Set the position of the text elements
+// needed inorder when text changes its size, it will not overlap with other text
 void PlayerUI::setText()
 {
     auto startPos = sf::Vector2f(20, GRID_SIZE / 5);

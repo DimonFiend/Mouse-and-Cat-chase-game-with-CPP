@@ -27,16 +27,20 @@ public:
 	MovingObject(float speed, sf::Vector2f pos, sf::IntRect obj);
 	MovingObject& operator=(const MovingObject& other) = default;
 	virtual ~MovingObject() = default;
+
 	virtual void move(sf::Time deltaTime) = 0;
 
+	// Setters
 	void setSpeed(float speed) { m_speed = speed; };
 	void setSpawn(sf::Vector2f spawn) { m_spawn = spawn; };
 	void setLastPos(sf::Vector2f lastPos) { m_lastPos = lastPos;};
 
+	// Getters
 	sf::Vector2f getSpawn() const { return m_spawn; };
 	sf::Vector2f getLastPos() const { return m_lastPos; };
 	float getSpeed() const { return m_speed; };
 
+	// Methods
 	sf::Vector2f enumToVector() const;
 	Direction vectorToEnum(const sf::Vector2i& pos) const;
 	sf::Vector2i toGridIndex(const sf::Vector2f& position) const;

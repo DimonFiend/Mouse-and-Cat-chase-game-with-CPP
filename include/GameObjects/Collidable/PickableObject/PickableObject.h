@@ -1,3 +1,7 @@
+///=======================================================================
+/// \file	PickableObject.h
+/// \brief	A base class that represents a pickable object in the game.
+
 #pragma once 
 
 #include "CollidableObject.h"

@@ -1,3 +1,9 @@
+///=======================================================================
+/// \file    GameOver.h
+/// \brief   Header file for the GameOver class.
+/// the GameOver class is a derived class from the GameState class.
+/// It is responsible for the game over screen of the game.
+
 #pragma once
 #include "GameState.h"
 #include <vector>
@@ -10,7 +16,7 @@ public:
 	GameOver(Observer* observer);
 	virtual ~GameOver() = default;
 	virtual void update(sf::Time deltaTime) override;
-	virtual void render(sf::RenderWindow& window) override;
+	virtual void render(sf::RenderWindow& window) const override;
 	virtual void handleEvent(sf::RenderWindow& window) override;
 
 private:

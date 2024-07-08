@@ -1,3 +1,10 @@
+///=======================================================================
+/// \file	MousePlayer.h
+/// \brief	This file contains the declaration of the MousePlayer class.
+///		    The MousePlayer class is a derived class from the MovingObject class.
+/// 	    It represents the player in the game. It contains the methods to
+/// 	    move the player, handle collision with other objects, and check the map bounds.
+
 #pragma once
 #include "MovingObject.h"
 
@@ -18,14 +25,19 @@ private:
 public:
 	MousePlayer(sf::Vector2f pos, GameLevel* manager);
 	MousePlayer& operator=(const MousePlayer& other);
-	const unsigned int getLives() {return m_lives;};
-	const unsigned int getScore() {return m_score;};
+
+	//getters
+	const unsigned int getLives() const {return m_lives;};
+	const unsigned int getScore() const {return m_score;};
 	unsigned int getKeys() const {return m_keys; };
+
+	//setters
 	void setScore(int score);
 
 	void respawn();
 	virtual void move(sf::Time deltaTime) override;
 
+	//double dispatch
 	virtual void handleCollision(CatEnemy& other) override;
 	virtual void handleCollision(SmartCatEnemy& other) override;
 	virtual void handleCollision(WallObject& other) override;

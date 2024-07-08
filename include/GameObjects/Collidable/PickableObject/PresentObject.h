@@ -1,3 +1,10 @@
+///=======================================================================
+/// \file    PresentObject.h
+/// \brief  A class that represents a present object in the game.
+/// 		This class is a derived class from PickableObject.
+///         and a base class for all the present objects in the game.
+/// 	    implemented few double dispatch functions that are not relevant to the present object.
+
 #pragma once
 
 #include "PickableObject.h"

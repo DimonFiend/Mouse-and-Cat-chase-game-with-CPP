@@ -1,3 +1,10 @@
+///=======================================================================
+/// \file	SmartCatEnemy.h
+/// \brief	This file contains the declaration of the SmartCatEnemy class.
+///     	The SmartCatEnemy class is a derived class from the EnemyObject class.
+///         It represents the smart cat enemy in the game. It contains the methods to
+/// 	    move the smart cat enemy using bfs algorithm, handles collisions with other objects.
+
 #pragma once
 
 #include "EnemyObject.h"
@@ -18,6 +25,8 @@ public:
 	SmartCatEnemy(sf::Vector2f pos);
 	virtual ~SmartCatEnemy() = default;
 	virtual void move(sf::Time deltaTime, GameLevel* manager) override;
+
+	//double dispatch
 	virtual void handleCollision(CollidableObject& other) override;
 	virtual void handleCollision(WallObject& other) override;
 	virtual void handleCollision(DoorObject& other) override { (void)other; };

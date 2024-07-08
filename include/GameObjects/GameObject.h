@@ -1,3 +1,8 @@
+///======================================================================
+/// \file GameObject.h
+/// \brief Header file for the GameObject class.
+/// the GameObject class is a base class for all the game objects in the game.
+
 #pragma once
 #include <SFML/Graphics.hpp>
 

@@ -1,3 +1,9 @@
+///=======================================================================
+/// \file    EndGameMenu.h
+/// \brief   Header file for the EndGameMenu class.
+/// the EndGameMenu class is a derived class from the GameState class.
+/// It is responsible for the end game screen of the game.
+
 #pragma once
 #include "GameState.h"
 #include <vector>
@@ -8,9 +14,9 @@ class EndGameMenu : public GameState {
 
 public:
 	EndGameMenu(Observer* observer);
-	virtual ~EndGameMenu();
+	virtual ~EndGameMenu() = default;
 	virtual void update(sf::Time deltaTime) override;
-	virtual void render(sf::RenderWindow& window) override;
+	virtual void render(sf::RenderWindow& window) const override;
 	virtual void handleEvent(sf::RenderWindow& window) override;
 
 private:
@@ -22,6 +28,7 @@ private:
 	sf::RectangleShape m_textBackground;
 	sf::Sprite m_background;
 
+	//private functions
 	void setText();
 	void setBackground();
 	void mouseClickHandle(sf::Event event, sf::RenderWindow& window);

@@ -1,9 +1,6 @@
 #include "SmartCatEnemy.h"
 #include "Resources.h"
-#include "Configs.h"
 #include "GameLevel.h"
-#include <unordered_set>
-#include <unordered_map>
 #include <queue>
 
 

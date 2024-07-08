@@ -1,3 +1,8 @@
+///=======================================================================
+/// \file	Animator.h
+/// \brief	Header file for the Animator class.
+/// the Animator class is responsible for the animation of the characters.
+
 #pragma once
 #include "SFML/Graphics.hpp"
 #include "Utilities.h"

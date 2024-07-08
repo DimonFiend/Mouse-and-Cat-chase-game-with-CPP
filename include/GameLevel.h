@@ -1,3 +1,10 @@
+///=======================================================================
+/// \file	GameLevel.h
+/// \brief	Header file for the GameLevel class.
+/// the GameLevel class is a derived class from the GameState class.
+/// It is responsible for the game levels, its has all the game objects that are built
+/// from the level loader. controls the game time, player, enemies, collidable objects.
+
 #pragma once
 #include "GameState.h"
 #include <vector>
@@ -14,9 +21,8 @@ class Observer;
 class GameLevel : public GameState {
 
 private:
-	unsigned int m_levelNumber;
 	Observer* m_observer;
-	sf::Clock m_time;
+	unsigned int m_levelNumber;
 	float m_timerStart;
 	float m_timeLeft;
 	float m_pausedTime;
@@ -25,6 +31,7 @@ private:
 	sf::View m_backgroundView;
 	sf::Sprite m_background;
 	sf::Text m_pauseText;
+	sf::Clock m_time;
 	bool m_isPaused;
 	std::unique_ptr<PlayerUI> m_playerUI;
 	std::unique_ptr<LevelLoader> m_level;
@@ -48,12 +55,15 @@ private:
 	void pause();
 	void levelFinishScore();
 	void resetLevel();
+	void setPausetext();
+	void setTimer();
+
 public:
 	GameLevel(Observer* observer);
 	void setMapSize(const sf::Vector2f mapSize);
 	virtual ~GameLevel() = default;
 	virtual void update(sf::Time deltaTime) override;
-	virtual void render(sf::RenderWindow& window) override;
+	virtual void render(sf::RenderWindow& window) const override;
 	virtual void handleEvent(sf::RenderWindow& window) override;
 
 	void respawn();
@@ -63,7 +73,6 @@ public:
 	void setEnemy(std::unique_ptr<EnemyObject> enemy);
 	void setCollidable(std::unique_ptr<CollidableObject> collidable);
 	void setStatic(std::unique_ptr<GameObject> object);
-	void setTimer();
 	sf::Vector2f getMapSize() const { return m_mapSize; };
 	sf::Vector2f getPlayerPosition() const;
 	size_t getEnemyCount() const;
