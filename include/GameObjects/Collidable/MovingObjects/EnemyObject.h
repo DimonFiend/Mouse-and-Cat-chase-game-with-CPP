@@ -17,6 +17,7 @@ private:
 public:
 	EnemyObject(float speed, sf::Vector2f pos, sf::IntRect obj);
 
+	virtual void move(sf::Time deltaTime) override { (void)deltaTime; };
 	virtual void move(sf::Time deltaTime, GameLevel* manager) = 0;
 	sf::Vector2f calcRelativePos(sf::Vector2f pos) const;
 	bool isFrozen() const { return m_frozen; };

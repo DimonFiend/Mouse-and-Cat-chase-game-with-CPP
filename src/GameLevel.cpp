@@ -11,7 +11,7 @@
 
 GameLevel::GameLevel(Observer* observer) :
 	m_observer(observer),
-	m_levelNumber(1),
+	m_levelNumber(4),
 	m_level(std::make_unique<LevelLoader>(this, m_levelNumber)),
 	m_isPaused(false),
 	m_pausedTime(0),
@@ -149,7 +149,6 @@ void GameLevel::checkConditions()
 		m_levelNumber++;
 		this->levelFinishScore();
 		this->LoadLevel();
-		this->setTimer();
 	}
 	else if (m_timeLeft <= 0)
 	{
@@ -189,13 +188,13 @@ void GameLevel::LoadLevel()
 	m_enemys.clear();
 	m_level = std::make_unique<LevelLoader>(this, m_levelNumber);
 	m_level->loadLevel();
-	this->setView();
+
 	if (m_level->filesFinished())
 	{
 		this->endOfLevels();
 		return;
 	}
-
+	this->setView();
 	this->setTimer();
 }
 

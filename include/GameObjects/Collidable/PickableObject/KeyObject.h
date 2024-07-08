@@ -4,7 +4,7 @@
 /// \details	This class is a derived class from PickableObject.
 /// 		   implemented few double dispatch functions that are not relevant to the key object.
 
-pragma once
+#pragma once
 #include "PickableObject.h"
 
 class KeyObject : public PickableObject {
